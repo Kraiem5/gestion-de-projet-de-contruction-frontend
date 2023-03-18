@@ -1,0 +1,202 @@
+<div class="w-full max-w-3xl">
+
+    <!-- Form -->
+    <form [formGroup]="accountForm">
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Personal Information</div>
+            <div class="text-secondary">Following information is publicly displayed, be careful!</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- first Name -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Nom</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'nom'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!--lastname-->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>prenom</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'prenom'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!--email-->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Email</mat-label>
+                    <mat-icon> email</mat-icon>
+                    <input type="email"
+                        [formControlName]="'email'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!--CIN-->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Cin</mat-label>
+                    <mat-icon>account_box</mat-icon>
+                    <input
+                    [formControlName]="'cin'"
+                    matInput>
+                </mat-form-field>
+            </div>
+            
+            <!--specialité-->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Specialité</mat-label>
+                    <mat-icon>engineering</mat-icon>
+                    <input
+                        [formControlName]="'specialité'"
+                        matInput>
+                </mat-form-field>
+            </div>
+          
+  <!-- 
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Title</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:briefcase'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'title'"
+                        matInput>
+                </mat-form-field>
+            </div>
+
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Company</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:office-building'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'company'"
+                        matInput>
+                </mat-form-field>
+            </div>
+
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
+                    <mat-label>About</mat-label>
+                    <textarea
+                        matInput
+                        [formControlName]="'about'"
+                        matTextareaAutosize
+                        [matAutosizeMinRows]="5"></textarea>
+                </mat-form-field>
+                <div class="mt-1 text-md text-hint">Brief description for your profile. Basic HTML and Emoji are allowed.</div>
+            </div> -->
+        </div>
+
+        <!--
+         <div class="my-10 border-t"></div>
+
+
+        <div class="w-full">
+            <div class="text-xl">Personal Information</div>
+            <div class="text-secondary">Communication details in case we want to connect with you. These will be kept private.</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Email</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:mail'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'email'"
+                        matInput>
+                </mat-form-field>
+            </div>
+
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Phone</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:phone'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'phone'"
+                        matInput>
+                </mat-form-field>
+            </div>
+
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Country</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                        matPrefix></mat-icon>
+                    <mat-select [formControlName]="'country'">
+                        <mat-option [value]="'usa'">United States</mat-option>
+                        <mat-option [value]="'canada'">Canada</mat-option>
+                        <mat-option [value]="'mexico'">Mexico</mat-option>
+                        <mat-option [value]="'france'">France</mat-option>
+                        <mat-option [value]="'germany'">Germany</mat-option>
+                        <mat-option [value]="'italy'">Italy</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Language</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:globe-alt'"
+                        matPrefix></mat-icon>
+                    <mat-select [formControlName]="'language'">
+                        <mat-option [value]="'english'">English</mat-option>
+                        <mat-option [value]="'french'">French</mat-option>
+                        <mat-option [value]="'spanish'">Spanish</mat-option>
+                        <mat-option [value]="'german'">German</mat-option>
+                        <mat-option [value]="'italian'">Italian</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div> -->
+
+        <!-- Divider -->
+        <div class="mt-11 mb-10 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <button
+                mat-stroked-button
+                type="button">
+                annuler <mat-icon>cancel</mat-icon>
+            </button>
+            <button
+            (click)="updatePersonalInformation()"
+                class="ml-4"
+                mat-flat-button
+                type="button"
+                [color]="'primary'">enregistrer <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </form>
+
+</div>

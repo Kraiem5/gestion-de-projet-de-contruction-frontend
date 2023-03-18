@@ -1,0 +1,37 @@
+<div class="document">
+    <div class="w-30">
+        <img  class="w-full h-full rounded-full" *ngIf="profileImage" [src]="profileImage" alt="Image">
+         <img class="w-full h-full rounded-full"  *ngIf="!profileImage" src="https://previews.123rf.com/images/alekseyvanin/alekseyvanin1801/alekseyvanin180100897/93405661-ic%C3%B4ne-de-ligne-avatar-de-compte-utilisateur-signe-de-vecteur-de-contour-pictogramme-de-style.jpg">
+        <!-- <a [href]="imageUrl" target="_blank">cv</a> -->
+      </div>
+</div>
+<div>
+    <form (submit)="onSubmit()">
+      <input type="file" #singleInput (change)="selectImage($event)" name="myFile" />
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Upload</button>
+    </form>
+
+
+  </div>
+
+  <br>
+  <hr>
+  <br>
+
+  <div class="document">
+
+    <div >
+        <a  class="text-danger underlined bold p-3" *ngIf="cv" [href]="cv" alt="Image" target="_blank">curriculim vitie</a>
+        <span class="text-primary bold p-3" *ngIf="!cv">Veillez telecharger le cv</span>
+        <!-- <a [href]="imageUrl" target="_blank">cv</a> -->
+      </div>
+</div>
+<div>
+    <form (submit)="saveCv()">
+      <input type="file" #singleInput (change)="selectedCv($event)" name="cv" />
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Upload</button>
+    </form>
+
+
+  </div>
+
