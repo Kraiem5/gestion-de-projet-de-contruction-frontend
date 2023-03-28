@@ -25,42 +25,43 @@ export class ProjectComponent implements OnInit, OnDestroy
     technicienCount: number;
     ingenieurCount: number;
     totalCount: number;
+   
     selectedProject: string = 'ACME Corp. Backend App';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    
     /**
      * Constructor
-     */
-    constructor(
-        private _projectService: ProjectService,
-        private _router: Router,
-        private serv :ProfileService ,
-        private cd : ChangeDetectorRef
-    )
-    {
+    */
+   constructor(
+       private _projectService: ProjectService,
+       private _router: Router,
+       private serv :ProfileService ,
+       private cd : ChangeDetectorRef
+       )
+       {
     }
-
+    
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
-
+    
     /**
      * On init
-     */
-    ngOnInit(): void
-    {
-        // Get the data
-        this._projectService.data$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((data) => {
-
-                // Store the data
-                this.data = data;
-
-                // Prepare the chart data
-                this._prepareChartData();
-            });
-
+    */
+   ngOnInit(): void
+   {
+       // Get the data
+       this._projectService.data$
+       .pipe(takeUntil(this._unsubscribeAll))
+       .subscribe((data) => {
+           
+           // Store the data
+           this.data = data;
+           
+           // Prepare the chart data
+           this._prepareChartData();
+        });
+        
         // Attach SVG fill fixer to all ApexCharts
         window['Apex'] = {
             chart: {
@@ -76,21 +77,22 @@ export class ProjectComponent implements OnInit, OnDestroy
         };
         this.serv.getUsersCount ().subscribe(
             response => {
-              this.adminCount = response.result.adminCount;
-              this.technicienCount = response.result.technicienCount;
-              this.ingenieurCount = response.result.ingenieurCount;
-              this.totalCount = response.result.totalCount;
+                this.adminCount = response.result.adminCount;
+                this.technicienCount = response.result.technicienCount;
+                this.ingenieurCount = response.result.ingenieurCount;
+                this.totalCount = response.result.totalCount;
             },
             error => {
               console.log(error);
             }
           );
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
+        }
+        
+        /**
+         * On destroy
+        */
+       
+       ngOnDestroy(): void
     {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
