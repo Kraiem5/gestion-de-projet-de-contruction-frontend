@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
   user:any
+  private apiUrl = 'http://localhost:3000/api/user/users/stats'
   constructor(private http:HttpClient) { }
 
   updatePersonelInfo(body){
@@ -21,6 +23,7 @@ export class ProfileService {
     headers: {"x-auth-token": `${localStorage.getItem("accessToken")}`}
     })
   }
+ 
   saveImageProfile(formdata){
     return this.http.post(environment.backend_url+'api/user/profile/avatar',formdata,{
     headers: {"x-auth-token": `${localStorage.getItem("accessToken")}`}
@@ -30,5 +33,8 @@ export class ProfileService {
     return this.http.post(environment.backend_url+'api/user/profile/cv',formdata,{
     headers: {"x-auth-token": `${localStorage.getItem("accessToken")}`}
     })
+  }
+  getUsersCount(): Observable<any> {
+    return this.http.get<any>(this.apiUrl);
   }
 }

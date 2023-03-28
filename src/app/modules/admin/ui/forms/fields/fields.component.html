@@ -4,21 +4,11 @@
     <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
-            <div class="flex flex-wrap items-center font-medium">
-                <div>
-                    <a class="whitespace-nowrap text-primary-500">User Interface</a>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon
-                        class="icon-size-5 text-secondary"
-                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                    <a class="ml-1 text-primary-500">Forms</a>
-                </div>
-            </div>
+            
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Fields
+                    New projet 
                 </h2>
             </div>
         </div>
@@ -29,34 +19,25 @@
 
         <div class="max-w-3xl">
 
-            <div class="prose prose-sm max-w-3xl">
-                <p>
-                    By default, Fuse changes the default form field appearance to <em>fill</em> and heavily modifies it to provide a more unique and consistent look. We
-                    <strong>DO NOT</strong> recommend using any other form field styles as they are not optimized for Fuse.
-                </p>
-                <h2>Appearance</h2>
-                <p>
-                    Here's a very simple form layout to showcase the form fields.
-                </p>
-            </div>
+          
 
-            <form class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
+            <form [formGroup]="projetForm" class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
                 <div class="flex flex-col gt-xs:flex-row">
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="flex-auto gt-xs:pr-3">
-                        <mat-label>First name</mat-label>
-                        <input matInput>
+                        <mat-label>Nom de projet</mat-label>
+                        <input matInput [formControlName]="'nom_projet'">
                         <mat-icon
                             class="icon-size-5"
                             matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            >home_work</mat-icon>
                     </mat-form-field>
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="flex-auto gt-xs:pl-3">
-                        <mat-label>Last name</mat-label>
-                        <input matInput>
+                        <mat-label>Client</mat-label>
+                        <input matInput [formControlName]="'client'">
                         <mat-icon
                             class="icon-size-5"
                             matSuffix
@@ -67,37 +48,53 @@
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="fuse-mat-textarea flex-auto">
-                        <mat-label>Address</mat-label>
-                        <textarea
-                            matInput
-                            [rows]="3"
-                            matTextareaAutosize></textarea>
+                        <mat-label>Description</mat-label>
+                        <textarea matInput [formControlName]="'description'"></textarea>
                         <mat-icon
                             class="icon-size-5"
                             matSuffix
-                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                            >description</mat-icon>
                     </mat-form-field>
                 </div>
                 <div class="flex flex-col gt-md:flex-row">
-                    <mat-form-field
-                        [ngClass]="formFieldHelpers"
-                        class="flex-auto gt-md:pr-3">
-                        <mat-label>City</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                    </mat-form-field>
+                    <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-md:pr-3">
+                        <mat-label>Begin</mat-label>
+                        <input
+                        matInput 
+                        type="date"
+                        [formControlName]="'begin'"
+                        >
+                        <!-- [matDatepicker]="beginPicker"
+                        [min]="minDate" 
+                        (dateChange)="onBeginDateSelect($event)" -->
+                        <!-- <mat-datepicker-toggle matSuffix [for]="beginPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #beginPicker></mat-datepicker> -->
+                      </mat-form-field>
+                      
+                      <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-md:pl-3">
+                        <mat-label>End</mat-label>
+                        <input
+                        matInput 
+                        type="date"
+                        [formControlName]="'end'"
+                        >
+                        <!-- [matDatepicker]="endPicker" 
+                        [min]="selectedBeginDate" -->
+                        <!-- <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endPicker></mat-datepicker> -->
+                      </mat-form-field>
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="flex-auto gt-md:pl-3">
-                        <mat-label>State</mat-label>
-                        <input matInput>
+                        <mat-label>User</mat-label>
+                        <input 
+                        matInput
+                        [formControlName]="'user'"
+                        >
                         <mat-icon
                             class="icon-size-5"
                             matSuffix
-                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                     </mat-form-field>
                 </div>
                 <div class="flex">
@@ -107,26 +104,75 @@
                         <mat-label>Postal code</mat-label>
                         <input
                             matInput
-                            maxlength="5"
-                            #postalCode>
-                        <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+                            maxlength="4"
+                            #postalCode
+                            [formControlName]="'code_postal'"
+                            >
+                        <mat-hint align="end">{{postalCode.value.length}} / 4</mat-hint>
                         <mat-icon
                             class="icon-size-5"
                             matSuffix
                             [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                     </mat-form-field>
                 </div>
+                <div class="document">
+
+                    <div >
+                        <a  class="text-danger underlined bold p-3" *ngIf="contrat" href="contrat" alt="Image" target="_blank">Contrat</a>
+                        <span class="text-primary bold p-3" *ngIf="!contrat">Veillez telecharger le cv</span>
+                        <!-- <a [href]="imageUrl" target="_blank">cv</a> -->
+                      </div>
+                </div>
+                <div>
+                    <form  (submit)="saveContrat()">
+                      <input  type="file" #singleInput (change)="selectedContrat($event)" name="contrat" />
+                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Upload</button>
+                    </form>
+                
+                
+                  </div>
+                
+                <!-- <div>
+                    <div class="mb-4">
+                        <mat-label >Contrat</mat-label>
+                    </div>
+                    <div (submit)="saveContrat()" class="flex flex-row justify-between">
+                        <div class="flex flex-col ">
+                            <input 
+                            type="file"
+                            [formControlName]="'contrat'"
+                            #singleInput (change)="selectedContrat($event)"
+                            >
+                        </div>
+                        <div class="flex justify-content align-items" >
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Upload</button>
+                         <mat-icon>assignment</mat-icon>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="flex items-center justify-end mt-6 ">
+                    <button mat-stroked-button type="button">annuler 
+                        <mat-icon class="pl-4">cancel</mat-icon>
+                    </button>
+                    <button
+                        class="ml-4 "
+                        mat-flat-button
+                        type="button"
+                        [color]="'primary'"
+                        (click)="enregistrementProjet()" >enregistrer <mat-icon class="pl-4" >save</mat-icon>
+                    </button>
+                </div>
             </form>
 
-            <div class="prose prose-sm max-w-3xl">
+            <!-- <div class="prose prose-sm max-w-3xl">
                 <h2 class="mt-12">Labels and Placeholders</h2>
                 <p>
                     Following form contains examples to showcase different label and placeholder styles. All fields in this example are standard text <em>inputs</em> but everything
                     you see here can also be applied to other input types such as <em>textarea</em>, <em>select</em>, <em>chips</em> etc.
                 </p>
-            </div>
+            </div> -->
 
-            <form class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
+            <!-- <form class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
                 <mat-form-field
                     [ngClass]="formFieldHelpers"
                     class="w-full">
@@ -157,9 +203,9 @@
                         matInput
                         [placeholder]="'Placeholder'">
                 </mat-form-field>
-            </form>
+            </form> -->
 
-            <div class="prose prose-sm max-w-3xl">
+            <!-- <div class="prose prose-sm max-w-3xl">
                 <h2 class="mt-12">Field variations</h2>
                 <p>
                     Following form contains examples to showcase form field variations. In addition to the heavy modifications,
@@ -176,7 +222,7 @@
                         </p>
                     </li>
                 </ul>
-                <!-- @formatter:off -->
+               
                 <textarea
                     fuse-highlight
                     lang="html">
@@ -185,7 +231,6 @@
                         &lt;textarea matInput&gt;&lt;/textarea&gt;
                     </mat-form-field>
                 </textarea>
-                <!-- @formatter:on -->
                 <h3>Optional classes</h3>
                 <ul>
                     <li>
@@ -231,9 +276,9 @@
                 </p>
 
                 <h3>With mat-label</h3>
-            </div>
+            </div> -->
 
-            <form class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
+            <!-- <form class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
                 <div class="flex">
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
@@ -492,13 +537,13 @@
                         <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
                 </div>
-            </form>
+            </form> -->
 
-            <div class="prose prose-sm max-w-3xl">
+            <!-- <div class="prose prose-sm max-w-3xl">
                 <h3 class="mt-12">Without mat-label</h3>
-            </div>
+            </div> -->
 
-            <form class="flex flex-col mt-8 p-8 bg-card rounded-2xl shadow overflow-hidden">
+            <!-- <form class="flex flex-col mt-8 p-8 bg-card rounded-2xl shadow overflow-hidden">
                 <div class="flex">
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
@@ -761,7 +806,7 @@
                         <mat-datepicker #picker2></mat-datepicker>
                     </mat-form-field>
                 </div>
-            </form>
+            </form> -->
 
         </div>
 

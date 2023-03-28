@@ -55,7 +55,7 @@ export class AuthSignUpComponent implements OnInit
                 email     : ['kraiemabid300@gmail.com', [Validators.required, Validators.email]],
                 role      : ['ADMIN', Validators.required],
                 password  : ['123456789', Validators.required],
-                company   : ['cca'],
+                cin   : ['14026475'],
                 agreements: [true, Validators.requiredTrue]
             }
         );

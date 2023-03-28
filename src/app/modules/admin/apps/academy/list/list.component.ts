@@ -6,6 +6,8 @@ import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AcademyService } from 'app/modules/admin/apps/academy/academy.service';
 import { Category, Course } from 'app/modules/admin/apps/academy/academy.types';
+import { ProjetService } from 'app/modules/admin/ui/forms/service/projet.service';
+import { result } from 'lodash';
 
 @Component({
     selector       : 'academy-list',
@@ -15,6 +17,8 @@ import { Category, Course } from 'app/modules/admin/apps/academy/academy.types';
 })
 export class AcademyListComponent implements OnInit, OnDestroy
 {
+    projet =[]
+    isDisabled = true;
     categories: Category[];
     courses: Course[];
     filteredCourses: Course[];
@@ -37,7 +41,12 @@ export class AcademyListComponent implements OnInit, OnDestroy
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _academyService: AcademyService
+        private _academyService: AcademyService,
+        private service : ProjetService,
+        private cd : ChangeDetectorRef,
+        private router:Router,
+        
+        
     )
     {
     }
@@ -98,6 +107,7 @@ export class AcademyListComponent implements OnInit, OnDestroy
                     this.filteredCourses = this.filteredCourses.filter(course => course.progress.completed === 0);
                 }
             });
+            this.getInfoProjet()
     }
 
     /**
@@ -109,7 +119,31 @@ export class AcademyListComponent implements OnInit, OnDestroy
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
+    getInfoProjet(){
+        
+        this.service.getInfoProjet().subscribe(
+            (res: any) =>{   
+                if(res.status){        
+                  this.projet=res.result
+                  console.log('projet',this.projet);
+                  
+                  this.cd.detectChanges()
+                }
+                else 
+                    console.log('false');
+                
 
+            }
+        )
+    }
+    modifier(){
+        this.router.navigate(['/ui/forms/layouts'])
+        console.log('mod',);
+        
+    }
+    onClick(): void {
+        this.service.setIsInterfaceObservable(true);
+      }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------

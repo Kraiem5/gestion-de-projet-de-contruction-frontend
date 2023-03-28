@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ApexOptions } from 'ng-apexcharts';
 import { ProjectService } from 'app/modules/admin/dashboards/project/project.service';
+import { ProfileService } from '../../pages/settings/service/profile.service';
 
 @Component({
     selector       : 'project',
@@ -20,6 +21,10 @@ export class ProjectComponent implements OnInit, OnDestroy
     chartMonthlyExpenses: ApexOptions = {};
     chartYearlyExpenses: ApexOptions = {};
     data: any;
+    adminCount: number;
+    technicienCount: number;
+    ingenieurCount: number;
+    totalCount: number;
     selectedProject: string = 'ACME Corp. Backend App';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -28,7 +33,9 @@ export class ProjectComponent implements OnInit, OnDestroy
      */
     constructor(
         private _projectService: ProjectService,
-        private _router: Router
+        private _router: Router,
+        private serv :ProfileService ,
+        private cd : ChangeDetectorRef
     )
     {
     }
@@ -67,6 +74,17 @@ export class ProjectComponent implements OnInit, OnDestroy
                 }
             }
         };
+        this.serv.getUsersCount ().subscribe(
+            response => {
+              this.adminCount = response.result.adminCount;
+              this.technicienCount = response.result.technicienCount;
+              this.ingenieurCount = response.result.ingenieurCount;
+              this.totalCount = response.result.totalCount;
+            },
+            error => {
+              console.log(error);
+            }
+          );
     }
 
     /**

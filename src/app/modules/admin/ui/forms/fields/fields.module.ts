@@ -14,6 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { SharedModule } from 'app/shared/shared.module';
 import { FormsFieldsComponent } from 'app/modules/admin/ui/forms/fields/fields.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export const routes: Route[] = [
     {
@@ -40,7 +42,11 @@ export const routes: Route[] = [
         MatMomentDateModule,
         MatSelectModule,
         FuseHighlightModule,
-        SharedModule
+        SharedModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule
+
     ]
 })
 export class FormsFieldsModule

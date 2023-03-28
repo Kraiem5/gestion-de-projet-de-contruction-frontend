@@ -88,7 +88,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
         this.serv.getPersonelInfo().subscribe(
            ( res : any) =>{
               if(res.status){
-               if(res.result.avatar)
+              
                this.user= res.result
               this.cd.detectChanges()
               }

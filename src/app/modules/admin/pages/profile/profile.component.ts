@@ -5,15 +5,19 @@ import { ProfileService } from '../settings/service/profile.service';
 @Component({
     selector       : 'profile',
     templateUrl    : './profile.component.html',
+    
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit
 {
     accountForm: FormGroup;
+    cv:any
+    nom=""
     prenom=''
     email: any;
     avatar: any;
+    
     /**
      * Constructor
      */
@@ -21,21 +25,25 @@ export class ProfileComponent implements OnInit
         private serv :ProfileService ,
         private _formBuilder:FormBuilder,
         private cd : ChangeDetectorRef
+
         )
 
     {
     }
     ngOnInit():void{
-
+        
+          
     this.getPersonalInformation()
     }
     getPersonalInformation(){
       this.serv.getPersonelInfo().subscribe(
         ( res : any) =>{
            if(res.status){
-               this.prenom = res.result.nom
+               this.prenom = res.result.prenom
+               this.nom = res.result.nom
                this.email = res.result.email
                this.avatar = res.result.avatar
+               this.cv = res.result.cv
                this.cd.detectChanges()
               }
             }

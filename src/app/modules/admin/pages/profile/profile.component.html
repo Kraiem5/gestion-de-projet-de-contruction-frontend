@@ -23,17 +23,20 @@
                     alt="User avatar">
                     <img *ngIf="!avatar"
                     class="w-32 h-32 rounded-full ring-4 ring-bg-card"
-                    src="assets/images/avatars/male-04.jpg"
+                    src="https://previews.123rf.com/images/alekseyvanin/alekseyvanin1801/alekseyvanin180100897/93405661-ic%C3%B4ne-de-ligne-avatar-de-compte-utilisateur-signe-de-vecteur-de-contour-pictogramme-de-style.jpg"
                     alt="User avatar">
             </div>
 
             <!-- Details -->
 
-            <div class="flex flex-col items-center lg:items-start mt-4 lg:mt-0 lg:ml-8">
-                  {{ prenom}}
-                <div class="text-secondary">  {{ email}}</div>
-            </div>
-
+            <div class="flex flex-col items-center lg:items-start mt-4 lg:mt-0 lg:ml-8 ">
+                 <div class="font-bold">
+                    {{ prenom}}
+                    {{nom}}
+                 </div>
+                  <div class="text-secondary">  {{ email}}</div>
+                </div>
+                
 
             <!-- Separator -->
             <div class="hidden lg:flex h-8 mx-8 border-l-2"></div>
@@ -83,14 +86,45 @@
 
         <!-- Column -->
         <div class="hidden lg:flex flex-col items-start mr-8">
+           
+              
+                
+
+                      
+                    <!-- <h2>Statistiques des utilisateurs</h2>
+                    <p>Nombre total d'utilisateurs : {{ totalCount }}</p>
+                    
+                    <div class="progress">
+                      <div class="progress-bar bg-info" role="progressbar" style="width: '{{ adminCount/totalCount*100 }}%' " aria-valuenow={{ adminCount }} aria-valuemin="0" aria-valuemax={{ totalCount }}>
+                        {{ adminCount }}
+                      </div>
+                    </div>
+                    <p>Nombre d'administrateurs</p>
+                  
+                    <div class="progress">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: '{{ technicienCount/totalCount*100 }}'%" aria-valuenow={{ technicienCount }} aria-valuemin="0" aria-valuemax={{ totalCount }}>
+                        {{ technicienCount }}
+                      </div>
+                    </div>
+                    <p>Nombre de techniciens</p>
+                  
+                    <div class="progress">
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: {{ ingenieurCount/totalCount*100 }}%" aria-valuenow="{{ ingenieurCount }}" aria-valuemin="0" aria-valuemax="{{ totalCount }}">
+                        {{ ingenieurCount }}
+                      </div>
+                    </div>
+                    <p>Nombre d'ingénieurs</p>
+                   -->
+                  
+              
+              
+
 
             <!-- About me -->
             <fuse-card class="flex flex-col max-w-80 w-full p-8">
                 <div class="text-2xl font-semibold leading-tight">About Me</div>
                 <div class="mt-4">
-                    I’m a friendly kitchen assistant who suffers from a severe phobia of buttons.
-                    <br><br>
-                    Brother of Elijah Jay Watkins, who has phobia of buttons and trust issues.
+                    <a  class="text-danger underlined bold p-3" *ngIf="cv" [href]="'http://localhost:3000/cv/'+cv" alt="Image" target="_blank">Curriculim Vitie</a>
                 </div>
                 <hr class="w-full border-t my-6">
                 <div class="flex flex-col">
@@ -539,10 +573,15 @@
                 <div class="text-xl font-semibold">Create Post</div>
                 <div class="flex flex-col sm:flex-row items-start mt-8">
                     <div class="flex items-center mb-6 sm:mb-0">
-                        <img
-                            class="w-12 min-w-12 h-12 rounded-full mr-4"
-                            src="assets/images/avatars/brian-hughes.jpg"
-                            alt="Card cover image">
+                        
+                            <img *ngIf="avatar"
+                    class="w-12 min-w-12 h-12 rounded-full mr-4"
+                    src="http://localhost:3000/upload/{{avatar}}"
+                    alt="User avatar">
+                    <img *ngIf="!avatar"
+                    class="w-12 min-w-12 h-12 rounded-full mr-4"
+                    src="https://previews.123rf.com/images/alekseyvanin/alekseyvanin1801/alekseyvanin180100897/93405661-ic%C3%B4ne-de-ligne-avatar-de-compte-utilisateur-signe-de-vecteur-de-contour-pictogramme-de-style.jpg"
+                    alt="User avatar">
                         <div class="sm:hidden">Brian Hughes</div>
                     </div>
                     <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">

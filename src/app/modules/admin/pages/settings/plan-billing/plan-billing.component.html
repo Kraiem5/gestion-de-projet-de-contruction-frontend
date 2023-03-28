@@ -25,7 +25,7 @@
         <span class="text-primary bold p-3" *ngIf="!cv">Veillez telecharger le cv</span>
         <!-- <a [href]="imageUrl" target="_blank">cv</a> -->
       </div>
-</div>
+  </div>
 <div>
     <form (submit)="saveCv()">
       <input type="file" #singleInput (change)="selectedCv($event)" name="cv" />

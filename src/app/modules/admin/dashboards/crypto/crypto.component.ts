@@ -17,6 +17,7 @@ export class CryptoComponent implements OnInit, OnDestroy
     @ViewChild('btcChartComponent') btcChartComponent: ChartComponent;
     appConfig: any;
     btcOptions: ApexOptions = {};
+    
     data: any;
     drawerMode: 'over' | 'side' = 'side';
     drawerOpened: boolean = true;

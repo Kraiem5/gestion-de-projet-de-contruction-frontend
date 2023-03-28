@@ -56,11 +56,8 @@ export class SettingsPlanBillingComponent implements OnInit
 
     }
     selectedCv(event){
-
        this.fcv = event.target.files[0]
         console.log(event);
-
-
     }
 
       onSubmit() {
@@ -73,7 +70,7 @@ export class SettingsPlanBillingComponent implements OnInit
             console.log(res)
             this.imageUrl=res.result.avatar
             console.log(this.profileImage);
-            alert(this.profileImage)
+            alert('photo enregistré')
             this.getPersonalInformation()
 
         },err =>{
@@ -91,7 +88,7 @@ export class SettingsPlanBillingComponent implements OnInit
             console.log(res)
             this.imageUrl=res.result.cv
             console.log(this.cv);
-            alert(this.cv)
+            alert('Cv enregistré ')
             this.getPersonalInformation()
 
         },err =>{

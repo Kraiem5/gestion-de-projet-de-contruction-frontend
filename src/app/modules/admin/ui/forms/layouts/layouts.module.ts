@@ -11,6 +11,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from 'app/shared/shared.module';
 import { FormsLayoutsComponent } from 'app/modules/admin/ui/forms/layouts/layouts.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { FuseHighlightModule } from '@fuse/components/highlight';
 
 export const routes: Route[] = [
     {
@@ -34,7 +39,12 @@ export const routes: Route[] = [
         MatMenuModule,
         MatRadioModule,
         MatSelectModule,
-        SharedModule
+        SharedModule,
+        MatButtonToggleModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
+        FuseHighlightModule,
     ]
 })
 export class FormsLayoutsModule

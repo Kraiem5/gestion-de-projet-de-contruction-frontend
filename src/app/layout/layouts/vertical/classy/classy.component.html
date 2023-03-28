@@ -13,6 +13,7 @@
                 <img
                     class="w-8"
                     src="assets/images/logo/logo.svg">
+                    
             </div>
             <!-- Components -->
             <div class="flex items-center ml-auto">
@@ -28,6 +29,11 @@
                     *ngIf="user && user.avatar"
                     [src]="'http://localhost:3000/upload/'+user.avatar"
                     alt="User avatar">
+                <img
+                    class="w-full h-full rounded-full"
+                    *ngIf="user && !user.avatar"
+                    src="https://previews.123rf.com/images/alekseyvanin/alekseyvanin1801/alekseyvanin180100897/93405661-ic%C3%B4ne-de-ligne-avatar-de-compte-utilisateur-signe-de-vecteur-de-contour-pictogramme-de-style.jpg"
+                    alt="User avatar">
                 <mat-icon
                     class="icon-size-24"
                     *ngIf="!user "
@@ -35,6 +41,7 @@
             </div>
             <div class="flex flex-col items-center justify-center w-full mt-6">
                 <div class="w-full whitespace-nowrap overflow-ellipsis overflow-hidden text-center leading-normal font-medium">
+                    {{user?.prenom}}
                     {{user?.nom}}
                 </div>
                 <div class="w-full mt-0.5 whitespace-nowrap overflow-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary">

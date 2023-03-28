@@ -17,6 +17,7 @@ import { CryptoComponent } from 'app/modules/admin/dashboards/crypto/crypto.comp
 import { cryptoRoutes } from 'app/modules/admin/dashboards/crypto/crypto.routing';
 
 @NgModule({
+    
     declarations: [
         CryptoComponent
     ],
