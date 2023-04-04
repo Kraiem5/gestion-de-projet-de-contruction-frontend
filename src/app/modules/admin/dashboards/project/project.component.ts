@@ -25,6 +25,8 @@ export class ProjectComponent implements OnInit, OnDestroy
     technicienCount: number;
     ingenieurCount: number;
     totalCount: number;
+    avatar : any
+    nom=''
    
     selectedProject: string = 'ACME Corp. Backend App';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -86,8 +88,18 @@ export class ProjectComponent implements OnInit, OnDestroy
               console.log(error);
             }
           );
+          this.getInfoPersonel()
         }
         
+        getInfoPersonel(){
+            this.serv.getPersonelInfo().subscribe(
+                (res:any)=>{
+                    this.avatar = res.result.avatar
+                    this.nom = res.result.nom
+                    this.cd.detectChanges()
+                }
+            )
+        }
         /**
          * On destroy
         */

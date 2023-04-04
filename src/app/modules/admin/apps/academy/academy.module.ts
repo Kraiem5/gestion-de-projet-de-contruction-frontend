@@ -16,14 +16,18 @@ import { AcademyComponent } from 'app/modules/admin/apps/academy/academy.compone
 import { AcademyDetailsComponent } from 'app/modules/admin/apps/academy/details/details.component';
 import { AcademyListComponent } from 'app/modules/admin/apps/academy/list/list.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { EditFormsComponent } from './edit/fields.component';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 @NgModule({
     declarations: [
         AcademyComponent,
         AcademyDetailsComponent,
-        AcademyListComponent
+        AcademyListComponent,
+        EditFormsComponent
+
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(academyRoutes),
         MatButtonModule,
         MatFormFieldModule,
@@ -36,9 +40,10 @@ import { MatTabsModule } from '@angular/material/tabs';
         MatTooltipModule,
         FuseFindByKeyPipeModule,
         SharedModule,
-        MatTabsModule
-    ]
+        MatTabsModule,
+        FuseAlertModule
+    ],
+    entryComponents: [EditFormsComponent]
 })
-export class AcademyModule
-{
+export class AcademyModule {
 }

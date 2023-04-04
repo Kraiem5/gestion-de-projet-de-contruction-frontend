@@ -8,16 +8,18 @@ import { AcademyService } from 'app/modules/admin/apps/academy/academy.service';
 import { Category, Course } from 'app/modules/admin/apps/academy/academy.types';
 import { ProjetService } from 'app/modules/admin/ui/forms/service/projet.service';
 import { result } from 'lodash';
+import { EditFormsComponent } from '../edit/fields.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-    selector       : 'academy-list',
-    templateUrl    : './list.component.html',
-    encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'academy-list',
+    templateUrl: './list.component.html',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.Default
 })
-export class AcademyListComponent implements OnInit, OnDestroy
-{
-    projet =[]
+export class AcademyListComponent implements OnInit, OnDestroy {
+    proj: any
+    projet = []
     isDisabled = true;
     categories: Category[];
     courses: Course[];
@@ -27,12 +29,13 @@ export class AcademyListComponent implements OnInit, OnDestroy
         query$: BehaviorSubject<string>;
         hideCompleted$: BehaviorSubject<boolean>;
     } = {
-        categorySlug$ : new BehaviorSubject('all'),
-        query$        : new BehaviorSubject(''),
-        hideCompleted$: new BehaviorSubject(false)
-    };
+            categorySlug$: new BehaviorSubject('all'),
+            query$: new BehaviorSubject(''),
+            hideCompleted$: new BehaviorSubject(false)
+        };
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    changebackgroundProject: any;
 
     /**
      * Constructor
@@ -42,13 +45,12 @@ export class AcademyListComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _academyService: AcademyService,
-        private service : ProjetService,
-        private cd : ChangeDetectorRef,
-        private router:Router,
-        
-        
-    )
-    {
+        private service: ProjetService,
+        private cd: ChangeDetectorRef,
+        private router: Router,
+        public dialog: MatDialog
+
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -58,8 +60,7 @@ export class AcademyListComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Get the categories
         this._academyService.categories$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -88,62 +89,65 @@ export class AcademyListComponent implements OnInit, OnDestroy
                 this.filteredCourses = this.courses;
 
                 // Filter by category
-                if ( categorySlug !== 'all' )
-                {
+                if (categorySlug !== 'all') {
                     this.filteredCourses = this.filteredCourses.filter(course => course.category === categorySlug);
                 }
 
                 // Filter by search query
-                if ( query !== '' )
-                {
+                if (query !== '') {
                     this.filteredCourses = this.filteredCourses.filter(course => course.title.toLowerCase().includes(query.toLowerCase())
                         || course.description.toLowerCase().includes(query.toLowerCase())
                         || course.category.toLowerCase().includes(query.toLowerCase()));
                 }
 
                 // Filter by completed
-                if ( hideCompleted )
-                {
+                if (hideCompleted) {
                     this.filteredCourses = this.filteredCourses.filter(course => course.progress.completed === 0);
                 }
             });
-            this.getInfoProjet()
+
+
+        this.getInfoProjet()
+
     }
+    // afficherDetails(id: string) {
+    //     this.service.getProjet(id).subscribe(
+    //       data => {
+    //         console.log(data);
+    //       },
+    //       error => console.log(error)
+    //     );
+    //   }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-    getInfoProjet(){
-        
-        this.service.getInfoProjet().subscribe(
-            (res: any) =>{   
-                if(res.status){        
-                  this.projet=res.result
-                  console.log('projet',this.projet);
-                  
-                  this.cd.detectChanges()
-                }
-                else 
-                    console.log('false');
-                
 
+    getInfoProjet() {
+
+        this.service.getInfoProjet().subscribe(
+            (res: any) => {
+                if (res.status) {
+                    this.projet = res.result
+                    console.log('projet', this.projet);
+                    this.cd.detectChanges()
+                }
+                else
+                    console.log('false');
             }
         )
     }
-    modifier(){
+    modifier() {
         this.router.navigate(['/ui/forms/layouts'])
-        console.log('mod',);
-        
     }
     onClick(): void {
         this.service.setIsInterfaceObservable(true);
-      }
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -153,8 +157,7 @@ export class AcademyListComponent implements OnInit, OnDestroy
      *
      * @param query
      */
-    filterByQuery(query: string): void
-    {
+    filterByQuery(query: string): void {
         this.filters.query$.next(query);
     }
 
@@ -163,8 +166,7 @@ export class AcademyListComponent implements OnInit, OnDestroy
      *
      * @param change
      */
-    filterByCategory(change: MatSelectChange): void
-    {
+    filterByCategory(change: MatSelectChange): void {
         this.filters.categorySlug$.next(change.value);
     }
 
@@ -173,8 +175,7 @@ export class AcademyListComponent implements OnInit, OnDestroy
      *
      * @param change
      */
-    toggleCompleted(change: MatSlideToggleChange): void
-    {
+    toggleCompleted(change: MatSlideToggleChange): void {
         this.filters.hideCompleted$.next(change.checked);
     }
 
@@ -184,8 +185,35 @@ export class AcademyListComponent implements OnInit, OnDestroy
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
+    editProjet(p): void {
+        const dialogRef = this.dialog.open(EditFormsComponent, {
+            data: p,
+            disableClose: true
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+
+
+
+            if (result && result.status) {
+                let i = this.projet.indexOf(p)
+                console.log('iii', i)
+                this.projet[i] = result.data
+                console.log(this.projet);
+
+                this.changebackgroundProject = p._id
+                setTimeout(() => {
+                    this.changebackgroundProject = null
+                    this.cd.detectChanges()
+                }, 2000)
+                this.cd.detectChanges()
+            }
+
+
+        });
+    }
+
 }

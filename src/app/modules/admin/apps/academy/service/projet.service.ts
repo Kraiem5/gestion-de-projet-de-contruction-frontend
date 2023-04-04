@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Project } from '../project.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,18 +20,11 @@ export class ProjetService {
   }
   constructor(private _http: HttpClient) { }
 
-  enregistrement(
-    projet: {
-      nom_projet: string,
-      client: string,
-      description: string,
-      begin: string,
-      end: string,
-      user: string,
-      code_postal: string,
-      contrat: string
-    }): Observable<any> {
+  enregistrement(projet: Project): Observable<any> {
     return this._http.post(environment.backend_url + 'api/user/projet', projet);
+  }
+  updateProject(projet: Project): Observable<any> {
+    return this._http.put(environment.backend_url + 'api/user/projet/modifier/' + projet._id, projet);
   }
   getPersonelInfo() {
     return this._http.get(environment.backend_url + 'api/user/projet', {
@@ -42,9 +36,6 @@ export class ProjetService {
     return this._http.get(environment.backend_url + 'api/user/projet', {
       headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }
     })
-  }
-  ajouterAxe(id_projet: string, name: string): Observable<any> {
-    return this._http.post(environment.backend_url + 'api/user/axeprojet', { id_projet, name });
   }
   // getIdProjet(id: string): Observable<any> {
   //   const url = `${this.apiUrl}/${id}`;
