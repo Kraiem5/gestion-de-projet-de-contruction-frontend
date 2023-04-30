@@ -1,0 +1,40 @@
+<div class="container mt-5">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h2 class="text-2xl font-semibold"><i class="fas fa-tasks mr-2"></i>Ajouter une tâche</h2>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="ajouterTacheForm" (ngSubmit)="ajouterTache()" class="px-4 py-3">
+         
+          <div class="form-group">
+            <label for="name"><i class="fas fa-tasks mr-2"></i>Nom de la tâche:</label>
+            <input type="text" formControlName="name" id="name" class="form-control" [class.is-invalid]="ajouterTacheForm.controls['name'].invalid && ajouterTacheForm.controls['name'].touched">
+            <div *ngIf="ajouterTacheForm.controls['name'].invalid && ajouterTacheForm.controls['name'].touched" class="invalid-feedback">
+              Le nom de la tâche est requis
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name"><i class="fas fa-tasks mr-2"></i>time de la tâche:</label>
+            <input type="text" formControlName="timeslot" id="timeslot" class="form-control" [class.is-invalid]="ajouterTacheForm.controls['timeslot'].invalid && ajouterTacheForm.controls['timeslot'].touched">
+            <div *ngIf="ajouterTacheForm.controls['timeslot'].invalid && ajouterTacheForm.controls['timeslot'].touched" class="invalid-feedback">
+              Le time de la tâche est requis
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name"><i class="fas fa-tasks mr-2"></i>pourcentage de la tâche:</label>
+            <input type="text" formControlName="pourcentage" id="timeslot" class="form-control" [class.is-invalid]="ajouterTacheForm.controls['pourcentage'].invalid && ajouterTacheForm.controls['pourcentage'].touched">
+            <div *ngIf="ajouterTacheForm.controls['pourcentage'].invalid && ajouterTacheForm.controls['pourcentage'].touched" class="invalid-feedback">
+              Le pourcentage de la tâche est requis
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-plus mr-2"></i>Ajouter</button>
+          <button type="button" class="btn btn-secondary mt-3 ml-2" (click)="dialogRef.close(false)"><i class="fas fa-times mr-2"></i>Annuler</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  
+  

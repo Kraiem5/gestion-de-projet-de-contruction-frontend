@@ -18,14 +18,19 @@ import { AcademyListComponent } from 'app/modules/admin/apps/academy/list/list.c
 import { MatTabsModule } from '@angular/material/tabs';
 import { EditFormsComponent } from './edit/fields.component';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { routes } from '../../ui/material-components/material-components.module';
+import { AjouterTacheComponent } from './taches/tache.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { EdittacheComponent } from './taches/edittache/edittache.component';
 
 @NgModule({
     declarations: [
         AcademyComponent,
         AcademyDetailsComponent,
         AcademyListComponent,
-        EditFormsComponent
-
+        EditFormsComponent,
+        AjouterTacheComponent,
+        EdittacheComponent
     ],
     imports: [
         RouterModule.forChild(academyRoutes),
@@ -41,7 +46,11 @@ import { FuseAlertModule } from '@fuse/components/alert';
         FuseFindByKeyPipeModule,
         SharedModule,
         MatTabsModule,
-        FuseAlertModule
+        FuseAlertModule,
+        MatProgressSpinnerModule
+
+
+
     ],
     entryComponents: [EditFormsComponent]
 })

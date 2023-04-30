@@ -3,27 +3,35 @@ import { AcademyComponent } from 'app/modules/admin/apps/academy/academy.compone
 import { AcademyListComponent } from 'app/modules/admin/apps/academy/list/list.component';
 import { AcademyDetailsComponent } from 'app/modules/admin/apps/academy/details/details.component';
 import { AcademyCategoriesResolver, AcademyCourseResolver, AcademyCoursesResolver } from 'app/modules/admin/apps/academy/academy.resolvers';
+import { EdittacheComponent } from './taches/edittache/edittache.component';
 
 export const academyRoutes: Route[] = [
     {
-        path     : '',
+        path: '',
         component: AcademyComponent,
-        resolve  : {
+        resolve: {
             categories: AcademyCategoriesResolver
         },
-        children : [
+        children: [
             {
-                path     : '',
+                path: '',
                 pathMatch: 'full',
                 component: AcademyListComponent,
-                resolve  : {
+                resolve: {
                     courses: AcademyCoursesResolver
                 }
             },
             {
-                path     : ':id',
+                path: ':id',
                 component: AcademyDetailsComponent,
-                resolve  : {
+                resolve: {
+                    course: AcademyCourseResolver
+                }
+            },
+            {
+                path: '/:id',
+                component: EdittacheComponent,
+                resolve: {
                     course: AcademyCourseResolver
                 }
             }

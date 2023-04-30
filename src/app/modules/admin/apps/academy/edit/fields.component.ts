@@ -43,6 +43,7 @@ export class EditFormsComponent implements OnInit {
       nom_projet: [this.data.nom_projet, Validators.required],
       client: [this.data.client, Validators.required],
       description: [this.data.description, Validators.required],
+      short_description: [this.data.short_description, Validators.required],
       begin: [this.data.begin, Validators.required],
       end: [this.data.end, Validators.required],
       user: [this.data.user, Validators.required],

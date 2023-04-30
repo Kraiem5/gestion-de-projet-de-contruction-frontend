@@ -1,14 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Project } from 'app/modules/admin/apps/academy/project.interface';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjetService {
   private isInterfaceObservable = new BehaviorSubject<boolean>(false);
-  private apiUrl = 'http://localhost:3000/api/user/projets';
+  private apiUrl = 'http://localhost:3000/api/user/search';
 
   setIsInterfaceObservable(value: boolean): void {
     this.isInterfaceObservable.next(value);
@@ -43,19 +45,20 @@ export class ProjetService {
       headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }
     })
   }
+
   ajouterAxe(id_projet: string, name: string): Observable<any> {
     return this._http.post(environment.backend_url + 'api/user/axeprojet', { id_projet, name });
   }
-  // getIdProjet(id: string): Observable<any> {
-  //   const url = `${this.apiUrl}/${id}`;
-  //   return this._http.get<any>(url);
-  // }
-  // getProjets(): Observable<any> {
-  //   return this._http.get<any>(this.apiUrl);
-  // }
-  // getProjet(id: string): Observable<any> {
-  //   return this._http.get<any>(`${this.apiUrl}/${id}`);
-  // }
+  searchProjet(searchTerm: string): Observable<Project[]> {
+    const regex = new RegExp(searchTerm, 'i');
+    return this._http.get<Project[]>(`${this.apiUrl}?nom_projet=${regex}`);
+  }
+  search(nomProjet: string): Observable<Project[]> {
+    return this._http.get<Project[]>(environment.backend_url + 'api/user/search')
+      .pipe(
+        map(projets => projets.filter(projet => projet.nom_projet.toLowerCase().includes(nomProjet.toLowerCase())))
+      );
+  }
   saveContrat(formdata) {
     return this._http.post(environment.backend_url + 'api/user/projet/contrat', formdata, {
       headers: {

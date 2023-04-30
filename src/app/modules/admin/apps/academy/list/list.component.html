@@ -1,32 +1,6 @@
-<div
-    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
-    cdkScrollable>
-
-    <!-- Header -->
-    <!-- <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
-       
-        <svg class="absolute inset-0 pointer-events-none"
-             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
-                <circle r="234" cx="196" cy="23"></circle>
-                <circle r="234" cx="790" cy="491"></circle>
-            </g>
-        </svg>
-       
-        <div class="z-10 relative flex flex-col items-center">
-            <h2 class="text-xl font-semibold">FUSE ACADEMY</h2>
-            <div class="mt-1 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight text-center">
-                What do you want to learn today?
-            </div>
-            <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
-                Our courses will step you through the process of a building small applications, or adding new features to existing applications.
-            </div>
-        </div>
-    </div> -->
-
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
     <!-- Main -->
     <div class="flex flex-auto p-6 sm:p-10">
-
         <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-5xl mx-auto">
             <!-- Filters -->
             <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
@@ -38,11 +12,16 @@
                         class="icon-size-5"
                         [svgIcon]="'heroicons_solid:search'"></mat-icon>
                     <input
-                        (input)="filterByQuery(query.value)"
+                    [(ngModel)]="searchTerm" (input)="searchProjet(searchTerm)"
                         placeholder="Search by title or description"
                         matInput
                         #query>
-                </mat-form-field>
+                    </mat-form-field>
+                    <ul>
+                        <li *ngFor="let projet of filteredProjets">
+                          {{ projet.nom_projet }} - {{ projet.client }} - {{ projet.description }} <!-- Affichez les propriétés du projet selon vos besoins -->
+                        </li>
+                      </ul>
                 <mat-slide-toggle
                     class="mt-8 sm:mt-0 sm:ml-auto"
                     [color]="'primary'"
@@ -50,106 +29,74 @@
                     Hide completed
                 </mat-slide-toggle>
             </div>
+            
             <!-- Courses -->
             <ng-container *ngIf="this.filteredCourses.length;">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:mt-10">
                     <ng-container *ngFor="let project of projet; trackBy: trackByFn">
                         <!-- Course -->
                         <div class="flex flex-col h-96 shadow rounded-2xl overflow-hidden "
-                         [ngClass]="{
-                            'bg-gray-200':changebackgroundProject===project._id,
-                            'bg-white':changebackgroundProject!==project._id
-                        
-                        }"
-                        >
-                            <div class="flex flex-col p-6">
-                                <div class="flex items-center justify-between">                                
-                                        <div class="py-0.5 px-3 rounded-full text-sm font-semibold">
-                                            {{project.client}}
-                                        </div>
+                            [ngClass]="{
+                                'bg-gray-200':changebackgroundProject===project._id,
+                                'bg-white':changebackgroundProject!==project._id
+                            }"
+                            >
+                                <div class="flex flex-col p-6">
+                                    <div class="flex items-center justify-between">                                
+                                            <div class="py-0.5 px-3 rounded-full text-sm font-semibold">
+                                                {{project.client}}
+                                            </div>
+                                    </div>
+                                    <!-- Course title & description -->
+                                    <div class="mt-4 text-lg font-medium">{{project.nom_projet}}</div>
+                                    <div class="mt-0.5 line-clamp-2 text-secondary">{{project.short_description}}</div>
+                                    <div class="w-12 h-1 my-6 border-t-2"></div>
+                                    <!-- Course time -->
+                                    <div class="flex items-center leading-5 text-md text-secondary">
+                                        <mat-icon
+                                            class="icon-size-5 text-hint"
+                                            [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                        <div class="ml-1.5">{{project.begin}} -> {{project.end}}</div>
+                                    </div>
+                                    <!-- Course completion -->
+                                    <div class="flex items-center mt-2 leading-5 text-md text-secondary">
+                                        <mat-icon
+                                            class="icon-size-5 text-hint"
+                                            [svgIcon]="'location_on'"></mat-icon>
+                                        <ng-container >
+                                            <div class="ml-1.5">
+                                                <span>{{project.code_postal}}</span>
+                                            </div>
+                                        </ng-container>
+                                    </div>
                                 </div>
-                                <!-- Course title & description -->
-                                <div class="mt-4 text-lg font-medium">{{project.nom_projet}}</div>
-                                <div class="mt-0.5 line-clamp-2 text-secondary">{{project.description}}</div>
-                                <div class="w-12 h-1 my-6 border-t-2"></div>
-                                <!-- Course time -->
-                                <div class="flex items-center leading-5 text-md text-secondary">
-                                    <mat-icon
-                                        class="icon-size-5 text-hint"
-                                        [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-                                    <div class="ml-1.5">{{project.begin}} -> {{project.end}}</div>
-                                </div>
-                                <!-- Course completion -->
-                                <div class="flex items-center mt-2 leading-5 text-md text-secondary">
-                                    <mat-icon
-                                        class="icon-size-5 text-hint"
-                                        [svgIcon]="'location_on'"></mat-icon>
-                                    <ng-container >
-                                        <div class="ml-1.5">
-                                            <span>{{project.code_postal}}</span>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                            </div>
-                            <!-- Footer -->
-                            <div class="flex flex-col w-full mt-auto">
-                                <div class="flex justify-between m-4" >
-                                    <button type="button" class="btn btn-success" (click)="editProjet(project)" >modifier</button>
-                                    <!-- <button type="button" class="btn btn-success" (click)="afficherDetails(projet._id)" >modifier</button> -->
-                                    <button type="button" class="btn btn-info">pourcentage</button>
-                                </div>
-                                <!-- Course progress -->
-                                <!-- <div class="relative h-0.5">
-                                    <div
-                                        class="z-10 absolute inset-x-0 h-6 -mt-3"
-                                        [matTooltip]="course.progress.currentStep / course.totalSteps | percent"
-                                        [matTooltipPosition]="'above'"
-                                        [matTooltipClass]="'-mb-0.5'"></div>
-                                    <mat-progress-bar
-                                        class="h-0.5"
-                                        [value]="(100 * course.progress.currentStep) / course.totalSteps"></mat-progress-bar>
-                                </div> -->
-
-                                <!-- Course launch button -->
-                                <div class="px-6 py-4 text-right">
-                                    <button
-                                        mat-stroked-button
-                                        [routerLink]="[project.id]">
-                                        <span class="inline-flex items-center">
-
-                                            <!-- Not started -->
-                                            <!-- <ng-container *ngIf="course.progress.currentStep === 0"> -->
-                                                <!-- Never completed -->
-                                                <!-- <ng-container *ngIf="course.progress.completed === 0">
-                                                    <span>Start</span>
-                                                </ng-container> -->
-                                                <!-- Completed before -->
-                                                <!-- <ng-container *ngIf="course.progress.completed > 0">
-                                                    <span>Start again</span>
+                                <!-- Footer -->
+                                <div class="flex flex-col w-full mt-auto">
+                                    <div class="flex justify-between m-4" >
+                                        <button type="button" class="btn btn-success" (click)="editProjet(project)" >modifier</button>
+                                        <!-- <button type="button" class="btn btn-success" (click)="afficherDetails(projet._id)" >modifier</button> --> 
+                                    </div>
+                                    
+                                    <div class="px-6 py-4 text-right">
+                                        <button
+                                            mat-stroked-button
+                                                routerLink="./{{project._id}}">
+                                            <span class="inline-flex items-center">
+                                               
+                                                <ng-container >
+                                                    <span>Continue</span>
                                                 </ng-container>
-                                            </ng-container> -->
-
-                                            <!-- Started -->
-                                            <!-- <ng-container *ngIf="course.progress.currentStep > 0">
-                                                <span>Continue</span>
-                                            </ng-container> -->
-
-                                            <mat-icon
-                                                class="ml-1.5 icon-size-5"
-                                                [svgIcon]="'heroicons_solid:arrow-sm-right'"></mat-icon>
-                                        </span>
-                                    </button>
+                                                <mat-icon
+                                                    class="ml-1.5 icon-size-5"
+                                                    [svgIcon]="'heroicons_solid:arrow-sm-right'"></mat-icon>
+                                            </span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </ng-container>
-                    
+                        </ng-container>
                 </div>
             </ng-container>
-
-            
         </div>
-
     </div>
-
 </div>

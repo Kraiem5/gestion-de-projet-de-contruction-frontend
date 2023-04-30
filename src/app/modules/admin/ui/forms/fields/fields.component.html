@@ -48,6 +48,18 @@
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="fuse-mat-textarea flex-auto">
+                        <mat-label>short_description</mat-label>
+                        <textarea matInput [formControlName]="'short_description'"></textarea>
+                        <mat-icon
+                            class="icon-size-5"
+                            matSuffix
+                            >description</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="fuse-mat-textarea flex-auto">
                         <mat-label>Description</mat-label>
                         <textarea matInput [formControlName]="'description'"></textarea>
                         <mat-icon
@@ -120,7 +132,6 @@
                     <div >
                         <a  class="text-danger underlined bold p-3" *ngIf="contrat" href="contrat" alt="Image" target="_blank">Contrat</a>
                         <span class="text-primary bold p-3" *ngIf="!contrat">Veillez telecharger le contrat</span>
-                        <!-- <a [href]="imageUrl" target="_blank">cv</a> -->
                       </div>
                 </div>
                 <div>
@@ -132,25 +143,9 @@
                 
                   </div>
                 
-                <!-- <div>
-                    <div class="mb-4">
-                        <mat-label >Contrat</mat-label>
-                    </div>
-                    <div (submit)="saveContrat()" class="flex flex-row justify-between">
-                        <div class="flex flex-col ">
-                            <input 
-                            type="file"
-                            [formControlName]="'contrat'"
-                            #singleInput (change)="selectedContrat($event)"
-                            >
-                        </div>
-                        <div class="flex justify-content align-items" >
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Upload</button>
-                         <mat-icon>assignment</mat-icon>
-                        </div>
-                    </div>
-                </div> -->
+                
                 <div class="flex items-center justify-end mt-6 ">
+                    
                     <button mat-stroked-button type="button">annuler 
                         <mat-icon class="pl-4">cancel</mat-icon>
                     </button>
@@ -161,6 +156,7 @@
                         [color]="'primary'"
                         (click)="enregistrementProjet()" >enregistrer <mat-icon class="pl-4" >save</mat-icon>
                     </button>
+                    
                 </div>
             </form>
 

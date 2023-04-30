@@ -16,12 +16,13 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProjectComponent } from 'app/modules/admin/dashboards/project/project.component';
 import { projectRoutes } from 'app/modules/admin/dashboards/project/project.routing';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @NgModule({
     declarations: [
         ProjectComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(projectRoutes),
         MatButtonModule,
         MatButtonToggleModule,
@@ -36,9 +37,9 @@ import { projectRoutes } from 'app/modules/admin/dashboards/project/project.rout
         MatTabsModule,
         NgApexchartsModule,
         TranslocoModule,
-        SharedModule
+        SharedModule,
+
     ]
 })
-export class ProjectModule
-{
+export class ProjectModule {
 }

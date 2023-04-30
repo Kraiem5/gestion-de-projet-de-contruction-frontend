@@ -7,8 +7,7 @@ import { Category, Course } from 'app/modules/admin/apps/academy/academy.types';
 @Injectable({
     providedIn: 'root'
 })
-export class AcademyService
-{
+export class AcademyService {
     // Private
     private _categories: BehaviorSubject<Category[] | null> = new BehaviorSubject(null);
     private _course: BehaviorSubject<Course | null> = new BehaviorSubject(null);
@@ -17,8 +16,7 @@ export class AcademyService
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient)
-    {
+    constructor(private _httpClient: HttpClient) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -28,24 +26,21 @@ export class AcademyService
     /**
      * Getter for categories
      */
-    get categories$(): Observable<Category[]>
-    {
+    get categories$(): Observable<Category[]> {
         return this._categories.asObservable();
     }
 
     /**
      * Getter for courses
      */
-    get courses$(): Observable<Course[]>
-    {
+    get courses$(): Observable<Course[]> {
         return this._courses.asObservable();
     }
 
     /**
      * Getter for course
      */
-    get course$(): Observable<Course>
-    {
+    get course$(): Observable<Course> {
         return this._course.asObservable();
     }
 
@@ -56,8 +51,7 @@ export class AcademyService
     /**
      * Get categories
      */
-    getCategories(): Observable<Category[]>
-    {
+    getCategories(): Observable<Category[]> {
         return this._httpClient.get<Category[]>('api/apps/academy/categories').pipe(
             tap((response: any) => {
                 this._categories.next(response);
@@ -68,8 +62,7 @@ export class AcademyService
     /**
      * Get courses
      */
-    getCourses(): Observable<Course[]>
-    {
+    getCourses(): Observable<Course[]> {
         return this._httpClient.get<Course[]>('api/apps/academy/courses').pipe(
             tap((response: any) => {
                 this._courses.next(response);
@@ -80,9 +73,8 @@ export class AcademyService
     /**
      * Get course by id
      */
-    getCourseById(id: string): Observable<Course>
-    {
-        return this._httpClient.get<Course>('api/apps/academy/courses/course', {params: {id}}).pipe(
+    getCourseById(id: string): Observable<Course> {
+        return this._httpClient.get<Course>('api/apps/academy/courses/course', { params: { id } }).pipe(
             map((course) => {
 
                 // Update the course
@@ -93,8 +85,7 @@ export class AcademyService
             }),
             switchMap((course) => {
 
-                if ( !course )
-                {
+                if (!course) {
                     return throwError('Could not found course with id of ' + id + '!');
                 }
 

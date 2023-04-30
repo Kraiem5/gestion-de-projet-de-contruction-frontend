@@ -10,6 +10,9 @@ import { ProjetService } from 'app/modules/admin/ui/forms/service/projet.service
 import { result } from 'lodash';
 import { EditFormsComponent } from '../edit/fields.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Project } from '../project.interface';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'academy-list',
@@ -20,6 +23,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class AcademyListComponent implements OnInit, OnDestroy {
     proj: any
     projet = []
+    nomProjet: string = ''
+    searchTerm: string = ''
+    filteredProjets = []
     isDisabled = true;
     categories: Category[];
     courses: Course[];
@@ -37,18 +43,19 @@ export class AcademyListComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     changebackgroundProject: any;
 
+
     /**
      * Constructor
      */
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router,
         private _academyService: AcademyService,
         private service: ProjetService,
         private cd: ChangeDetectorRef,
         private router: Router,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private http: HttpClient
 
     ) {
     }
@@ -110,14 +117,7 @@ export class AcademyListComponent implements OnInit, OnDestroy {
         this.getInfoProjet()
 
     }
-    // afficherDetails(id: string) {
-    //     this.service.getProjet(id).subscribe(
-    //       data => {
-    //         console.log(data);
-    //       },
-    //       error => console.log(error)
-    //     );
-    //   }
+
 
     /**
      * On destroy
@@ -142,12 +142,48 @@ export class AcademyListComponent implements OnInit, OnDestroy {
             }
         )
     }
-    modifier() {
+    axes() {
         this.router.navigate(['/ui/forms/layouts'])
+    }
+    details() {
+        this.router.navigate(['/apps/academy/list'])
     }
     onClick(): void {
         this.service.setIsInterfaceObservable(true);
     }
+    // searchProjet(searchTerm: string): void {
+    //     this.service.searchProjet(searchTerm)
+    //         .subscribe((data: Project[]) => {
+    //             this.projet = data;
+    //             console.log("this", this.projet);
+    //         });
+    //     console.log("this", this.projet);
+    // }
+
+    // searchProjet(): void {
+    //     this.http.get<Project[]>(`/search?searchTerm=${this.searchTerm}`)
+    //         .subscribe(projets => {
+    //             this.filteredProjets = projets;
+    //             console.log('ee', this.filteredProjets);
+
+    //         }, error => {
+    //             console.error('Erreur lors de la recherche de projets:', error);
+    //         });
+    // }
+
+
+    searchProjet(searchTerm: string): void {
+        this.filteredProjets = this.projet.filter(projet => projet.nom_projet.includes(searchTerm));
+        console.log("this", this.filteredProjets);
+    }
+    // filtrerProjets(nomProjet: string) {
+    //     this.service.search(nomProjet)
+    //         .subscribe(projets => {
+    //             this.projet = projets;
+    //             console.log("this", this.projet);
+    //         });
+    //     console.log("this", this.projet);
+    // }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -193,17 +229,12 @@ export class AcademyListComponent implements OnInit, OnDestroy {
             data: p,
             disableClose: true
         });
-
         dialogRef.afterClosed().subscribe(result => {
-
-
-
             if (result && result.status) {
                 let i = this.projet.indexOf(p)
                 console.log('iii', i)
                 this.projet[i] = result.data
                 console.log(this.projet);
-
                 this.changebackgroundProject = p._id
                 setTimeout(() => {
                     this.changebackgroundProject = null
@@ -211,9 +242,6 @@ export class AcademyListComponent implements OnInit, OnDestroy {
                 }, 2000)
                 this.cd.detectChanges()
             }
-
-
         });
     }
-
 }

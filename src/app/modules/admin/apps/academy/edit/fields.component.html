@@ -51,6 +51,18 @@
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="fuse-mat-textarea flex-auto">
+                        <mat-label>short_description</mat-label>
+                        <textarea matInput [formControlName]="'short_description'"></textarea>
+                        <mat-icon
+                            class="icon-size-5"
+                            matSuffix
+                            >description</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="fuse-mat-textarea flex-auto">
                         <mat-label>Description</mat-label>
                         <textarea matInput [formControlName]="'description'"></textarea>
                         <mat-icon

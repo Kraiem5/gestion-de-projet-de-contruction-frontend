@@ -10,7 +10,7 @@
                         [ngClass]="formFieldHelpers"
                         class="flex-auto gt-xs:pr-3">
                         <mat-label>Nom :</mat-label>
-                        <input matInput>
+                        <input matInput formControlName="name" >
                         <mat-icon
                             class="icon-size-5"
                             matSuffix
@@ -30,11 +30,11 @@
                         <mat-label>Projet associé</mat-label>
                         <mat-select
                         [ngClass]="formFieldHelpers"
-                        [value]="'TECHNICIEN'"
-                        formControlName="projet"
+                       
+                        formControlName="id_projet"
                         (selectionChange)="filterByCategory($event)">
                         <ng-container *ngFor="let projet of project; ">
-                            <mat-option [value]="projet.id_projet">{{projet.nom_projet}}</mat-option>
+                            <mat-option [value]="projet._id">{{projet.nom_projet}}</mat-option>
                         </ng-container>
                     </mat-select>
                     </mat-form-field>

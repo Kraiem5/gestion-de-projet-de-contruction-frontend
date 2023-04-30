@@ -4,6 +4,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
 import { ProjetService } from '../service/projet.service';
 import { MatSelectChange } from '@angular/material/select';
+import { project } from 'app/mock-api/dashboards/project/data';
 
 @Component({
   selector: 'forms-layouts',
@@ -11,7 +12,7 @@ import { MatSelectChange } from '@angular/material/select';
   encapsulation: ViewEncapsulation.None
 })
 export class FormsLayoutsComponent implements OnInit {
-  project = [];
+  project = [project];
   formFieldHelpers: string[] = [''];
   minDate: Date
   selectedBeginDate: Date;
@@ -23,47 +24,34 @@ export class FormsLayoutsComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private serv: ProjetService,
-    private route: ActivatedRoute,
     private cd: ChangeDetectorRef
 
   ) {
-    this.minDate = new Date
-    this.selectedBeginDate = new Date();
-    this.selectedEndDate = new Date();
+
   }
   ngOnInit(): void {
     this.axeProject = this._formBuilder.group({
+      id_projet: ['', Validators.required],
       name: ['', Validators.required],
-      projet: ['', Validators.required],
     });
     this.getNameProjet()
-
   }
   getFormFieldHelpersAsString(): string {
     return this.formFieldHelpers.join(' ');
   }
-  onDateSelect(selectedDate: Date) {
-    if (selectedDate < this.minDate) {
-      this.minDate = selectedDate;
-    }
-  }
-  onBeginDateSelect(event: MatDatepickerInputEvent<Date>) {
-    this.selectedBeginDate = event.value;
-    this.selectedEndDate = this.selectedBeginDate;
-  }
   filterByCategory(change: MatSelectChange): void {
     this.axeProject.patchValue({ axe: change.value })
-    console.log(change.value);
-
+    console.log(change.value)
   }
   submit() {
     const { id_projet, name } = this.axeProject.value;
     this.serv.ajouterAxe(id_projet, name).subscribe(
       () => {
-        console.log('Axe ajouté avec succès');
+        alert('Axe ajouté avec succès')
+        this.cd.detectChanges()
       },
       (error) => {
-        console.error('Erreur lors de l\'ajout de l\'axe', error);
+        alert('Erreur lors de l\'ajout de l\'axe' + error);
       }
     );
   }
@@ -72,7 +60,6 @@ export class FormsLayoutsComponent implements OnInit {
       (res: any) => {
         if (res.status) {
           this.project = res.result
-
           this.cd.detectChanges()
         }
         else

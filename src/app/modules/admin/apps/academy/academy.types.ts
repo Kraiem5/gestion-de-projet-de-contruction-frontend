@@ -1,17 +1,18 @@
-export interface Category
-{
+import { Project } from "./project.interface";
+
+export interface Category {
     id?: string;
     title?: string;
     slug?: string;
 }
 
-export interface Course
-{
+export interface Course {
     id?: string;
     title?: string;
     slug?: string;
     description?: string;
     category?: string;
+    project: Project
     duration?: number;
     steps?: {
         order?: number;
