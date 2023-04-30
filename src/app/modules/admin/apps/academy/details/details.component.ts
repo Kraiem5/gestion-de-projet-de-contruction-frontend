@@ -6,34 +6,46 @@ import { takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Category, Course } from 'app/modules/admin/apps/academy/academy.types';
 import { AcademyService } from 'app/modules/admin/apps/academy/academy.service';
+import { Project } from '../project.interface';
+import { ProjetService } from '../service/projet.service';
+import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AjouterTacheComponent } from '../taches/tache.component';
+import { EdittacheComponent } from '../taches/edittache/edittache.component';
+
 
 @Component({
-    selector       : 'academy-details',
-    templateUrl    : './details.component.html',
-    encapsulation  : ViewEncapsulation.None,
+    selector: 'academy-details',
+    templateUrl: './details.component.html',
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AcademyDetailsComponent implements OnInit, OnDestroy
-{
-    @ViewChild('courseSteps', {static: true}) courseSteps: MatTabGroup;
-    categories: Category[];
-    course: Course;
+export class AcademyDetailsComponent implements OnInit, OnDestroy {
+    @ViewChild('courseSteps', { static: true }) courseSteps: MatTabGroup;
+    axes: any[] = []
+    id_axe: string;
+    name: string;
+    timeslot: string;
+    projet: Project
+    changebackgroundProject: any;
     currentStep: number = 0;
     drawerMode: 'over' | 'side' = 'side';
     drawerOpened: boolean = true;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    currentAxe: any
+    pourcentage: string;
+    tache: string;
+    x: any;
     /**
      * Constructor
      */
     constructor(
         @Inject(DOCUMENT) private _document: Document,
-        private _academyService: AcademyService,
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _elementRef: ElementRef,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
-    )
-    {
+        private projetService: ProjetService,
+        private route: ActivatedRoute,
+        public dialog: MatDialog,
+        public cd: ChangeDetectorRef
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -43,123 +55,119 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
-        // Get the categories
-        this._academyService.categories$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((categories: Category[]) => {
-
-                // Get the categories
-                this.categories = categories;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Get the course
-        this._academyService.course$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((course: Course) => {
-
-                // Get the course
-                this.course = course;
-
-                // Go to step
-                this.goToStep(course.progress.currentStep);
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Subscribe to media changes
-        this._fuseMediaWatcherService.onMediaChange$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({matchingAliases}) => {
-
-                // Set the drawerMode and drawerOpened
-                if ( matchingAliases.includes('lg') )
-                {
-                    this.drawerMode = 'side';
-                    this.drawerOpened = true;
+    ngOnInit(): void {
+        this.route.params.subscribe(params => {
+            const id = params['id'];
+            this.projetService.getIdProjet(id).subscribe(res => {
+                if (res.status) {
+                    this.projet = res.result
                 }
-                else
-                {
-                    this.drawerMode = 'over';
-                    this.drawerOpened = false;
-                }
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
             });
+        });
+
+
     }
-
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
 
+    calculateMeanPercentage(tache: any[]): number {
+        let totalPercentage = 0;
+        for (let tach of tache) {
+            totalPercentage += parseInt(tach.pourcentage);
+        }
+        return totalPercentage / tache.length;
+    }
+
+    // supposons que vos tâches sont stockées dans un tableau 'taches'
+
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Go to given step
-     *
-     * @param step
-     */
-    goToStep(step: number): void
-    {
-        // Set the current step
-        this.currentStep = step;
-
-        // Go to the step
-        this.courseSteps.selectedIndex = this.currentStep;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
+    ajouterTache(): void {
+        this.projetService.ajouterTache(this.id_axe, this.name, this.timeslot, this.pourcentage)
+            .subscribe(
+                response => {
+                    console.log(response);
+                    // Traiter la réponse de l'API
+                },
+                error => {
+                    console.error(error);
+                    // Traiter l'erreur de l'API
+                }
+            );
+    }
+    buttonAjouterTache(axe): void {
+        const dialogRef = this.dialog.open(AjouterTacheComponent, {
+            data: axe,
+            disableClose: true
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result && result.status) {
+                let i = this.axes.indexOf(axe)
+                this.axes[i] = result.data
+                console.log("axs", this.axes);
+                this.changebackgroundProject = axe._id
+                setTimeout(() => {
+                    this.changebackgroundProject = null
+                    this.cd.detectChanges()
+                }, 2000)
+                this.cd.detectChanges()
+            }
+        });
     }
 
-    /**
-     * Go to previous step
-     */
-    goToPreviousStep(): void
-    {
-        // Return if we already on the first step
-        if ( this.currentStep === 0 )
-        {
-            return;
-        }
+    buttonModifierTache(t: any): void {
+        const dialogRef = this.dialog.open(EdittacheComponent, {
+            data: t,
+            disableClose: true,
 
-        // Go to step
-        this.goToStep(this.currentStep - 1);
+        });
 
-        // Scroll the current step selector from sidenav into view
-        this._scrollCurrentStepElementIntoView();
+        dialogRef.afterClosed().subscribe(result => {
+            if (result && result.status) {
+                const updatedTache = result.data;
+                this.projetService.updateTache(this.projet._id, updatedTache._id, updatedTache).subscribe(
+                    (p: Project) => {
+                        this.projet = p;
+                        console.log(this.projet);
+                        this.changebackgroundProject = t._id;
+                        setTimeout(() => {
+                            this.changebackgroundProject = null;
+                            this.cd.detectChanges();
+                        }, 2000);
+                        this.cd.detectChanges();
+                    },
+                    (err: string) => {
+                        console.error(err);
+                    }
+                );
+            }
+        });
     }
 
-    /**
-     * Go to next step
-     */
-    goToNextStep(): void
-    {
-        // Return if we already on the last step
-        if ( this.currentStep === this.course.totalSteps - 1 )
-        {
-            return;
-        }
+    modifierTache(idProjet: string, idTache: string) {
+        console.log("id", idTache);
+        this.projetService.updateTache(idProjet, idTache, this.tache).subscribe
+            ((p: Project) => {
+                console.log("x", this.x);
 
-        // Go to step
-        this.goToStep(this.currentStep + 1);
+                this.projet = p
+                console.log(this.projet);
+                console.log(p);
 
-        // Scroll the current step selector from sidenav into view
-        this._scrollCurrentStepElementIntoView();
+            },
+                (err: string) => {
+                    return err
+                })
     }
+
 
     /**
      * Track by function for ngFor loops
@@ -167,8 +175,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 
@@ -185,18 +192,15 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
      *
      * @private
      */
-    private _scrollCurrentStepElementIntoView(): void
-    {
+    private _scrollCurrentStepElementIntoView(): void {
         // Wrap everything into setTimeout so we can make sure that the 'current-step' class points to correct element
         setTimeout(() => {
-
             // Get the current step element and scroll it into view
             const currentStepElement = this._document.getElementsByClassName('current-step')[0];
-            if ( currentStepElement )
-            {
+            if (currentStepElement) {
                 currentStepElement.scrollIntoView({
                     behavior: 'smooth',
-                    block   : 'start'
+                    block: 'start'
                 });
             }
         });

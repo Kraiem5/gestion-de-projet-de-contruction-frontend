@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Project } from '../project.interface';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjetService {
   private isInterfaceObservable = new BehaviorSubject<boolean>(false);
-  private apiUrl = 'http://localhost:3000/api/user/projets';
+
 
   setIsInterfaceObservable(value: boolean): void {
     this.isInterfaceObservable.next(value);
@@ -23,6 +24,7 @@ export class ProjetService {
   enregistrement(projet: Project): Observable<any> {
     return this._http.post(environment.backend_url + 'api/user/projet', projet);
   }
+
   updateProject(projet: Project): Observable<any> {
     return this._http.put(environment.backend_url + 'api/user/projet/modifier/' + projet._id, projet);
   }
@@ -37,16 +39,17 @@ export class ProjetService {
       headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }
     })
   }
-  // getIdProjet(id: string): Observable<any> {
-  //   const url = `${this.apiUrl}/${id}`;
-  //   return this._http.get<any>(url);
-  // }
-  // getProjets(): Observable<any> {
-  //   return this._http.get<any>(this.apiUrl);
-  // }
-  // getProjet(id: string): Observable<any> {
-  //   return this._http.get<any>(`${this.apiUrl}/${id}`);
-  // }
+
+  getIdProjet(id: string): Observable<any> {
+    return this._http.get(environment.backend_url + 'api/user/projet/' + id, {
+      headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }
+    })
+  }
+  getIdAxe(id: string): Observable<any> {
+    return this._http.get(environment.backend_url + 'api/user/projet/' + id, {
+      headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }
+    })
+  }
   saveContrat(formdata) {
     return this._http.post(environment.backend_url + 'api/user/projet/contrat', formdata, {
       headers: {
@@ -54,6 +57,15 @@ export class ProjetService {
 
       }
     })
+  }
+  ajouterTache(id_axe: string, name: string, timeslot: string, pourcentage: string): Observable<any> {
+    return this._http.post(environment.backend_url + 'api/user/:id/tacheprojet', { id_axe, name, timeslot, pourcentage });
+  }
+  getAxes(): Observable<any> {
+    return this._http.get(environment.backend_url + 'api/user/axes');
+  }
+  updateTache(idProjet: string, idTache: string, tache: any): Observable<Project> {
+    return this._http.put<Project>(environment.backend_url + `api/user/tache/${idProjet}/${idTache}`, tache)
   }
 
 }
