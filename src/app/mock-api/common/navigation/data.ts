@@ -3,18 +3,32 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id: 'dashboards',
-        title: 'Dashboards',
-        subtitle: 'Unique dashboard designs',
+        id: 'Admin',
+        title: 'Admin',
+        subtitle: 'Administration',
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
+            // {
+            //     id: 'dashboards.project',
+            //     title: 'Project',
+            //     type: 'basic',
+            //     icon: 'bar_chart',
+            //     link: '/dashboards/project'
+            // },
             {
-                id: 'dashboards.project',
-                title: 'Project',
+                id: 'Admin.users',
+                title: 'Users',
                 type: 'basic',
-                icon: 'bar_chart',
-                link: '/dashboards/project'
+                icon: 'profile',
+                link: '/admin/users'
+            },
+            {
+                id: 'Admin.roles',
+                title: 'Roles',
+                type: 'basic',
+                icon: 'dash',
+                link: '/admin/roles'
             },
             //         {
             //             id   : 'dashboards.analytics',

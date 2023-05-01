@@ -204,14 +204,12 @@ export const appRoutes: Route[] = [
 
             // Documentation
             {
-                path: 'docs', children: [
+                path: 'admin', children: [
 
                     // Changelog
-                    { path: 'changelog', loadChildren: () => import('app/modules/admin/docs/changelog/changelog.module').then(m => m.ChangelogModule) },
+                    { path: '', loadChildren: () => import('app/modules/administration/administration.module').then(m => m.AdministrationModule) },
 
-                    // Guides
-                    { path: 'guides', loadChildren: () => import('app/modules/admin/docs/guides/guides.module').then(m => m.GuidesModule) }
-                ]
+                     ]
             },
 
             //404 & Catch all

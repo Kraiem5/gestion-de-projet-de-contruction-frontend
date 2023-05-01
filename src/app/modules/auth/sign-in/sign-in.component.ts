@@ -61,7 +61,7 @@ export class AuthSignInComponent implements OnInit
     signIn(): void
     {
         console.log(this.signInForm.value,this.signInForm.valid);
-        
+
         // Return if the form is invalid
         if ( this.signInForm.invalid )
         {
@@ -77,17 +77,23 @@ export class AuthSignInComponent implements OnInit
         // Sign in
         this._authService.signIn(this.signInForm.value)
             .subscribe(
-                () => {
+                (res) => {
 
                     // Set the redirect url.
                     // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
                     // to the correct page after a successful sign in. This way, that url can be set via
                     // routing file and we don't have to touch here.
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                 //   const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
 
                     // Navigate to the redirect url
-                    this._router.navigateByUrl(redirectURL);
-
+                    if(res.admin)
+                    {
+                        this._router.navigate(['/admin/users']);
+                        localStorage.setItem('isAdmin','true')
+                    }
+                    else
+                    {this._router.navigate(['']);
+                    localStorage.setItem('isAdmin','false')}
                 },
                 (response) => {
 

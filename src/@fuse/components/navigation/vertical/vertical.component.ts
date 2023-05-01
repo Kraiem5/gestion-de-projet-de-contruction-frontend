@@ -291,6 +291,15 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
      */
     ngOnInit(): void
     {
+        //filter menu
+        console.log(this.navigation)
+        let isAdmin = localStorage.getItem('isAdmin')=='true'
+        if(isAdmin){
+            this.navigation = this.navigation.filter(n => n.id == "Admin")
+        }else
+        {
+            this.navigation = this.navigation.filter(n => n.id != "Admin")
+        }
         // Make sure the name input is not an empty string
         if ( this.name === '' )
         {
