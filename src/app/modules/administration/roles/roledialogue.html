@@ -1,0 +1,41 @@
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-2xl font-semibold"
+            *ngIf="data.mode=='ajout'"
+            ><i class="fas fa-user-plus mr-2" ></i>Ajouter un rôle</h2>
+            <h2 class="text-2xl font-semibold"
+            *ngIf="data.mode!=='ajout'"
+            ><i class="fas fa-user-plus mr-2"></i>Modifier un rôle</h2>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="ajoutRole" class="px-4 py-3">
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-signature mr-2"></i>Nom du rôle:</label>
+                    <input type="text" formControlName="name" id="name" class="form-control"
+                        [class.is-invalid]="ajoutRole.controls['name'].invalid && ajoutRole.controls['name'].touched">
+                    <div *ngIf="ajoutRole.controls['name'].invalid && ajoutRole.controls['name'].touched"
+                        class="invalid-feedback">
+                        Le nom du rôle est requis
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description"><i class="fas fa-info-circle mr-2"></i>Description du rôle:</label>
+                    <input type="text" formControlName="description" id="description" class="form-control"
+                        [class.is-invalid]="ajoutRole.controls['description'].invalid && ajoutRole.controls['description'].touched">
+                    <div *ngIf="ajoutRole.controls['description'].invalid && ajoutRole.controls['description'].touched"
+                        class="invalid-feedback">
+                        La description du rôle est requise
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3"
+                (click)="onNoClick()"><i class="fas fa-plus mr-2"></i>Annuler</button>
+                <button type="submit" class="btn btn-primary mt-3" *ngIf="data.mode=='ajout'" (click)="ajouterRoleFunction()"><i
+                        class="fas fa-plus mr-2"></i>Ajouter</button>
+                <button type="submit" class="btn btn-primary mt-3"(click)="editRole()" *ngIf="data.mode =='edit'">
+                    <i class="fas fa-plus mr-2" ></i>Modifier</button>
+
+            </form>
+        </div>
+    </div>
+</div>

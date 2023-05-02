@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AdministrationRoutingModule } from './administration-routing.module';
 import { AdministrationComponent } from './administration.component';
 import { UsersComponent } from './users/users.component';
-import { RolesComponent } from './roles/roles.component';
+import { RoleDialog, RolesComponent } from './roles/roles.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,7 +23,7 @@ import { SharedModule } from 'app/shared/shared.module';
 
 
 @NgModule({
-  declarations: [AdministrationComponent, UsersComponent, RolesComponent],
+  declarations: [AdministrationComponent, UsersComponent, RolesComponent,RoleDialog],
   imports: [
     CommonModule,
     AdministrationRoutingModule,

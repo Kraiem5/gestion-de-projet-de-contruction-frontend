@@ -27,29 +27,19 @@ export class RolesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.ajoutRole = this.formBuilder.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-    })
+
     this.getRole()
   }
-  ajouterRole(): void {
-    const data = {
-      name: this.ajoutRole.get('name').value,
-      description: this.ajoutRole.get('description').value
-    };
-    this.service.ajouterRole(data).subscribe((response: any) => {
-      console.log(response);
-    });
-  }
-  openDialog(): void {
-    const dialogRef = this.dialog.open(RolesComponent, {
+
+  openDialog(mode,role): void {
+    const dialogRef = this.dialog.open(RoleDialog, {
       width: '500px',
-      data: { form: this.ajoutRole }
+      data: { mode: mode, role:role}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if(result)
+      this.getRole()
     });
   }
 
@@ -59,27 +49,7 @@ export class RolesComponent implements OnInit {
     })
   }
 
-  // modifierRole(role: Role): void {
-  //   const dialogRef = this.dialog.open(RolesComponent, {
-  //     data: role,
-  //     disableClose: true
-  //   });
 
-  //   dialogRef.afterClosed().subscribe((result: { status: boolean, data: Role }) => {
-  //     if (result && result.status && result.data) {
-  //       this.service.modifierRole(role._id, result.data).subscribe((updatedRole: Role) => {
-  //         // Mettre à jour la liste des rôles avec le rôle modifié
-  //         const index = this.roles.findIndex(r => r._id === updatedRole._id);
-  //         this.roles.splice(index, 1, updatedRole);
-  //         // Afficher un message de confirmation
-  //         this.fuseAlertService.show('Le rôle a été modifié avec succès.', { type: 'success' });
-  //       }, error => {
-  //         console.error(error);
-  //         this.fuseAlertService.show('Une erreur est survenue lors de la modification du rôle.', { type: 'error' });
-  //       });
-  //     }
-  //   });
-  // }
 
   deleteRole(role: Role): void {
     if (confirm("Are you sure you want to delete this role?")) {
@@ -89,46 +59,59 @@ export class RolesComponent implements OnInit {
         });
     }
   }
-  // modifierRole(role: Role): void {
-  //   const dialogRef = this.dialog.open(RolesComponent, {
-  //     data: role,
-  //     disableClose: true
-  //   });
 
-  //   dialogRef.afterClosed().subscribe((result: { status: boolean, data: Role }) => {
-  //     if (result && result.status && result.data) {
-  //       this.service.modifierRole(role._id, result.data).subscribe((updatedRole: Role) => {
-  //         // Mettre à jour la liste des rôles avec le rôle modifié
-  //         const index = this.roles.findIndex(r => r._id === updatedRole._id);
-  //         this.roles.splice(index, 1, updatedRole);
-  //         // Afficher un message de confirmation
-  //         this.fuseAlertService.show('Le rôle a été modifié avec succès.', { type: 'success' });
-  //       }, error => {
-  //         console.error(error);
-  //         this.fuseAlertService.show('Une erreur est survenue lors de la modification du rôle.', { type: 'error' });
-  //       });
-  //     }
-  //   });
-  // }
-
-
-  //   buttonAjouterTache(axe): void {
-  //     const dialogRef = this.dialog.open(RolesComponent, {
-  //         data: axe,
-  //         disableClose: true
-  //     });
-  //     dialogRef.afterClosed().subscribe(result => {
-  //         if (result && result.status) {
-  //             let i = this.axes.indexOf(axe)
-  //             this.axes[i] = result.data
-  //             console.log("axs", this.axes);
-  //             this.changebackgroundProject = axe._id
-  //             setTimeout(() => {
-  //                 this.changebackgroundProject = null
-  //                 this.cd.detectChanges()
-  //             }, 2000)
-  //             this.cd.detectChanges()
-  //         }
-  //     });
-  // }
 }
+@Component({
+    selector: 'role-dialog',
+    templateUrl: 'roledialogue.html',
+  })
+  export class RoleDialog implements OnInit{
+    ajoutRole: FormGroup
+    constructor(
+        private service: AdministrationService,
+        private fb:FormBuilder,
+      public dialogRef: MatDialogRef<RoleDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any,
+    ) {}
+    ngOnInit(): void {
+        if(this.data.mode == 'ajout')
+        {this.ajoutRole = this.fb.group({
+          name: ['', Validators.required],
+          description: ['', Validators.required],
+        })}else{
+            this.ajoutRole = this.fb.group({
+                name: [this.data.role.name, Validators.required],
+                description: [this.data.role.description, Validators.required],
+              })
+        }
+
+      }
+      ajouterRoleFunction(): void {
+        if(this.ajoutRole.valid){
+        const data = {
+          name: this.ajoutRole.get('name').value,
+          description: this.ajoutRole.get('description').value
+        };
+        this.service.ajouterRole(data).subscribe((response: any) => {
+          console.log(response);
+          this.dialogRef.close(true);
+        });
+    }
+      }
+      editRole(): void {
+        console.log("ediiit")
+       if(this.ajoutRole.valid){
+        let form = {
+            name: this.ajoutRole.get('name').value,
+            description: this.ajoutRole.get('description').value
+          };
+          this.service.modifierRole(this.data.role._id,form).subscribe((response: any) => {
+            console.log(response);
+            this.dialogRef.close(true);
+          });
+       }
+      }
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+  }

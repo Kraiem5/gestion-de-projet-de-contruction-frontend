@@ -16,7 +16,7 @@ export class AdministrationService {
   getRole(): Observable<any> {
     return this.http.get(environment.backend_url + 'api/role/all',)
   }
-  modifierRole(id: string, newRole: string): Observable<any> {
+  modifierRole(id: string, newRole:any): Observable<any> {
     return this.http.put<any>(environment.backend_url + 'api/role/modifier/' + id, newRole)
       .pipe(map((res: any) => {
         return res

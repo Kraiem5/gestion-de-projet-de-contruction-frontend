@@ -1,56 +1,30 @@
 <div class="container mt-5">
+    <button class="btn btn-sm btn-primary"(click)="openDialog('ajout',null)">ajouter</button>
+
     <div class="card">
         <div class="card-header bg-primary text-white">
-            <h2 class="text-2xl font-semibold"><i class="fas fa-user-plus mr-2"></i>Ajouter un rôle</h2>
+            <h2 class="text-2xl font-semibold"><i class="fas fa-user-tag mr-2"></i>Liste des rôles</h2>
         </div>
         <div class="card-body">
-            <form [formGroup]="ajoutRole" (ngSubmit)="ajouterRole()" class="px-4 py-3">
-                <div class="form-group">
-                    <label for="name"><i class="fas fa-signature mr-2"></i>Nom du rôle:</label>
-                    <input type="text" formControlName="name" id="name" class="form-control" [class.is-invalid]="ajoutRole.controls['name'].invalid && ajoutRole.controls['name'].touched">
-                    <div *ngIf="ajoutRole.controls['name'].invalid && ajoutRole.controls['name'].touched" class="invalid-feedback">
-                        Le nom du rôle est requis
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="description"><i class="fas fa-info-circle mr-2"></i>Description du rôle:</label>
-                    <input type="text" formControlName="description" id="description" class="form-control" [class.is-invalid]="ajoutRole.controls['description'].invalid && ajoutRole.controls['description'].touched">
-                    <div *ngIf="ajoutRole.controls['description'].invalid && ajoutRole.controls['description'].touched" class="invalid-feedback">
-                        La description du rôle est requise
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-plus mr-2" (click)="ajouterRole()" ></i>Ajouter</button>
-            </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let role of roles">
+                        <td>{{role.name}}</td>
+                        <td>{{role.description}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success" (click)="openDialog('edit',role)">Editer</button>
+                            <button class="btn btn-sm btn-danger" (click)="deleteRole(role)">Supprimer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-<button (click)="openDialog()">ajouter</button>
-<div class="container mt-5">
-    <div class="card">
-      <div class="card-header bg-primary text-white">
-        <h2 class="text-2xl font-semibold"><i class="fas fa-user-tag mr-2"></i>Liste des rôles</h2>
-      </div>
-      <div class="card-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Description</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let role of roles">
-              <td>{{role.name}}</td>
-              <td>{{role.description}}</td>
-              <td>
-                <button class="btn btn-sm btn-primary" (click)="update()">Editer</button>
-                <button class="btn btn-sm btn-danger" (click)="deleteRole(role)">Supprimer</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
