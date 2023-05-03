@@ -143,9 +143,9 @@ export class AuthService
      *
      * @param user
      */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
+    signUp(user: { name: string; email: string; password: string; company: string }): Promise<any>
     {
-        return this._httpClient.post(environment.backend_url+'api/user/sign-up', user);
+        return this._httpClient.post(environment.backend_url+'api/role/sign-up', user).toPromise();
     }
 
     /**

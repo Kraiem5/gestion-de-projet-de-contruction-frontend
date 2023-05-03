@@ -92,7 +92,7 @@ export class AuthSignInComponent implements OnInit
                         localStorage.setItem('isAdmin','true')
                     }
                     else
-                    {this._router.navigate(['']);
+                    {this._router.navigate(['/apps']);
                     localStorage.setItem('isAdmin','false')}
                 },
                 (response) => {

@@ -39,7 +39,9 @@ export class UsersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
+    if(result){
+        this.recupererUsers()
+    }
 
     });
   }
@@ -133,19 +135,20 @@ export class SignupDialogue implements OnInit {
 
     // Sign up
     this._authService.signUp(this.signUpForm.value)
-      .subscribe(
+      .then(
         (response) => {
+            this.signUpForm.enable();
 
           // Navigate to the confirmation required page
-          this._router.navigateByUrl('/sign-in');
-        },
-        (response) => {
-
+          this.dialogRef.close(true);
+        })
+       .catch((error) => {
+         console.log(error)
           // Re-enable the form
           this.signUpForm.enable();
 
           // Reset the form
-          this.signUpNgForm.resetForm();
+          this.signUpForm.reset();
 
           // Set the alert
           this.alert = {

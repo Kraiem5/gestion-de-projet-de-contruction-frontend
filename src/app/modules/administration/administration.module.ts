@@ -23,6 +23,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -50,7 +51,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatCheckboxModule,
     ScrollingModule
 
-
-  ]
+  ],entryComponents:[SignupDialogue,RoleDialog]
 })
 export class AdministrationModule { }

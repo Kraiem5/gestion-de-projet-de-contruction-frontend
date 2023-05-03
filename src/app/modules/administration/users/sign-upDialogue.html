@@ -1,6 +1,6 @@
 <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 h-"
-     style="height:600px"
-     *ngIf="" >
+     style="height:500px;overflow: scroll;"
+      >
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
             <!-- Logo -->
             <div class="w-12">
@@ -9,13 +9,7 @@
 
             <!-- Title -->
             <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign up</div>
-            <div class="flex items-baseline mt-0.5 font-medium">
-                <div>Already have an account?</div>
-                <a
-                    class="ml-1 text-primary-500 hover:underline"
-                    [routerLink]="['/sign-in']">Sign in
-                </a>
-            </div>
+
 
             <!-- Alert -->
             <fuse-alert
@@ -24,12 +18,12 @@
                 [appearance]="'outline'"
                 [showIcon]="false"
                 [type]="alert.type"
-                [@shake]="alert.type === 'error'">
+              >
                 {{alert.message}}
             </fuse-alert>
 
             <!-- Sign Up form -->
-            
+
             <form
                 class="mt-8"
                 [formGroup]="signUpForm">
@@ -79,9 +73,9 @@
                     [value]="'TECHNICIEN'"
                     formControlName="role"
                     (selectionChange)="filterByCategory($event)">
-                   
-                    <ng-container *ngFor="let state of roles ">                         
-                        <mat-option [value]="state.name">{{state.name}}</mat-option>
+
+                    <ng-container *ngFor="let state of roles ">
+                        <mat-option [value]="state._id">{{state.name}}</mat-option>
                     </ng-container>
                 </mat-select>
                     <mat-error *ngIf="signUpForm.get('role').hasError('required')">
@@ -127,23 +121,7 @@
                         [formControlName]="'cin'">
                 </mat-form-field>
 
-                <!-- ToS and PP -->
-                <div class="inline-flex items-end w-full mt-1.5">
-                    <mat-checkbox
-                        [color]="'primary'"
-                        [formControlName]="'agreements'">
-                        <span>I agree to the</span>
-                        <a
-                            class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Terms of Service
-                        </a>
-                        <span>and</span>
-                        <a
-                            class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Privacy Policy
-                        </a>
-                    </mat-checkbox>
-                </div>
+
 
                 <!-- Submit button -->
                 <button
@@ -163,5 +141,5 @@
 
             </form>
         </div>
-    
+
 </div>
