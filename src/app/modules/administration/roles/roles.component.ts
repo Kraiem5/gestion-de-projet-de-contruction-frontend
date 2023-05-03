@@ -31,21 +31,23 @@ export class RolesComponent implements OnInit {
     this.getRole()
   }
 
-  openDialog(mode,role): void {
+  openDialog(mode, role): void {
     const dialogRef = this.dialog.open(RoleDialog, {
       width: '500px',
-      data: { mode: mode, role:role}
+      data: { mode: mode, role: role }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result)
-      this.getRole()
+      if (result)
+        this.getRole()
     });
   }
 
   getRole() {
     this.service.getRole().subscribe((data: any) => {
       this.roles = data
+      console.log("data", data);
+
     })
   }
 
@@ -62,56 +64,56 @@ export class RolesComponent implements OnInit {
 
 }
 @Component({
-    selector: 'role-dialog',
-    templateUrl: 'roledialogue.html',
-  })
-  export class RoleDialog implements OnInit{
-    ajoutRole: FormGroup
-    constructor(
-        private service: AdministrationService,
-        private fb:FormBuilder,
-      public dialogRef: MatDialogRef<RoleDialog>,
-      @Inject(MAT_DIALOG_DATA) public data: any,
-    ) {}
-    ngOnInit(): void {
-        if(this.data.mode == 'ajout')
-        {this.ajoutRole = this.fb.group({
-          name: ['', Validators.required],
-          description: ['', Validators.required],
-        })}else{
-            this.ajoutRole = this.fb.group({
-                name: [this.data.role.name, Validators.required],
-                description: [this.data.role.description, Validators.required],
-              })
-        }
-
-      }
-      ajouterRoleFunction(): void {
-        if(this.ajoutRole.valid){
-        const data = {
-          name: this.ajoutRole.get('name').value,
-          description: this.ajoutRole.get('description').value
-        };
-        this.service.ajouterRole(data).subscribe((response: any) => {
-          console.log(response);
-          this.dialogRef.close(true);
-        });
+  selector: 'role-dialog',
+  templateUrl: 'roledialogue.html',
+})
+export class RoleDialog implements OnInit {
+  ajoutRole: FormGroup
+  constructor(
+    private service: AdministrationService,
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<RoleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) { }
+  ngOnInit(): void {
+    if (this.data.mode == 'ajout') {
+      this.ajoutRole = this.fb.group({
+        name: ['', Validators.required],
+        description: ['', Validators.required],
+      })
+    } else {
+      this.ajoutRole = this.fb.group({
+        name: [this.data.role.name, Validators.required],
+        description: [this.data.role.description, Validators.required],
+      })
     }
-      }
-      editRole(): void {
-        console.log("ediiit")
-       if(this.ajoutRole.valid){
-        let form = {
-            name: this.ajoutRole.get('name').value,
-            description: this.ajoutRole.get('description').value
-          };
-          this.service.modifierRole(this.data.role._id,form).subscribe((response: any) => {
-            console.log(response);
-            this.dialogRef.close(true);
-          });
-       }
-      }
-    onNoClick(): void {
-      this.dialogRef.close();
+
+  }
+  ajouterRoleFunction(): void {
+    if (this.ajoutRole.valid) {
+      const data = {
+        name: this.ajoutRole.get('name').value,
+        description: this.ajoutRole.get('description').value
+      };
+      this.service.ajouterRole(data).subscribe((response: any) => {
+        console.log(response);
+        this.dialogRef.close(true);
+      });
     }
   }
+  editRole(): void {
+    if (this.ajoutRole.valid) {
+      let form = {
+        name: this.ajoutRole.get('name').value,
+        description: this.ajoutRole.get('description').value
+      };
+      this.service.modifierRole(this.data.role._id, form).subscribe((response: any) => {
+        console.log(response);
+        this.dialogRef.close(true);
+      });
+    }
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}

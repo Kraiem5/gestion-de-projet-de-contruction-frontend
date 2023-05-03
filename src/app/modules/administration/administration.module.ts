@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AdministrationRoutingModule } from './administration-routing.module';
 import { AdministrationComponent } from './administration.component';
-import { UsersComponent } from './users/users.component';
+import { SignupDialogue, UsersComponent } from './users/users.component';
 import { RoleDialog, RolesComponent } from './roles/roles.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,10 +20,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
 
 
 @NgModule({
-  declarations: [AdministrationComponent, UsersComponent, RolesComponent,RoleDialog],
+  declarations: [AdministrationComponent, UsersComponent, RolesComponent, RoleDialog, SignupDialogue],
   imports: [
     CommonModule,
     AdministrationRoutingModule,
@@ -41,7 +45,11 @@ import { SharedModule } from 'app/shared/shared.module';
     MatTooltipModule,
     FuseAlertModule,
     FuseFindByKeyPipeModule,
-    SharedModule
+    SharedModule,
+    MatCardModule,
+    MatCheckboxModule,
+    ScrollingModule
+
 
   ]
 })
