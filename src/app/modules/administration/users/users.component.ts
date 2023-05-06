@@ -1,13 +1,12 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { AdministrationService } from '../administration.service';
 import { RoleDialog } from '../roles/roles.component';
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
-import { mode } from 'crypto-js';
+import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-users',
@@ -16,14 +15,22 @@ import { mode } from 'crypto-js';
 })
 export class UsersComponent implements OnInit {
   roles = []
-  users: [] = []
+  users: any[] = []
+
   constructor(
-    private service: AdministrationService,
+    private service: AdminService,
     public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.recupererUsers()
+    this.getRole()
+  }
+  getRole() {
+    this.service.getRole().subscribe((data: any) => {
+      this.roles = data
+      console.log("data", data);
+    })
   }
   recupererUsers() {
     this.service.getUser().subscribe(user => {
@@ -39,11 +46,33 @@ export class UsersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-    if(result){
+      if (result) {
         this.recupererUsers()
-    }
+      }
 
     });
+  }
+  openDialogEdit(mode, user): void {
+    const dialogRef = this.dialog.open(SignupDialogue, {
+      width: '400px',
+      data: { mode: mode, user: user }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.recupererUsers()
+      }
+
+    });
+  }
+  supprimerUser(user) {
+    if (confirm("Are you sure you want to delete this User?")) {
+      this.service.deleteUSer(user._id)
+        .subscribe(() => {
+          this.users = this.users.filter(u => u !== user);
+          this.recupererUsers();
+        });
+    }
   }
 
 }
@@ -61,7 +90,9 @@ export class SignupDialogue implements OnInit {
   };
   signUpForm: FormGroup;
   showAlert: boolean = false;
-  roles: [] = [];
+  roles: any[];
+
+  users: any[] = [];
 
 
   /**
@@ -71,7 +102,7 @@ export class SignupDialogue implements OnInit {
     private _authService: AuthService,
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private service: AdministrationService,
+    private service: AdminService,
     public dialogRef: MatDialogRef<SignupDialogue>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
@@ -86,25 +117,27 @@ export class SignupDialogue implements OnInit {
    */
   ngOnInit(): void {
     // Create the form
-    this.signUpForm = this._formBuilder.group({
-      nom: ['abid', Validators.required],
-      prenom: ['kraiem', Validators.required],
-      email: ['kraiemabid300@gmail.com', [Validators.required, Validators.email]],
-      role: ['ADMIN', Validators.required],
-      password: ['123456789', Validators.required],
-      cin: ['14026475'],
-      agreements: [true, Validators.requiredTrue]
+    {
+      this.signUpForm = this._formBuilder.group({
+        nom: ['', Validators.required],
+        prenom: ['', Validators.required],
+        email: ['@gmail.com', [Validators.required, Validators.email]],
+        role: ['', Validators.required],
+        password: ['', Validators.required],
+        cin: [''],
+        agreements: [true, Validators.requiredTrue]
+      }
+
+      );
     }
-    );
     this.getNameRole()
+    this.recupererUsers()
 
   }
 
   getNameRole() {
     this.service.getRole().subscribe((data: any) => {
       this.roles = data
-      console.log("daata", data);
-
     })
   }
   filterByCategory(change: MatSelectChange): void {
@@ -112,9 +145,6 @@ export class SignupDialogue implements OnInit {
     console.log(change.value);
 
   }
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
 
   /**
    * Sign up
@@ -137,29 +167,46 @@ export class SignupDialogue implements OnInit {
     this._authService.signUp(this.signUpForm.value)
       .then(
         (response) => {
-            this.signUpForm.enable();
+          this.signUpForm.enable();
 
           // Navigate to the confirmation required page
           this.dialogRef.close(true);
         })
-       .catch((error) => {
-         console.log(error)
-          // Re-enable the form
-          this.signUpForm.enable();
+      .catch((error) => {
+        console.log(error)
+        // Re-enable the form
+        this.signUpForm.enable();
 
-          // Reset the form
-          this.signUpForm.reset();
+        // Reset the form
+        this.signUpForm.reset();
 
-          // Set the alert
-          this.alert = {
-            type: 'error',
-            message: 'Something went wrong, please try again.'
-          };
+        // Set the alert
+        this.alert = {
+          type: 'error',
+          message: 'Something went wrong, please try again.'
+        };
 
-          // Show the alert
-          this.showAlert = true;
-        }
+        // Show the alert
+        this.showAlert = true;
+      }
       );
+  }
+  recupererUsers() {
+    this.service.getUser().subscribe(user => {
+      this.users = user
+    })
+  }
+  modifierUser(user) {
+    if (this.signUpForm.valid) {
+      let form = this.signUpForm.value
+      console.log("form", form);
+      console.log("user", user._id);
+      console.log("uss", this.users);
+      this.service.modifiereUser(user._id, form).subscribe((response: any) => {
+        console.log(response);
+        this.dialogRef.close(true);
+      });
+    }
   }
 
 }

@@ -9,6 +9,7 @@
 
             <!-- Title -->
             <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign up</div>
+            <div *ngIf="data.mode == 'edit'" class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Modifier</div>
 
 
             <!-- Alert -->
@@ -85,7 +86,7 @@
 
 
                 <!-- Password field -->
-                <mat-form-field class="w-full">
+                <mat-form-field class="w-full" *ngIf="data.mode !== 'edit'">
                     <mat-label>Password</mat-label>
                     <input
                         id="password"
@@ -124,7 +125,7 @@
 
 
                 <!-- Submit button -->
-                <button
+                <button *ngIf="data.mode !== 'edit'"
                     class="fuse-mat-button-large w-full mt-6"
                     mat-flat-button
                     [color]="'primary'"
@@ -138,6 +139,21 @@
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
+                <button *ngIf="data.mode == 'edit'"
+                    class="fuse-mat-button-large w-full mt-6"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="signUpForm.disabled"
+                    (click)="modifierUser(users[2])">
+                    <span *ngIf="!signUpForm.disabled">
+                        Modifier
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="signUpForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+
 
             </form>
         </div>

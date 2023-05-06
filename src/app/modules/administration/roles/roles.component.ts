@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AdministrationService } from '../administration.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { valid } from 'chroma-js';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Role } from '../role.interface';
+import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-roles',
@@ -19,7 +19,7 @@ export class RolesComponent implements OnInit {
   showUpdate: boolean;
   edit: string;
   constructor(
-    private service: AdministrationService,
+    private service: AdminService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog
 
@@ -47,7 +47,6 @@ export class RolesComponent implements OnInit {
     this.service.getRole().subscribe((data: any) => {
       this.roles = data
       console.log("data", data);
-
     })
   }
 
@@ -70,7 +69,7 @@ export class RolesComponent implements OnInit {
 export class RoleDialog implements OnInit {
   ajoutRole: FormGroup
   constructor(
-    private service: AdministrationService,
+    private service: AdminService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<RoleDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
