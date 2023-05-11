@@ -54,7 +54,7 @@ export class UsersComponent implements OnInit {
   }
   openDialogEdit(mode, user): void {
     const dialogRef = this.dialog.open(SignupDialogue, {
-      width: '400px',
+      width: '500px',
       data: { mode: mode, user: user }
     });
 
@@ -207,6 +207,9 @@ export class SignupDialogue implements OnInit {
         this.dialogRef.close(true);
       });
     }
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }

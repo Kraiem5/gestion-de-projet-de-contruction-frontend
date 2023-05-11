@@ -29,7 +29,7 @@
                     Hide completed
                 </mat-slide-toggle>
             </div>
-            
+
             <!-- Courses -->
             <ng-container *ngIf="this.filteredCourses.length;">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:mt-10">
@@ -42,7 +42,7 @@
                             }"
                             >
                                 <div class="flex flex-col p-6">
-                                    <div class="flex items-center justify-between">                                
+                                    <div class="flex items-center justify-between">
                                             <div class="py-0.5 px-3 rounded-full text-sm font-semibold">
                                                 {{project.client}}
                                             </div>
@@ -74,17 +74,17 @@
                                 <div class="flex flex-col w-full mt-auto">
                                     <div class="flex justify-between m-4" >
                                         <button type="button" class="btn btn-success" (click)="editProjet(project)" >modifier</button>
-                                        <!-- <button type="button" class="btn btn-success" (click)="afficherDetails(projet._id)" >modifier</button> --> 
+                                        <!-- <button type="button" class="btn btn-success" (click)="afficherDetails(projet._id)" >modifier</button> -->
                                     </div>
-                                    
+
                                     <div class="px-6 py-4 text-right">
                                         <button
                                             mat-stroked-button
                                                 routerLink="./{{project._id}}">
                                             <span class="inline-flex items-center">
-                                               
+
                                                 <ng-container >
-                                                    <span>Continue</span>
+                                                    <span>Voir plus</span>
                                                 </ng-container>
                                                 <mat-icon
                                                     class="ml-1.5 icon-size-5"

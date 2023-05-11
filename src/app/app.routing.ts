@@ -3,6 +3,7 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
+import { AdminGuard } from './core/auth/guards/admin.guards';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -10,7 +11,7 @@ import { InitialDataResolver } from 'app/app.resolvers';
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/dashboards/project'
-    { path: '', pathMatch: 'full', redirectTo: 'sign-in' },
+    { path: '', pathMatch: 'full', redirectTo: 'dash/admin' },
 
     { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'pages/profile' },
 
@@ -62,8 +63,7 @@ export const appRoutes: Route[] = [
     // Admin routes
     {
         path: '',
-        // canActivate: [AuthGuard],
-        // canActivateChild: [AuthGuard],
+        canActivate: [AuthGuard],
         component: LayoutComponent,
         resolve: {
             initialData: InitialDataResolver,
@@ -71,93 +71,85 @@ export const appRoutes: Route[] = [
         children: [
             // Dashboards
             {
-                path: 'dashboards', children: [
+                path: 'dash/home',
+                children: [
                     { path: 'project', loadChildren: () => import('app/modules/admin/dashboards/project/project.module').then(m => m.ProjectModule) },
-
-                ]
-            },
-
-            // Apps
-            {
-                path: 'apps', children: [
                     { path: 'academy', loadChildren: () => import('app/modules/admin/apps/academy/academy.module').then(m => m.AcademyModule) },
-
-                    // { path: 'scrumboard', loadChildren: () => import('app/modules/admin/apps/scrumboard/scrumboard.module').then(m => m.ScrumboardModule) },
-                ]
-            },
-
-            // Pages
-            {
-                path: 'pages', children: [
-
                     // Profile
                     { path: 'profile', loadChildren: () => import('app/modules/admin/pages/profile/profile.module').then(m => m.ProfileModule) },
 
                     // Settings
                     { path: 'settings', loadChildren: () => import('app/modules/admin/pages/settings/settings.module').then(m => m.SettingsModule) },
-                ]
-            },
-
-            //User Interface
-            {
-                path: 'ui', children: [
-
-                    // Material Components
-                    { path: 'material-components', loadChildren: () => import('app/modules/admin/ui/material-components/material-components.module').then(m => m.MaterialComponentsModule) },
-
-                    // Fuse Components
-                    { path: 'fuse-components', loadChildren: () => import('app/modules/admin/ui/fuse-components/fuse-components.module').then(m => m.FuseComponentsModule) },
-
-                    // Other Components
-                    { path: 'other-components', loadChildren: () => import('app/modules/admin/ui/other-components/other-components.module').then(m => m.OtherComponentsModule) },
-
-                    // TailwindCSS
-                    { path: 'tailwindcss', loadChildren: () => import('app/modules/admin/ui/tailwindcss/tailwindcss.module').then(m => m.TailwindCSSModule) },
-
-                    // Advanced Search
-                    { path: 'advanced-search', loadChildren: () => import('app/modules/admin/ui/advanced-search/advanced-search.module').then(m => m.AdvancedSearchModule) },
-
-                    // Animations
-                    { path: 'animations', loadChildren: () => import('app/modules/admin/ui/animations/animations.module').then(m => m.AnimationsModule) },
-
-                    // Cards
-                    { path: 'cards', loadChildren: () => import('app/modules/admin/ui/cards/cards.module').then(m => m.CardsModule) },
-
-                    // Colors
-                    { path: 'colors', loadChildren: () => import('app/modules/admin/ui/colors/colors.module').then(m => m.ColorsModule) },
-
-                    // Confirmation Dialog
-                    { path: 'confirmation-dialog', loadChildren: () => import('app/modules/admin/ui/confirmation-dialog/confirmation-dialog.module').then(m => m.ConfirmationDialogModule) },
-
-                    // Datatable
-                    { path: 'datatable', loadChildren: () => import('app/modules/admin/ui/datatable/datatable.module').then(m => m.DatatableModule) },
-
-                    // Forms
                     {
-                        path: 'forms', children: [
-                            { path: 'fields', loadChildren: () => import('app/modules/admin/ui/forms/fields/fields.module').then(m => m.FormsFieldsModule) },
-                            { path: 'layouts', loadChildren: () => import('app/modules/admin/ui/forms/layouts/layouts.module').then(m => m.FormsLayoutsModule) },
-                            { path: 'wizards', loadChildren: () => import('app/modules/admin/ui/forms/wizards/wizards.module').then(m => m.FormsWizardsModule) }
+                        path: 'ui', children: [
+
+                            // Material Components
+                            { path: 'material-components', loadChildren: () => import('app/modules/admin/ui/material-components/material-components.module').then(m => m.MaterialComponentsModule) },
+
+                            // Fuse Components
+                            { path: 'fuse-components', loadChildren: () => import('app/modules/admin/ui/fuse-components/fuse-components.module').then(m => m.FuseComponentsModule) },
+
+                            // Other Components
+                            { path: 'other-components', loadChildren: () => import('app/modules/admin/ui/other-components/other-components.module').then(m => m.OtherComponentsModule) },
+
+                            // TailwindCSS
+                            { path: 'tailwindcss', loadChildren: () => import('app/modules/admin/ui/tailwindcss/tailwindcss.module').then(m => m.TailwindCSSModule) },
+
+                            // Advanced Search
+                            { path: 'advanced-search', loadChildren: () => import('app/modules/admin/ui/advanced-search/advanced-search.module').then(m => m.AdvancedSearchModule) },
+
+                            // Animations
+                            { path: 'animations', loadChildren: () => import('app/modules/admin/ui/animations/animations.module').then(m => m.AnimationsModule) },
+
+                            // Cards
+                            { path: 'cards', loadChildren: () => import('app/modules/admin/ui/cards/cards.module').then(m => m.CardsModule) },
+
+                            // Colors
+                            { path: 'colors', loadChildren: () => import('app/modules/admin/ui/colors/colors.module').then(m => m.ColorsModule) },
+
+                            // Confirmation Dialog
+                            { path: 'confirmation-dialog', loadChildren: () => import('app/modules/admin/ui/confirmation-dialog/confirmation-dialog.module').then(m => m.ConfirmationDialogModule) },
+
+                            // Datatable
+                            { path: 'datatable', loadChildren: () => import('app/modules/admin/ui/datatable/datatable.module').then(m => m.DatatableModule) },
+
+                            // Forms
+                            {
+                                path: 'forms', children: [
+                                    { path: 'fields', loadChildren: () => import('app/modules/admin/ui/forms/fields/fields.module').then(m => m.FormsFieldsModule) },
+                                    { path: 'layouts', loadChildren: () => import('app/modules/admin/ui/forms/layouts/layouts.module').then(m => m.FormsLayoutsModule) },
+                                    { path: 'wizards', loadChildren: () => import('app/modules/admin/ui/forms/wizards/wizards.module').then(m => m.FormsWizardsModule) }
+                                ]
+                            },
+
+                            // Icons
+                            { path: 'icons', loadChildren: () => import('app/modules/admin/ui/icons/icons.module').then(m => m.IconsModule) },
+
+                            // Page Layouts
+                            { path: 'page-layouts', loadChildren: () => import('app/modules/admin/ui/page-layouts/page-layouts.module').then(m => m.PageLayoutsModule) },
+
+                            // Typography
+                            { path: 'typography', loadChildren: () => import('app/modules/admin/ui/typography/typography.module').then(m => m.TypographyModule) }
                         ]
                     },
-
-                    // Icons
-                    { path: 'icons', loadChildren: () => import('app/modules/admin/ui/icons/icons.module').then(m => m.IconsModule) },
-
-                    // Page Layouts
-                    { path: 'page-layouts', loadChildren: () => import('app/modules/admin/ui/page-layouts/page-layouts.module').then(m => m.PageLayoutsModule) },
-
-                    // Typography
-                    { path: 'typography', loadChildren: () => import('app/modules/admin/ui/typography/typography.module').then(m => m.TypographyModule) }
                 ]
             },
+
+
+
+
+
+            //User Interface
+
 
             // Documentation
             {
-                path: 'admin', children: [
+                path: 'dash/admin',
+                 children: [
 
                     // Changelog
-                    { path: '', loadChildren: () => import('app/modules/administration/administration.module').then(m => m.AdministrationModule) },
+                    { path: '',
+                    loadChildren: () => import('app/modules/administration/administration.module').then(m => m.AdministrationModule) },
 
                 ]
             },
@@ -165,7 +157,7 @@ export const appRoutes: Route[] = [
             //404 & Catch all
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-404/error-404.module').then(m => m.Error404Module) },
             { path: '**', redirectTo: '404-not-found' },
-            { path: '', redirectTo: 'admin/users', pathMatch: 'full' },
+
         ]
     }
 ];

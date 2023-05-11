@@ -64,8 +64,8 @@ export class ProjetService {
   getAxes(): Observable<any> {
     return this._http.get(environment.backend_url + 'api/user/axes');
   }
-  updateTache(idProjet: string, idTache: string, tache: any): Observable<Project> {
-    return this._http.put<Project>(environment.backend_url + `api/user/tache/${idProjet}/${idTache}`, tache)
+  updateTache(idProjet: string, data: any): Observable<Project> {
+    return this._http.put<Project>(environment.backend_url + `api/user/tache/${idProjet}`, data)
   }
 
 }

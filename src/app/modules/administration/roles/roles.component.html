@@ -1,5 +1,10 @@
 <div class="container mt-5">
-    <button class="btn btn-sm btn-primary"(click)="openDialog('ajout',null)">ajouter</button>
+    <div class="head">
+        <button mat-fab color="primary" (click)="openDialog('ajout',null)">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+
 
     <div class="card">
         <div class="card-header bg-primary text-white">
@@ -19,8 +24,11 @@
                         <td>{{role.name}}</td>
                         <td>{{role.description}}</td>
                         <td>
-                            <button class="btn btn-sm btn-success" (click)="openDialog('edit',role)">Editer</button>
-                            <button class="btn btn-sm btn-danger" (click)="deleteRole(role)">Supprimer</button>
+
+                                <mat-icon  (click)="openDialog('edit',role)">edit</mat-icon>
+
+                                <mat-icon class="text-red" (click)="deleteRole(role)">delete</mat-icon>
+
                         </td>
                     </tr>
                 </tbody>

@@ -88,11 +88,11 @@ export class AuthSignInComponent implements OnInit
                     // Navigate to the redirect url
                     if(res.admin)
                     {
-                        this._router.navigate(['/admin/users']);
+                        this._router.navigate(['/dash/admin/users']);
                         localStorage.setItem('isAdmin','true')
                     }
                     else
-                    {this._router.navigate(['/apps']);
+                    {this._router.navigate(['/dash/home']);
                     localStorage.setItem('isAdmin','false')}
                 },
                 (response) => {

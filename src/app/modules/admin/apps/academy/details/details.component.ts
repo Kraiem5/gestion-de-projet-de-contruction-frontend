@@ -17,6 +17,7 @@ import { EdittacheComponent } from '../taches/edittache/edittache.component';
 @Component({
     selector: 'academy-details',
     templateUrl: './details.component.html',
+
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -36,6 +37,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
     pourcentage: string;
     tache: string;
     x: any;
+    showProject=false
     /**
      * Constructor
      */
@@ -56,16 +58,23 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.getProjet()
+
+
+    }
+    getProjet(){
         this.route.params.subscribe(params => {
             const id = params['id'];
             this.projetService.getIdProjet(id).subscribe(res => {
+                console.log(res)
                 if (res.status) {
                     this.projet = res.result
+                  //if(!this.currentAxe)
+                //   this.currentAxe = this.projet.axes[0]
+                    this.cd.detectChanges()
                 }
             });
         });
-
-
     }
     /**
      * On destroy
@@ -76,12 +85,18 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    calculateMeanPercentage(tache: any[]): number {
+    calculateMeanPercentage(axe:any): number {
+        console.log(axe)
+        let tache = (axe.tache && axe.tache.length ) ? axe.tache : null
         let totalPercentage = 0;
-        for (let tach of tache) {
+        if(tache)
+        {
+            for (let tach of tache) {
             totalPercentage += parseInt(tach.pourcentage);
-        }
-        return totalPercentage / tache.length;
+             }
+          return totalPercentage / tache.length;
+       }else
+        return 0
     }
 
     // supposons que vos tâches sont stockées dans un tableau 'taches'
@@ -109,64 +124,33 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
             disableClose: true
         });
         dialogRef.afterClosed().subscribe(result => {
-            if (result && result.status) {
-                let i = this.axes.indexOf(axe)
-                this.axes[i] = result.data
-                console.log("axs", this.axes);
-                this.changebackgroundProject = axe._id
-                setTimeout(() => {
-                    this.changebackgroundProject = null
+           // if (result && result.status) {
+                this.getProjet()
+
                     this.cd.detectChanges()
-                }, 2000)
-                this.cd.detectChanges()
-            }
+
+           // }
         });
     }
 
     buttonModifierTache(t: any): void {
         const dialogRef = this.dialog.open(EdittacheComponent, {
-            data: t,
+            data:{tache: t,projet:this.projet,axeId:this.currentAxe._id},
             disableClose: true,
 
         });
 
         dialogRef.afterClosed().subscribe(result => {
             if (result && result.status) {
-                const updatedTache = result.data;
-                this.projetService.updateTache(this.projet._id, updatedTache._id, updatedTache).subscribe(
-                    (p: Project) => {
-                        this.projet = p;
-                        console.log(this.projet);
-                        this.changebackgroundProject = t._id;
-                        setTimeout(() => {
-                            this.changebackgroundProject = null;
-                            this.cd.detectChanges();
-                        }, 2000);
-                        this.cd.detectChanges();
-                    },
-                    (err: string) => {
-                        console.error(err);
-                    }
-                );
+                this.getProjet()
+                // this.projet = result.data;
+                this.cd.detectChanges()
+
             }
         });
     }
 
-    modifierTache(idProjet: string, idTache: string) {
-        console.log("id", idTache);
-        this.projetService.updateTache(idProjet, idTache, this.tache).subscribe
-            ((p: Project) => {
-                console.log("x", this.x);
 
-                this.projet = p
-                console.log(this.projet);
-                console.log(p);
-
-            },
-                (err: string) => {
-                    return err
-                })
-    }
 
 
     /**

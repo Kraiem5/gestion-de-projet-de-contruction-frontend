@@ -49,6 +49,7 @@ export class AjouterTacheComponent implements OnInit {
                 console.log('Tâche ajoutée avec succès à l\'axe', response);
                 // Réinitialiser le formulaire après la soumission réussie
                 this.ajouterTacheForm.reset();
+                this.dialogRef.close({status:true})
             },
             error => console.error('Erreur lors de l\'ajout de la tâche à l\'axe', error)
         );

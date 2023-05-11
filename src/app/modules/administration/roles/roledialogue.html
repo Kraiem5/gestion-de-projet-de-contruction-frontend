@@ -1,26 +1,24 @@
-<div class="container mt-5">
-    <mat-card>
-      <mat-card-header class="bg-primary text-white">
-        <mat-card-title>
-          <h2 class="text-2xl font-semibold" *ngIf="data.mode === 'ajout'">
-            <mat-icon class="mr-2">add</mat-icon>
-            Ajouter un rôle
-          </h2>
-          <h2 class="text-2xl font-semibold" *ngIf="data.mode !== 'ajout'">
-            <mat-icon class="mr-2">edit</mat-icon>
-            Modifier un rôle
-          </h2>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <form [formGroup]="ajoutRole" class="px4- py-3">
+<div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 h-"
+
+      >
+        <div class="w-full max-w-full sm:w-full mx-auto sm:mx-0">
+            <!-- Logo -->
+            <div class="w-12">
+                <img src="assets/images/logo/logo.svg">
+            </div>
+
+            <!-- Title -->
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Ajouter role</div>
+            <div *ngIf="data.mode == 'edit'" class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Modifier role</div>
+
+        <form [formGroup]="ajoutRole" class="p-3" >
           <mat-form-field appearance="outline" class="form-group">
             <mat-label><mat-icon class="mr-2">person</mat-icon>Nom du rôle</mat-label>
             <input matInput formControlName="name" id="name" [class.is-invalid]="ajoutRole.controls['name'].invalid && ajoutRole.controls['name'].touched">
             <mat-error *ngIf="ajoutRole.controls['name'].invalid && ajoutRole.controls['name'].touched">
               Le nom du rôle est requis
             </mat-error>
-          </mat-form-field>
+          </mat-form-field><br>
           <mat-form-field appearance="outline" class="form-group">
             <mat-label><mat-icon class="mr-2">description</mat-icon>Description du rôle</mat-label>
             <input matInput formControlName="description" id="description" [class.is-invalid]="ajoutRole.controls['description'].invalid && ajoutRole.controls['description'].touched">
@@ -28,22 +26,42 @@
               La description du rôle est requise
             </mat-error>
           </mat-form-field>
-          <div class="flex ">
-            <button mat-raised-button color="warn" class="mt-3" (click)="onNoClick()">
-                <mat-icon class="mr-2">cancel</mat-icon>
-                Annuler
-              </button>
-              <button mat-raised-button color="primary" class="mt-3" *ngIf="data.mode === 'ajout'" (click)="ajouterRoleFunction()">
-                <mat-icon class="mr-2">add</mat-icon>
-                Ajouter
-              </button>
-              <button mat-raised-button color="primary" class="mt-3" *ngIf="data.mode === 'edit'" (click)="editRole()">
-                <mat-icon class="mr-2">edit</mat-icon>
-                Modifier
-              </button>
+
+          <div class="flex">
+            <button
+            class="fuse-mat-button-large w-full mt-6"
+            mat-flat-button
+            [color]="'link'"
+
+            (click)=" onNoClick()">
+           Annuler
+
+        </button>
+
+            <!-- Submit button -->
+            <button *ngIf="data.mode !== 'edit'"
+                class="fuse-mat-button-large w-full mt-6"
+                mat-flat-button
+                [color]="'primary'"
+
+                (click)="ajouterRoleFunction">
+
+                   Ajouter
+
+            </button>
+
+            <button *ngIf="data.mode == 'edit'"
+                class="fuse-mat-button-large w-full mt-6"
+                mat-flat-button
+                [color]="'primary'"
+
+                (click)="editRole()">
+
+                    Modifier
+
+
+            </button>
           </div>
         </form>
-      </mat-card-content>
-    </mat-card>
+    </div>
   </div>
-  

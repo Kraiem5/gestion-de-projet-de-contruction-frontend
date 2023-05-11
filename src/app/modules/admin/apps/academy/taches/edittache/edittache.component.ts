@@ -27,41 +27,37 @@ export class EdittacheComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data)
     this.modifierTacheForm = this.formBuilder.group({
 
-      name: ['', Validators.required],
-      timeslot: ['', Validators.required],
-      pourcentage: ['', Validators.required]
+      _id: [this.data.tache._id],
+      name: [this.data.tache.name, Validators.required],
+      timeslot: [this.data.tache.timeslot, Validators.required],
+      pourcentage: [this.data.tache.pourcentage, Validators.required]
     });
-    this.tache = this.data
+    this.tache = this.data.tache
     console.log("tache", this.tache._id);
 
-    this.getInfoProjet()
-    console.log("projet", this.projet?._id);
-  }
-  getInfoProjet() {
 
-    this.service.getInfoProjet().subscribe(
-      (res: any) => {
-        if (res.status) {
-          this.projet = res.result
-          console.log('projet', this.projet);
-          this.cd.detectChanges()
-        }
-        else
-          console.log('false');
-      }
-    )
+
   }
-  modifierTache(id_projet: string, id_tache: string) {
-    this.service.updateTache(id_projet, id_tache, this.tache).subscribe(
+
+  modifierTache() {
+    console.log(this.modifierTacheForm.value)
+    let indexAxe = this.data.projet.axes.findIndex(a => a._id=== this.data.axeId)
+    console.log("indexAxe",indexAxe)
+    let indexTache = this.data.projet.axes[indexAxe].tache.findIndex(t=> t._id === this.tache._id)
+    this.data.projet.axes[indexAxe].tache[indexTache]= this.modifierTacheForm.value
+    console.log("indexTache",indexTache)
+
+    this.service.updateTache(this.data.projet._id, this.data.projet ).subscribe(
       (p: any) => {
         console.log(p);
-        this.dialogRef.close({ status: 'success', data: p });
+        this.dialogRef.close({ status: true, data: p });
       },
       (err: string) => {
         console.error(err);
-        this.dialogRef.close({ status: 'error', data: err });
+        this.dialogRef.close({ status: false, data: err });
       }
     );
   }

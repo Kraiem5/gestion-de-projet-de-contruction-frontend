@@ -1,0 +1,19 @@
+
+
+:host{
+    td .text-red{
+         color: rgb(204, 4, 4);
+
+         cursor: pointer;
+     }
+     .form-group{
+        display: block!important;
+        width: 100%;
+    }
+    .head{
+        text-align: right;
+    }
+    mat-icon {
+        cursor: pointer;
+    }
+ }

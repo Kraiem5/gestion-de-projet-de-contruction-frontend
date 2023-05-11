@@ -14,7 +14,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'tableaux de bord',
                 type: 'basic',
                 icon: 'heroicons_outline:clipboard-check',
-                link: '/dashboards/project'
+                link: '/dash/home/project'
             },
         ]
     },
@@ -37,14 +37,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Users',
                 type: 'basic',
                 icon: 'profile',
-                link: '/admin/users'
+                link: '/dash/admin/users'
             },
             {
                 id: 'Admin.roles',
                 title: 'Roles',
                 type: 'basic',
                 icon: 'dash',
-                link: '/admin/roles'
+                link: '/dash/admin/roles'
             },
             //         {
             //             id   : 'dashboards.analytics',
@@ -87,21 +87,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Ajouter un projet',
                         type: 'basic',
                         icon: 'playlist_add',
-                        link: '/ui/forms/fields'
+                        link: '/dash/home/ui/forms/fields'
                     },
                     {
                         id: 'user-interface.forms.layouts',
                         title: 'Axe de projet',
                         type: 'basic',
                         icon: 'edit',
-                        link: '/ui/forms/layouts'
+                        link: '/dash/home/ui/forms/layouts'
                     },
                     {
                         id: 'apps.academy',
                         title: 'Suivi des projets',
                         type: 'basic',
                         icon: 'timeline',
-                        link: '/apps/academy'
+                        link: '/dash/home/academy'
                     },
                 ]
             }
@@ -746,14 +746,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Profile',
                 type: 'basic',
                 icon: 'heroicons_outline:user-circle',
-                link: '/pages/profile'
+                link: '/dash/home/profile'
             },
             {
                 id: 'pages.settings',
                 title: 'Settings',
                 type: 'basic',
                 icon: 'heroicons_outline:cog',
-                link: '/pages/settings'
+                link: '/dash/home/settings'
             }
         ]
     },

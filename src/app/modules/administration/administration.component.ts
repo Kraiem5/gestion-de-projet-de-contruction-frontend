@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administration',
@@ -7,7 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdministrationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _router:Router) {
+    if (localStorage.getItem('isAdmin') == 'false') {
+        // Redirect to the sign-in page
+        this._router.navigate(['/dash/home']);
+
+        // Prevent the access
+        // Allow the access
+
+    }
+   }
 
   ngOnInit(): void {
   }

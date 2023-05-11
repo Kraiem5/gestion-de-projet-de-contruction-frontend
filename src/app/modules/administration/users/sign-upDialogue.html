@@ -8,8 +8,8 @@
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign up</div>
-            <div *ngIf="data.mode == 'edit'" class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Modifier</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Add user</div>
+            <div *ngIf="data.mode == 'edit'" class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Modifier user</div>
 
 
             <!-- Alert -->
@@ -122,7 +122,16 @@
                         [formControlName]="'cin'">
                 </mat-form-field>
 
+              <div class="flex">
+                <button
+                class="fuse-mat-button-large w-full mt-6"
+                mat-flat-button
+                [color]="'link'"
 
+                (click)=" onNoClick()">
+               Annuler
+
+            </button>
 
                 <!-- Submit button -->
                 <button *ngIf="data.mode !== 'edit'"
@@ -132,13 +141,14 @@
                     [disabled]="signUpForm.disabled"
                     (click)="signUp()">
                     <span *ngIf="!signUpForm.disabled">
-                        Create your free account
+                       Ajouter
                     </span>
                     <mat-progress-spinner
                         *ngIf="signUpForm.disabled"
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
+
                 <button *ngIf="data.mode == 'edit'"
                     class="fuse-mat-button-large w-full mt-6"
                     mat-flat-button
@@ -153,6 +163,7 @@
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
+              </div>
 
 
             </form>

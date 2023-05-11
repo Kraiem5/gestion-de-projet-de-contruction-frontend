@@ -33,7 +33,7 @@ export class RolesComponent implements OnInit {
 
   openDialog(mode, role): void {
     const dialogRef = this.dialog.open(RoleDialog, {
-      width: '500px',
+      width: '400px',
       data: { mode: mode, role: role }
     });
 
@@ -65,6 +65,7 @@ export class RolesComponent implements OnInit {
 @Component({
   selector: 'role-dialog',
   templateUrl: 'roledialogue.html',
+  styleUrls: ['./roles.component.scss']
 })
 export class RoleDialog implements OnInit {
   ajoutRole: FormGroup

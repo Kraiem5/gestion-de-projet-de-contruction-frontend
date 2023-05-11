@@ -1,5 +1,10 @@
 <div class="container m-2">
-  <button class="btn btn-primary " (click)="openDialogSignUP(null,roles)" >Ajouter un user</button>
+
+  <div class="head">
+    <button mat-fab color="primary" (click)="openDialogSignUP(null,roles)">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
     <div class="card">
         <div class="card-header bg-primary text-white">
             <h2 class="text-2xl font-semibold"><i class="fas fa-user-tag mr-2"></i>Liste des users</h2>
@@ -22,8 +27,12 @@
                     <td>{{user.email}}</td>
                     <td>{{roles[i].name}}</td>
                     <td>
-                        <button class="btn btn-sm btn-success" (click)="openDialogEdit('edit',user)">Editer</button>
-                        <button class="btn btn-sm btn-danger" (click)="supprimerUser(user)">Supprimer</button>
+
+
+                            <mat-icon class="text-gray" (click)="openDialogEdit('edit',user)">edit</mat-icon>
+                            <mat-icon class="text-red" (click)="supprimerUser(user)">
+                           delete</mat-icon>
+
                     </td>
                     </tr>
                 </tbody>
@@ -31,4 +40,4 @@
         </div>
     </div>
 </div>
-<iframe src="http://localhost:4000/d-solo/eU1o7Dy4k/projet?orgId=1&from=1683267950586&to=1683289550586&panelId=2" width="450" height="200" frameborder="0"></iframe>
+<!-- <iframe src="http://localhost:4000/d-solo/eU1o7Dy4k/projet?orgId=1&from=1683267950586&to=1683289550586&panelId=2" width="450" height="200" frameborder="0"></iframe> -->
