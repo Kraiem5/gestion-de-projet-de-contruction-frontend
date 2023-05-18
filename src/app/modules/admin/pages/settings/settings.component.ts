@@ -5,13 +5,12 @@ import { takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 
 @Component({
-    selector       : 'settings',
-    templateUrl    : './settings.component.html',
-    encapsulation  : ViewEncapsulation.None,
+    selector: 'settings',
+    templateUrl: './settings.component.html',
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SettingsComponent implements OnInit, OnDestroy
-{
+export class SettingsComponent implements OnInit, OnDestroy {
     @ViewChild('drawer') drawer: MatDrawer;
     drawerMode: 'over' | 'side' = 'side';
     drawerOpened: boolean = true;
@@ -25,8 +24,7 @@ export class SettingsComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseMediaWatcherService: FuseMediaWatcherService
-    )
-    {
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -36,27 +34,26 @@ export class SettingsComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Setup available panels
         this.panels = [
             {
-                id         : 'account',
-                icon       : 'heroicons_outline:user-circle',
-                title      : 'Account',
-                description: 'Manage your public profile and private information'
+                id: 'account',
+                icon: 'heroicons_outline:user-circle',
+                title: 'Compte',
+                description: 'Gérez votre profil public et vos informations privées'
             },
             {
-                id         : 'security',
-                icon       : 'heroicons_outline:lock-closed',
-                title      : 'Security',
-                description: 'Manage your password and 2-step verification preferences'
+                id: 'security',
+                icon: 'heroicons_outline:lock-closed',
+                title: 'sécurité',
+                description: 'Gérer votre mot de passe et vos préférences de vérification en 2 étapes'
             },
             {
-                id         : 'plan-billing',
-                icon       : 'heroicons_outline:credit-card',
-                title      : 'Document',
-                description: 'Manage your subscription plan, payment method and billing information'
+                id: 'plan-billing',
+                icon: 'insert_drive_file',
+                title: 'Document',
+                description: 'Gérez votre profil et votre cv'
             },
             // {
             //     id         : 'notifications',
@@ -75,16 +72,14 @@ export class SettingsComponent implements OnInit, OnDestroy
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({matchingAliases}) => {
+            .subscribe(({ matchingAliases }) => {
 
                 // Set the drawerMode and drawerOpened
-                if ( matchingAliases.includes('lg') )
-                {
+                if (matchingAliases.includes('lg')) {
                     this.drawerMode = 'side';
                     this.drawerOpened = true;
                 }
-                else
-                {
+                else {
                     this.drawerMode = 'over';
                     this.drawerOpened = false;
                 }
@@ -97,8 +92,7 @@ export class SettingsComponent implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -113,13 +107,11 @@ export class SettingsComponent implements OnInit, OnDestroy
      *
      * @param panel
      */
-    goToPanel(panel: string): void
-    {
+    goToPanel(panel: string): void {
         this.selectedPanel = panel;
 
         // Close the drawer on 'over' mode
-        if ( this.drawerMode === 'over' )
-        {
+        if (this.drawerMode === 'over') {
             this.drawer.close();
         }
     }
@@ -129,8 +121,7 @@ export class SettingsComponent implements OnInit, OnDestroy
      *
      * @param id
      */
-    getPanelInfo(id: string): any
-    {
+    getPanelInfo(id: string): any {
         return this.panels.find(panel => panel.id === id);
     }
 
@@ -140,8 +131,7 @@ export class SettingsComponent implements OnInit, OnDestroy
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 }
