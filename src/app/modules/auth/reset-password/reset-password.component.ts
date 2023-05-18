@@ -5,34 +5,33 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseValidators } from '@fuse/validators';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-    selector     : 'auth-reset-password',
-    templateUrl  : './reset-password.component.html',
+    selector: 'auth-reset-password',
+    templateUrl: './reset-password.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class AuthResetPasswordComponent implements OnInit
-{
+export class AuthResetPasswordComponent implements OnInit {
     @ViewChild('resetPasswordNgForm') resetPasswordNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
+        type: 'success',
         message: ''
     };
     resetPasswordForm: FormGroup;
     showAlert: boolean = false;
-    token:string=''
+    token: string = ''
     /**
      * Constructor
      */
     constructor(
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private  actRoute:ActivatedRoute
-    )
-    {
+        private actRoute: ActivatedRoute,
+        private router: Router
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -42,18 +41,17 @@ export class AuthResetPasswordComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Create the form
         this.resetPasswordForm = this._formBuilder.group({
-                password       : ['', Validators.required],
-                passwordConfirm: ['', Validators.required]
-            },
+            password: ['', Validators.required],
+            passwordConfirm: ['', Validators.required]
+        },
             {
                 validators: FuseValidators.mustMatch('password', 'passwordConfirm')
             }
         );
-        this.token=this.actRoute.snapshot.paramMap.get('token')
+        this.token = this.actRoute.snapshot.paramMap.get('token')
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -63,11 +61,9 @@ export class AuthResetPasswordComponent implements OnInit
     /**
      * Reset password
      */
-    resetPassword(): void
-    {
+    resetPassword(): void {
         // Return if the form is invalid
-        if ( this.resetPasswordForm.invalid )
-        {
+        if (this.resetPasswordForm.invalid) {
             return;
         }
 
@@ -79,7 +75,7 @@ export class AuthResetPasswordComponent implements OnInit
         this.showAlert = false;
 
         // Send the request to the server
-        this._authService.resetPassword(this.token,this.resetPasswordForm.get('password').value)
+        this._authService.resetPassword(this.token, this.resetPasswordForm.get('password').value)
             .pipe(
                 finalize(() => {
 
@@ -98,16 +94,17 @@ export class AuthResetPasswordComponent implements OnInit
 
                     // Set the alert
                     this.alert = {
-                        type   : 'success',
-                        message: 'Your password has been reset.'
+                        type: 'success',
+                        message: 'votre mot de passe a été réinitialisé.'
                     };
+                    this.router.navigateByUrl('/sign-in')
                 },
                 (response) => {
 
                     // Set the alert
                     this.alert = {
-                        type   : 'error',
-                        message: 'Something went wrong, please try again.'
+                        type: 'error',
+                        message: "Une erreur s'est produite. Veuillez réessayer."
                     };
                 }
             );

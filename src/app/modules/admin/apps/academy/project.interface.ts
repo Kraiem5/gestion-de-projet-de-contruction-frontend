@@ -9,7 +9,7 @@ export interface Project {
     user: string,
     code_postal: string,
     contrat: string,
-    mean_pourcentage_axes: string,
+    mean_pourcentage_axes: number,
     axes: [
         {
             _id: string,

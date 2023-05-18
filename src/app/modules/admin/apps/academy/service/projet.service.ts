@@ -33,7 +33,7 @@ export class ProjetService {
       headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }
     })
   }
-
+ 
   getInfoProjet() {
     return this._http.get(environment.backend_url + 'api/user/projet', {
       headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }

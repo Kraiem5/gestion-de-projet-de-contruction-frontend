@@ -3,7 +3,6 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
-import { AdminGuard } from './core/auth/guards/admin.guards';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -29,7 +28,7 @@ export const appRoutes: Route[] = [
             { path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.module').then(m => m.AuthForgotPasswordModule) },
             { path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule) },
             { path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule) },
-            { path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule) }
+            // { path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule) }
         ]
     },
 
@@ -134,22 +133,15 @@ export const appRoutes: Route[] = [
                     },
                 ]
             },
-
-
-
-
-
-            //User Interface
-
-
-            // Documentation
             {
                 path: 'dash/admin',
-                 children: [
+                children: [
 
                     // Changelog
-                    { path: '',
-                    loadChildren: () => import('app/modules/administration/administration.module').then(m => m.AdministrationModule) },
+                    {
+                        path: '',
+                        loadChildren: () => import('app/modules/administration/administration.module').then(m => m.AdministrationModule)
+                    },
 
                 ]
             },

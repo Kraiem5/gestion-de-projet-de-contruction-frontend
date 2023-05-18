@@ -7,16 +7,16 @@
 </div>
     <div class="card">
         <div class="card-header bg-primary text-white">
-            <h2 class="text-2xl font-semibold"><i class="fas fa-user-tag mr-2"></i>Liste des users</h2>
+            <h2 class="text-2xl font-semibold"><i class="fas fa-user-tag mr-2"></i>Liste des utilisateurs</h2>
         </div>
         <div class="card-body">
             <table class="table">
                 <thead>
                     <tr>
                         <th>Nom</th>
-                        <th>Prenom</th>
+                        <th>Prénom</th>
                         <th>Email</th>
-                        <th>Role</th>
+                        <th>Rôle</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -25,7 +25,13 @@
                     <td>{{user.nom}}</td>
                     <td>{{user.prenom}}</td>
                     <td>{{user.email}}</td>
-                    <td>{{roles[i].name}}</td>
+                    <td>
+                        <div *ngFor="let rol of roles" >
+                            <p *ngIf="user.role===rol._id" >
+                                {{rol.name}}
+                            </p>
+                        </div>
+                    </td>
                     <td>
 
 

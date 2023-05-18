@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Project } from '../project.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
+import { AuthUtils } from 'app/core/auth/auth.utils';
 
 @Component({
     selector: 'academy-list',
@@ -21,6 +22,7 @@ import { environment } from 'environments/environment';
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class AcademyListComponent implements OnInit, OnDestroy {
+    role: any
     proj: any
     projet = []
     nomProjet: string = ''
@@ -42,6 +44,7 @@ export class AcademyListComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     changebackgroundProject: any;
+    project: any;
 
 
     /**
@@ -65,10 +68,13 @@ export class AcademyListComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * On init
+     * On init 
      */
     ngOnInit(): void {
-        // Get the categories
+        this.role = AuthUtils._decodeToken(localStorage.getItem('accessToken')).user.role
+        console.log("role", this.role);
+
+        //Get the categories
         this._academyService.categories$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((categories: Category[]) => {
@@ -78,7 +84,7 @@ export class AcademyListComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the courses
+        //Get the courses
         this._academyService.courses$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((courses: Course[]) => {
@@ -88,7 +94,7 @@ export class AcademyListComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Filter the courses
+        //Filter the courses
         combineLatest([this.filters.categorySlug$, this.filters.query$, this.filters.hideCompleted$])
             .subscribe(([categorySlug, query, hideCompleted]) => {
 
@@ -115,26 +121,39 @@ export class AcademyListComponent implements OnInit, OnDestroy {
 
 
         this.getInfoProjet()
+        //this.project = /* Fetch or initialize the project */
+        //this.updateTaskPercentage(this.taskIndex, this.newPercentage)
+        this.calculateMeanPourcentageAxes()
 
     }
 
+    calculateMeanPourcentageAxes() {
+        // Call the service to update the project
+        this.service.updateTaskPercentage().subscribe(
+            updatedProject => {
 
-    /**
-     * On destroy
-     */
+                this.project = updatedProject.result;
+                console.log("pour", updatedProject);
+                this.cd.detectChanges();
+                // Handle success
+            },
+            error => {
+                // Handle error
+            }
+        );
+    }
+
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
     getInfoProjet() {
-
         this.service.getInfoProjet().subscribe(
             (res: any) => {
                 if (res.status) {
                     this.projet = res.result
-                    console.log('projet', this.projet);
+                    //this.updateTaskPercentage(this.taskIndex, this.newPercentage)
                     this.cd.detectChanges()
                 }
                 else
@@ -151,39 +170,13 @@ export class AcademyListComponent implements OnInit, OnDestroy {
     onClick(): void {
         this.service.setIsInterfaceObservable(true);
     }
-    // searchProjet(searchTerm: string): void {
-    //     this.service.searchProjet(searchTerm)
-    //         .subscribe((data: Project[]) => {
-    //             this.projet = data;
-    //             console.log("this", this.projet);
-    //         });
-    //     console.log("this", this.projet);
-    // }
-
-    // searchProjet(): void {
-    //     this.http.get<Project[]>(`/search?searchTerm=${this.searchTerm}`)
-    //         .subscribe(projets => {
-    //             this.filteredProjets = projets;
-    //             console.log('ee', this.filteredProjets);
-
-    //         }, error => {
-    //             console.error('Erreur lors de la recherche de projets:', error);
-    //         });
-    // }
-
-
     searchProjet(searchTerm: string): void {
-        this.filteredProjets = this.projet.filter(projet => projet.nom_projet.includes(searchTerm));
-        console.log("this", this.filteredProjets);
+        this.service.searchProjet(searchTerm)
+            .subscribe((data: Project[]) => {
+                this.projet = data;
+            });
     }
-    // filtrerProjets(nomProjet: string) {
-    //     this.service.search(nomProjet)
-    //         .subscribe(projets => {
-    //             this.projet = projets;
-    //             console.log("this", this.projet);
-    //         });
-    //     console.log("this", this.projet);
-    // }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------

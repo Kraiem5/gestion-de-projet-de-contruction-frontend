@@ -37,7 +37,8 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
     pourcentage: string;
     tache: string;
     x: any;
-    showProject=false
+    showProject = false
+
     /**
      * Constructor
      */
@@ -59,22 +60,29 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.getProjet()
-
-
     }
-    getProjet(){
+
+    getProjet() {
         this.route.params.subscribe(params => {
             const id = params['id'];
             this.projetService.getIdProjet(id).subscribe(res => {
-                console.log(res)
+                console.log("res", res)
                 if (res.status) {
                     this.projet = res.result
-                  //if(!this.currentAxe)
-                //   this.currentAxe = this.projet.axes[0]
+                    //if(!this.currentAxe)
+                    //   this.currentAxe = this.projet.axes[0]
                     this.cd.detectChanges()
+
                 }
+                // let index = [0, 1, 2]
+                // this.projet.mean_pourcentage_axes = 0
+                // for (let i of index) {
+                //     this.projet.mean_pourcentage_axes += this.calculateMeanPercentage(res.result.axes[i])
+                // }
+                // console.log("this.projet.mean_pourcentage_axes ", this.projet.mean_pourcentage_axes / 3);
             });
         });
+
     }
     /**
      * On destroy
@@ -85,18 +93,19 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    calculateMeanPercentage(axe:any): number {
-        console.log(axe)
-        let tache = (axe.tache && axe.tache.length ) ? axe.tache : null
+    calculateMeanPercentage(axe: any): number {
+        console.log("poucentageAxe", axe)
+        let tache = (axe.tache && axe.tache.length) ? axe.tache : null
         let totalPercentage = 0;
-        if(tache)
-        {
+        if (tache) {
             for (let tach of tache) {
-            totalPercentage += parseInt(tach.pourcentage);
-             }
-          return totalPercentage / tache.length;
-       }else
-        return 0
+                totalPercentage += parseInt(tach.pourcentage);
+
+            }
+
+            return totalPercentage / tache.length;
+        } else
+            return 0
     }
 
     // supposons que vos tâches sont stockées dans un tableau 'taches'
@@ -124,18 +133,18 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
             disableClose: true
         });
         dialogRef.afterClosed().subscribe(result => {
-           // if (result && result.status) {
-                this.getProjet()
+            // if (result && result.status) {
+            this.getProjet()
 
-                    this.cd.detectChanges()
+            this.cd.detectChanges()
 
-           // }
+            // }
         });
     }
 
     buttonModifierTache(t: any): void {
         const dialogRef = this.dialog.open(EdittacheComponent, {
-            data:{tache: t,projet:this.projet,axeId:this.currentAxe._id},
+            data: { tache: t, projet: this.projet, axeId: this.currentAxe._id },
             disableClose: true,
 
         });

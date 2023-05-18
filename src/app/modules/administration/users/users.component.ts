@@ -91,10 +91,7 @@ export class SignupDialogue implements OnInit {
   signUpForm: FormGroup;
   showAlert: boolean = false;
   roles: any[];
-
   users: any[] = [];
-
-
   /**
    * Constructor
    */
@@ -107,34 +104,41 @@ export class SignupDialogue implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
   }
-
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
-
   /**
    * On init
-   */
+  */
   ngOnInit(): void {
     // Create the form
-    {
-      this.signUpForm = this._formBuilder.group({
-        nom: ['', Validators.required],
-        prenom: ['', Validators.required],
-        email: ['@gmail.com', [Validators.required, Validators.email]],
-        role: ['', Validators.required],
-        password: ['', Validators.required],
-        cin: [''],
-        agreements: [true, Validators.requiredTrue]
+    if (this.data.mode == 'edit') {
+      {
+        this.signUpForm = this._formBuilder.group({
+          nom: [this.data.user.nom, Validators.required],
+          prenom: [this.data.user.prenom, Validators.required],
+          email: [this.data.user.email, [Validators.required, Validators.email]],
+          role: ['', Validators.required],
+          cin: [""],
+          agreements: [true, Validators.requiredTrue]
+        }
+        );
       }
-
-      );
     }
-    this.getNameRole()
+    else {
+      {
+        this.signUpForm = this._formBuilder.group({
+          nom: ['', Validators.required],
+          prenom: ['', Validators.required],
+          email: ['@gmail.com', [Validators.required, Validators.email]],
+          role: ['', Validators.required],
+          password: ['', Validators.required],
+          cin: [''],
+          agreements: [true, Validators.requiredTrue]
+        }
+        );
+      }
+    }
     this.recupererUsers()
-
+    this.getNameRole()
   }
-
   getNameRole() {
     this.service.getRole().subscribe((data: any) => {
       this.roles = data
@@ -197,6 +201,8 @@ export class SignupDialogue implements OnInit {
     })
   }
   modifierUser(user) {
+    console.log("us", user);
+    
     if (this.signUpForm.valid) {
       let form = this.signUpForm.value
       console.log("form", form);

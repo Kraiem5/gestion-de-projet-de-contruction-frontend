@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class ProjetService {
   private isInterfaceObservable = new BehaviorSubject<boolean>(false);
-  private apiUrl = 'http://localhost:3000/api/user/search';
+  private apiUrl = 'http://localhost:3000/api/user';
 
   setIsInterfaceObservable(value: boolean): void {
     this.isInterfaceObservable.next(value);
@@ -50,8 +50,7 @@ export class ProjetService {
     return this._http.post(environment.backend_url + 'api/user/axeprojet', { id_projet, name });
   }
   searchProjet(searchTerm: string): Observable<Project[]> {
-    const regex = new RegExp(searchTerm, 'i');
-    return this._http.get<Project[]>(`${this.apiUrl}?nom_projet=${regex}`);
+    return this._http.post<Project[]>(`${this.apiUrl}/search`, { searchTerm });
   }
   search(nomProjet: string): Observable<Project[]> {
     return this._http.get<Project[]>(environment.backend_url + 'api/user/search')
@@ -67,5 +66,13 @@ export class ProjetService {
       }
     })
   }
+  getUser() {
+    return this._http.get(environment.backend_url + 'api/user/')
+  }
+  updateTaskPercentage(): Observable<any> {
+    // Make a PUT request to update the project
+    return this._http.get<any>(environment.backend_url + 'api/user/projects/calculate-task-percentages');
+  }
+
 
 }

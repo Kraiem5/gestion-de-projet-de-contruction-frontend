@@ -1,8 +1,13 @@
+
 <div class="flex flex-col flex-auto min-w-0">
 
     <!-- Header -->
     <div class="bg-card">
-        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+        <div class="flex flex-col w-full  max-w-screen-xl mx-auto px-6 sm:px-8"
+             style="background-image: url('https://scontent.ftun10-1.fna.fbcdn.net/v/t1.15752-9/260464575_4538753749552561_2182752874017651031_n.jpg?stp=dst-jpg_s2048x2048&_nc_cat=110&ccb=1-7&_nc_sid=ae9488&_nc_ohc=sMFUvnUNHf0AX_qkNKa&_nc_ht=scontent.ftun10-1.fna&oh=03_AdR0XM5QRyeEpux6gql2V7Z-oar52Oyg_AWOtpAPtJQbmA&oe=648C35B5');
+                    background-size: cover;
+                    background-position: center;
+                    height: 300px;">
             <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
                 <!-- Avatar and name -->
                 <div class="flex flex-auto items-center min-w-0">
@@ -18,74 +23,12 @@
                     </div>
                     <div class="flex flex-col min-w-0 ml-4">
                         <ng-container *transloco="let t">
-                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">{{t('welcome-back')}}, {{nom}}!</div>
-                        </ng-container>
-                        <div class="flex items-center">
-                            <mat-icon
-                                class="icon-size-5"
-                                [svgIcon]="'heroicons_solid:bell'"></mat-icon>
-                            <div class="ml-1.5 leading-6 truncate text-secondary">You have 2 new messages and 15 new tasks</div>
-                        </div>
+                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">{{t('Bienvenue')}}, {{nom}}!</div>
+                        </ng-container>                       
                     </div>
-                </div>
-                <!-- Actions -->
-                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
-                    <button
-                        class="fuse-mat-button-rounded bg-accent-700"
-                        mat-flat-button
-                        [color]="'accent'">
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:mail'"></mat-icon>
-                        <span class="ml-2">Messages</span>
-                    </button>
-                    <button
-                        class="fuse-mat-button-rounded"
-                        mat-flat-button
-                        [color]="'primary'">
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:cog'"></mat-icon>
-                        <span class="ml-2">Settings</span>
-                    </button>
-                </div>
+                </div>            
             </div>
             <!-- Project selector -->
-            <div
-                class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
-                matRipple
-                [matMenuTriggerFor]="projectsMenu">
-                <div class="flex items-center">
-                    <div class="overflow-hidden">
-                        <div class="font-medium leading-6 truncate">{{selectedProject}}</div>
-                    </div>
-                    <div class="flex items-center justify-center pl-2">
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
-                    </div>
-                </div>
-                <mat-menu
-                    #projectsMenu="matMenu"
-                    [xPosition]="'before'">
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject='ACME Corp. Backend App'">ACME Corp. Backend App
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject='ACME Corp. Frontend App'">ACME Corp. Frontend App
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject='Creapond'">Creapond
-                    </button>
-                    <button
-                        mat-menu-item
-                        (click)="selectedProject='Withinpixels'">Withinpixels
-                    </button>
-                </mat-menu>
-            </div>
         </div>
     </div>
 
@@ -93,16 +36,13 @@
     <!-- Main -->
     <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
         <div class="w-full max-w-screen-xl mx-auto">
-            <!-- Tabs -->
             <mat-tab-group
                 class="sm:px-2"
                 [animationDuration]="'0'">
 
-                <!-- Home -->
-                <mat-tab label="Home">
+                <mat-tab label="Acceuil">
                     <ng-template matTabContent>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full min-w-0">
-                            <!-- Summary -->
                             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate ">Admin</div>
@@ -116,8 +56,6 @@
                                           </div>   
                                     </div>
                             </div>
-                            
-                            <!-- Overdue -->
                             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate ">Ingenieur</div>
@@ -131,7 +69,6 @@
                                       </div>   
                                 </div>
                             </div>
-                            <!-- Issues -->
                             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Technicien</div>
@@ -147,14 +84,6 @@
                                       </div>   
                                 </div>
                             </div>
-                            <iframe
-                            src="http://localhost:4000/d/eU1o7Dy4k/projet?orgId=1&editPanel=2&from=1682756451862&to=1682778051862"
-                            width="650"
-                            height="300"
-                            frameborder="0"
-                          ></iframe>
-                            <!-- <iframe src="http://localhost:4000/d-solo/eU1o7Dy4k/projet?orgId=1&from=1682752789215&to=1682774389215&panelId=2" width="450" height="200" frameborder="0"></iframe> -->
-                            <!-- Features -->
                             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Total</div>
@@ -162,9 +91,9 @@
                                 <div class="flex flex-col items-center m-4">
                                     <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">{{ totalCount }}</div>                                    
                                 </div>
-                            </div>
-                            <!-- Github issues summary -->
-                            <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                            </div>  
+                            <iframe src="http://localhost:4000/d-solo/eU1o7Dy4k/projet?orgId=1&from=1684248365352&to=1684269965352&theme=light&panelId=2" width="850" height="200" frameborder="0"></iframe>                         <!-- Features -->
+                            <!-- <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex flex-col sm:flex-row items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Github Issues Summary</div>
                                     <div class="mt-3 sm:mt-0 sm:ml-2">
@@ -177,7 +106,6 @@
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
-                                    <!-- New vs. Closed -->
                                     <div class="flex flex-col flex-auto">
                                         <div class="font-medium text-secondary">New vs. Closed</div>
                                         <div class="flex flex-col flex-auto">
@@ -198,46 +126,39 @@
                                                 [yaxis]="chartGithubIssues.yaxis"></apx-chart>
                                         </div>
                                     </div>
-                                    <!-- Overview -->
                                     <div class="flex flex-col">
                                         <div class="font-medium text-secondary">Overview</div>
                                         <div class="flex-auto grid grid-cols-4 gap-4 mt-6">
-                                            <!-- New issues -->
                                             <div class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-indigo-50 text-indigo-800 dark:bg-white dark:bg-opacity-5 dark:text-indigo-400">
                                                 <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
                                                     {{data.githubIssues.overview[githubIssuesWeekSelector.value]['new-issues']}}
                                                 </div>
                                                 <div class="mt-1 text-sm sm:text-lg font-medium">New Issues</div>
                                             </div>
-                                            <!-- Closed -->
                                             <div class="col-span-2 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-50 text-green-800 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
                                                 <div class="text-5xl sm:text-7xl font-semibold leading-none tracking-tight">
                                                     {{data.githubIssues.overview[githubIssuesWeekSelector.value]['closed-issues']}}
                                                 </div>
                                                 <div class="mt-1 text-sm sm:text-lg font-medium">Closed</div>
                                             </div>
-                                            <!-- Fixed -->
                                             <div class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
                                                 <div class="text-5xl font-semibold leading-none tracking-tight">
                                                     {{data.githubIssues.overview[githubIssuesWeekSelector.value]['fixed']}}
                                                 </div>
                                                 <div class="mt-1 text-sm font-medium text-center">Fixed</div>
                                             </div>
-                                            <!-- Won't fix -->
                                             <div class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
                                                 <div class="text-5xl font-semibold leading-none tracking-tight">
                                                     {{data.githubIssues.overview[githubIssuesWeekSelector.value]['wont-fix']}}
                                                 </div>
                                                 <div class="mt-1 text-sm font-medium text-center">Won't Fix</div>
                                             </div>
-                                            <!-- Re-opened -->
                                             <div class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
                                                 <div class="text-5xl font-semibold leading-none tracking-tight">
                                                     {{data.githubIssues.overview[githubIssuesWeekSelector.value]['re-opened']}}
                                                 </div>
                                                 <div class="mt-1 text-sm font-medium text-center">Re-opened</div>
                                             </div>
-                                            <!-- Needs triage -->
                                             <div class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-gray-100 text-secondary dark:bg-white dark:bg-opacity-5">
                                                 <div class="text-5xl font-semibold leading-none tracking-tight">
                                                     {{data.githubIssues.overview[githubIssuesWeekSelector.value]['needs-triage']}}
@@ -248,7 +169,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Task distribution -->
                             <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex flex-col sm:flex-row items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Task Distribution</div>
@@ -290,7 +210,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Schedule -->
                             <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="flex flex-col sm:flex-row items-start justify-between">
                                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Schedule</div>
@@ -333,16 +252,16 @@
                                         </div>
                                     </ng-container>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </ng-template>
                 </mat-tab>
 
                 <!-- Budget -->
-                <mat-tab label="Budget">
+                <!-- <mat-tab label="Budget">
                     <ng-template matTabContent>
                         <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
-                            <!-- Budget distribution -->
+                            
                             <div class="sm:col-span-3 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="text-lg font-medium tracking-tight leading-6 truncate">Budget Distribution</div>
                                 <div class="flex flex-col flex-auto">
@@ -360,9 +279,9 @@
                                         [yaxis]="chartBudgetDistribution.yaxis"></apx-chart>
                                 </div>
                             </div>
-                            <!-- Expense -->
+                            
                             <div class="sm:col-span-3 lg:col-span-2 grid grid-cols-1 gap-y-6">
-                                <!-- Weekly expenses -->
+                                
                                 <div class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                     <div class="flex items-start justify-between">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Weekly Expenses</div>
@@ -409,7 +328,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Monthly expenses -->
+                                
                                 <div class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                     <div class="flex items-start justify-between">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Monthly Expenses</div>
@@ -456,7 +375,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Yearly expenses -->
+                                
                                 <div class="sm:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                     <div class="flex items-start justify-between">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Yearly Expenses</div>
@@ -504,7 +423,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Budget details -->
+                            
                             <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="text-lg font-medium tracking-tight leading-6 truncate">Budget Details</div>
                                 <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
@@ -513,7 +432,7 @@
                                         mat-table
                                         [dataSource]="data.budgetDetails.rows">
 
-                                        <!-- Type -->
+                         
                                         <ng-container
                                             matColumnDef="type"
                                             sticky>
@@ -538,7 +457,7 @@
                                             </td>
                                         </ng-container>
 
-                                        <!-- Total -->
+                                        
                                         <ng-container matColumnDef="total">
                                             <th
                                                 mat-header-cell
@@ -554,7 +473,7 @@
                                             </td>
                                         </ng-container>
 
-                                        <!-- Expenses amount -->
+                                        
                                         <ng-container matColumnDef="expensesAmount">
                                             <th
                                                 mat-header-cell
@@ -568,7 +487,7 @@
                                             </td>
                                         </ng-container>
 
-                                        <!-- Expenses percentage -->
+                                        
                                         <ng-container matColumnDef="expensesPercentage">
                                             <th
                                                 mat-header-cell
@@ -582,7 +501,7 @@
                                             </td>
                                         </ng-container>
 
-                                        <!-- Remaining amount -->
+                                        
                                         <ng-container matColumnDef="remainingAmount">
                                             <th
                                                 mat-header-cell
@@ -596,7 +515,7 @@
                                             </td>
                                         </ng-container>
 
-                                        <!-- Remaining percentage -->
+                                        
                                         <ng-container matColumnDef="remainingPercentage">
                                             <th
                                                 mat-header-cell
@@ -608,19 +527,16 @@
                                                 *matCellDef="let budget">
                                                 <span class="flex items-center">
                                                     <span>
-                                                        <!-- Low -->
                                                         <span
                                                             class="flex items-end w-1 h-4 bg-red-200 rounded overflow-hidden"
                                                             *ngIf="budget.remainingPercentage < 30">
                                                             <span class="flex w-full h-1/3 bg-red-600"></span>
                                                         </span>
-                                                        <!-- Medium -->
                                                         <span
                                                             class="flex items-end w-1 h-4 bg-orange-200 rounded overflow-hidden"
                                                             *ngIf="budget.remainingPercentage >= 30 && budget.remainingPercentage < 80">
                                                             <span class="flex w-full h-2/4 bg-orange-400"></span>
                                                         </span>
-                                                        <!-- High -->
                                                         <span
                                                             class="flex items-end w-1 h-4 bg-green-100 rounded overflow-hidden"
                                                             *ngIf="budget.remainingPercentage >= 80">
@@ -643,42 +559,49 @@
                             </div>
                         </div>
                     </ng-template>
-                </mat-tab>
+                </mat-tab> -->
 
                 <!-- Team -->
-                <mat-tab label="Team">
+                <mat-tab label="Équipe">
                     <ng-template matTabContent>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0">
-                            <ng-container *ngFor="let member of data.teamMembers">
+                            <ng-container *ngFor="let user of resultUser">
                                 <div class="flex flex-col flex-auto items-center bg-card shadow rounded-2xl overflow-hidden">
-                                    <!-- Avatar & Info -->
                                     <div class="flex flex-col flex-auto w-full p-8 text-center">
                                         <div class="w-32 h-32 mx-auto rounded-full overflow-hidden">
-                                            <img
-                                                class="w-full h-full object-cover"
-                                                [src]="member.avatar">
+                                            <img *ngIf="user.avatar"
+                                            class="w-full h-full object-cover"
+                                            src="http://localhost:3000/upload/{{user.avatar}}"
+                                            alt="User avatar">
+                                            <img *ngIf="!user.avatar"
+                                            class="w-full h-full object-cover"
+                                            src="https://previews.123rf.com/images/alekseyvanin/alekseyvanin1801/alekseyvanin180100897/93405661-ic%C3%B4ne-de-ligne-avatar-de-compte-utilisateur-signe-de-vecteur-de-contour-pictogramme-de-style.jpg"
+                                            alt="User avatar">
+                                        </div>                               
+                                        <div class="mt-6 font-medium">{{user.nom }} {{user.prenom}}</div>
+                                        <div class="text-secondary" *ngFor="let role of roles">
+                                            <p *ngIf="user.role===role._id">
+                                                {{role.name}}
+                                            </p>
                                         </div>
-                                        <div class="mt-6 font-medium">{{member.name}}</div>
-                                        <div class="text-secondary">{{member.title}}</div>
                                     </div>
-                                    <!-- Email & Phone -->
                                     <div class="flex items-center w-full border-t divide-x">
                                         <a
                                             class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
-                                            [href]="'mailto:' + member.email">
+                                            [href]="'mailto:' + user.email">
                                             <mat-icon
                                                 class="icon-size-5 text-hint"
                                                 [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                                             <span class="ml-2">Email</span>
                                         </a>
-                                        <a
+                                        <!-- <a
                                             class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
-                                            [href]="'tel:' + member.phone">
+                                            [href]="'tel:' + user.phone">
                                             <mat-icon
                                                 class="icon-size-5 text-hint"
                                                 [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                                             <span class="ml-2">Call</span>
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </div>
                             </ng-container>

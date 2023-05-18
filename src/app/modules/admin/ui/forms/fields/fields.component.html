@@ -8,7 +8,7 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    New projet 
+                    Nouveau projet
                 </h2>
             </div>
         </div>
@@ -26,7 +26,7 @@
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="flex-auto gt-xs:pr-3">
-                        <mat-label>Nom de projet</mat-label>
+                        <mat-label>Nom de projet *</mat-label>
                         <input matInput [formControlName]="'nom_projet'">
                         <mat-icon
                             class="icon-size-5"
@@ -36,7 +36,7 @@
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="flex-auto gt-xs:pl-3">
-                        <mat-label>Client</mat-label>
+                        <mat-label>Client *</mat-label>
                         <input matInput [formControlName]="'client'">
                         <mat-icon
                             class="icon-size-5"
@@ -48,19 +48,19 @@
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="fuse-mat-textarea flex-auto">
-                        <mat-label>short_description</mat-label>
+                        <mat-label>brève description *</mat-label>
                         <textarea matInput [formControlName]="'short_description'"></textarea>
                         <mat-icon
                             class="icon-size-5"
                             matSuffix
-                            >description</mat-icon>
+                            >description *</mat-icon>
                     </mat-form-field>
                 </div>
                 <div class="flex">
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="fuse-mat-textarea flex-auto">
-                        <mat-label>Description</mat-label>
+                        <mat-label>Description *</mat-label>
                         <textarea matInput [formControlName]="'description'"></textarea>
                         <mat-icon
                             class="icon-size-5"
@@ -70,7 +70,7 @@
                 </div>
                 <div class="flex flex-col gt-md:flex-row">
                     <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-md:pr-3">
-                        <mat-label>Begin</mat-label>
+                        <mat-label>Début *</mat-label>
                         <input
                         matInput 
                         type="date"
@@ -84,7 +84,7 @@
                       </mat-form-field>
                       
                       <mat-form-field [ngClass]="formFieldHelpers" class="flex-auto gt-md:pl-3">
-                        <mat-label>End</mat-label>
+                        <mat-label>Fin *</mat-label>
                         <input
                         matInput 
                         type="date"
@@ -98,7 +98,7 @@
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="flex-auto gt-md:pl-3">
-                        <mat-label>User</mat-label>
+                        <mat-label>Utilisateur *</mat-label>
                         <input 
                         matInput
                         [formControlName]="'user'"
@@ -113,7 +113,7 @@
                     <mat-form-field
                         [ngClass]="formFieldHelpers"
                         class="flex-auto">
-                        <mat-label>Postal code</mat-label>
+                        <mat-label>Code Postal *</mat-label>
                         <input
                             matInput
                             maxlength="4"
@@ -131,13 +131,13 @@
 
                     <div >
                         <a  class="text-danger underlined bold p-3" *ngIf="contrat" href="contrat" alt="Image" target="_blank">Contrat</a>
-                        <span class="text-primary bold p-3" *ngIf="!contrat">Veillez telecharger le contrat</span>
+                        <span class="text-primary bold p-3" *ngIf="!contrat">Veillez telecharger le contrat *</span>
                       </div>
                 </div>
                 <div>
                     <form  (submit)="saveContrat()">
                       <input  type="file" #singleInput (change)="selectedContrat($event)" name="contrat" />
-                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Upload</button>
+                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Télécharger</button>
                     </form>
                 
                 

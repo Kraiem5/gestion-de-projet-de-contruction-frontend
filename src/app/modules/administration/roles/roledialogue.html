@@ -8,22 +8,22 @@
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Ajouter role</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Ajouter un rôle</div>
             <div *ngIf="data.mode == 'edit'" class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Modifier role</div>
 
         <form [formGroup]="ajoutRole" class="p-3" >
           <mat-form-field appearance="outline" class="form-group">
-            <mat-label><mat-icon class="mr-2">person</mat-icon>Nom du rôle</mat-label>
+            <mat-label><mat-icon class="mr-2">person</mat-icon>Nom du rôle *</mat-label>
             <input matInput formControlName="name" id="name" [class.is-invalid]="ajoutRole.controls['name'].invalid && ajoutRole.controls['name'].touched">
             <mat-error *ngIf="ajoutRole.controls['name'].invalid && ajoutRole.controls['name'].touched">
               Le nom du rôle est requis
             </mat-error>
           </mat-form-field><br>
           <mat-form-field appearance="outline" class="form-group">
-            <mat-label><mat-icon class="mr-2">description</mat-icon>Description du rôle</mat-label>
+            <mat-label><mat-icon class="mr-2">description</mat-icon>Description du rôle *</mat-label>
             <input matInput formControlName="description" id="description" [class.is-invalid]="ajoutRole.controls['description'].invalid && ajoutRole.controls['description'].touched">
             <mat-error *ngIf="ajoutRole.controls['description'].invalid && ajoutRole.controls['description'].touched">
-              La description du rôle est requise
+              La description du rôle est requis
             </mat-error>
           </mat-form-field>
 

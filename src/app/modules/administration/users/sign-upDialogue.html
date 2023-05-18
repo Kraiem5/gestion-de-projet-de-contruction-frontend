@@ -8,7 +8,7 @@
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Add user</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Ajouter un utilisateur</div>
             <div *ngIf="data.mode == 'edit'" class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Modifier user</div>
 
 
@@ -30,46 +30,46 @@
                 [formGroup]="signUpForm">
 
                 <!-- Name field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Firstname</mat-label>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Nom *</mat-label>
                     <input
                         id="nom"
                         matInput
                         [formControlName]="'nom'">
                     <mat-error *ngIf="signUpForm.get('nom').hasError('required')">
-                        Firstname is required
+                        Le nom est necessaire
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field class="w-full">
-                    <mat-label>Lastname</mat-label>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Prénom *</mat-label>
                     <input
                         id="prenom"
                         matInput
                         [formControlName]="'prenom'">
                     <mat-error *ngIf="signUpForm.get('prenom').hasError('required')">
-                        Lastname is required
+                        Le prénom est necessaire
                     </mat-error>
                 </mat-form-field>
 
 
                 <!-- Email field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Adresse e-mail *</mat-label>
                     <input
                         id="email"
                         matInput
                         [formControlName]="'email'">
                     <mat-error *ngIf="signUpForm.get('email').hasError('required')">
-                        Email address is required
+                        Adresse e-mail est necessaire
                     </mat-error>
                     <mat-error *ngIf="signUpForm.get('email').hasError('email')">
                         Please enter a valid email address
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field class="w-full">
-                    <mat-label>Role</mat-label>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Rôle *</mat-label>
                     <mat-select
                     [value]="'TECHNICIEN'"
                     formControlName="role"
@@ -80,14 +80,14 @@
                     </ng-container>
                 </mat-select>
                     <mat-error *ngIf="signUpForm.get('role').hasError('required')">
-                        Role is required
+                        Rôle est necessaire
                     </mat-error>
                 </mat-form-field>
 
 
                 <!-- Password field -->
-                <mat-form-field class="w-full" *ngIf="data.mode !== 'edit'">
-                    <mat-label>Password</mat-label>
+                <mat-form-field appearance="outline" class="w-full" *ngIf="data.mode !== 'edit'">
+                    <mat-label>Mot de passe *</mat-label>
                     <input
                         id="password"
                         matInput
@@ -109,15 +109,16 @@
                             [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
                     </button>
                     <mat-error>
-                        Password is required
+                        Mot de passe est necessaire
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Company field -->
-                <mat-form-field class="w-full">
+                <mat-form-field appearance="outline" class="w-full">
                     <mat-label>Cin</mat-label>
                     <input
                         id="company-confirm"
+                        type="number"
                         matInput
                         [formControlName]="'cin'">
                 </mat-form-field>
@@ -154,7 +155,7 @@
                     mat-flat-button
                     [color]="'primary'"
                     [disabled]="signUpForm.disabled"
-                    (click)="modifierUser(users[2])">
+                    (click)="modifierUser(data.user)">
                     <span *ngIf="!signUpForm.disabled">
                         Modifier
                     </span>

@@ -4,14 +4,14 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'dashboards',
-        title: 'Dashboards',
-        subtitle: 'Unique dashboard designs',
+        title: 'Tableaux de bord',
+        subtitle: 'Conceptions de tableaux de bord uniques',
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
             {
                 id: 'dashboards.project',
-                title: 'tableaux de bord',
+                title: 'Statistique',
                 type: 'basic',
                 icon: 'heroicons_outline:clipboard-check',
                 link: '/dash/home/project'
@@ -34,14 +34,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
             // },
             {
                 id: 'Admin.users',
-                title: 'Users',
+                title: 'Utilisateurs',
                 type: 'basic',
-                icon: 'profile',
+                icon: 'user',
                 link: '/dash/admin/users'
             },
             {
                 id: 'Admin.roles',
-                title: 'Roles',
+                title: 'Rôles',
                 type: 'basic',
                 icon: 'dash',
                 link: '/dash/admin/roles'
@@ -72,7 +72,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'apps',
         title: 'PROJETS',
-        subtitle: 'Custom made application designs',
+        subtitle: "Conceptions d'applications sur mesure",
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
@@ -96,6 +96,30 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         icon: 'edit',
                         link: '/dash/home/ui/forms/layouts'
                     },
+                    {
+                        id: 'apps.academy',
+                        title: 'Suivi des projets',
+                        type: 'basic',
+                        icon: 'timeline',
+                        link: '/dash/home/academy'
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        id: 'technicien',
+        title: 'PROJETS',
+        subtitle: "Conceptions d'applications sur mesure",
+        type: 'group',
+        icon: 'heroicons_outline:home',
+        children: [
+            {
+                id: 'user-interface.forms',
+                title: 'Projet',
+                type: 'collapsable',
+                icon: 'work',
+                children: [
                     {
                         id: 'apps.academy',
                         title: 'Suivi des projets',
@@ -236,7 +260,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'pages',
         title: 'Pages',
-        subtitle: 'Custom made page designs',
+        subtitle: 'Conceptions de pages personnalisées',
         type: 'group',
         icon: 'heroicons_outline:document',
         children: [
@@ -750,7 +774,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: 'pages.settings',
-                title: 'Settings',
+                title: 'Paramètres',
                 type: 'basic',
                 icon: 'heroicons_outline:cog',
                 link: '/dash/home/settings'

@@ -8,6 +8,7 @@ import { switchMap } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class AdminGuard implements CanActivate, CanActivateChild {
+    role: any;
     /**
      * Constructor
      */
@@ -61,11 +62,11 @@ export class AdminGuard implements CanActivate, CanActivateChild {
         if (localStorage.getItem('isAdmin') == 'false') {
             // Redirect to the sign-in page
             this._router.navigate(['/dash/home']);
-
             // Prevent the access
             // Allow the access
 
-        } else {
+        }
+        else {
             this._router.navigate(['/dash/admin']);
             // Allow the access
 

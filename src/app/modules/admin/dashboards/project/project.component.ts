@@ -24,13 +24,15 @@ export class ProjectComponent implements OnInit, OnDestroy {
     adminCount: number;
     technicienCount: number;
     ingenieurCount: number;
-    totalCount: number;
+    totalCount: any;
     avatar: any
     nom = ''
+    resultUser: any;
 
 
     selectedProject: string = 'ACME Corp. Backend App';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    roles: any;
 
     /**
      * Constructor
@@ -77,18 +79,13 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 }
             }
         };
-        this.serv.getUsersCount().subscribe(
-            response => {
-                this.adminCount = response.result.adminCount;
-                this.technicienCount = response.result.technicienCount;
-                this.ingenieurCount = response.result.ingenieurCount;
-                this.totalCount = response.result.totalCount;
-            },
-            error => {
-                console.log(error);
-            }
-        );
+
+
+
         this.getInfoPersonel()
+        this.getStatUser()
+        this.getUserTeam()
+        this.getRole()
     }
 
     getInfoPersonel() {
@@ -96,6 +93,33 @@ export class ProjectComponent implements OnInit, OnDestroy {
             (res: any) => {
                 this.avatar = res.result.avatar
                 this.nom = res.result.nom
+                this.cd.detectChanges()
+            }
+        )
+    }
+    getUserTeam() {
+        this._projectService.getAllUser().subscribe(
+            res => {
+                this.resultUser = res
+                console.log("res", this.resultUser);
+            }
+        )
+    }
+    getRole() {
+        this._projectService.getRole().subscribe((data: any) => {
+            this.roles = data
+            console.log("data", data);
+        })
+    }
+
+    getStatUser() {
+        this._projectService.statistique().subscribe(
+            res => {
+                this.totalCount = res.totalUsers
+                this.adminCount = res.adminCount
+                this.ingenieurCount = res.engineerCount
+                this.technicienCount = res.technicianCount
+                console.log("stat", this.adminCount);
                 this.cd.detectChanges()
             }
         )

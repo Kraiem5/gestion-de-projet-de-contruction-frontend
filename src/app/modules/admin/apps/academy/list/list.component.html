@@ -13,25 +13,25 @@
                         [svgIcon]="'heroicons_solid:search'"></mat-icon>
                     <input
                     [(ngModel)]="searchTerm" (input)="searchProjet(searchTerm)"
-                        placeholder="Search by title or description"
+                        placeholder="Recherche"
                         matInput
                         #query>
                     </mat-form-field>
-                    <ul>
-                        <li *ngFor="let projet of filteredProjets">
-                          {{ projet.nom_projet }} - {{ projet.client }} - {{ projet.description }} <!-- Affichez les propriétés du projet selon vos besoins -->
+                    <!-- <ul>
+                        //<li *ngFor="let projet of filteredProjets">
+                          {{ projet.nom_projet }} - {{ projet.client }} - {{ projet.description }} 
                         </li>
-                      </ul>
+                    </ul> -->
                 <mat-slide-toggle
                     class="mt-8 sm:mt-0 sm:ml-auto"
                     [color]="'primary'"
                     (change)="toggleCompleted($event)">
-                    Hide completed
+                    Masquer terminé
                 </mat-slide-toggle>
             </div>
 
             <!-- Courses -->
-            <ng-container *ngIf="this.filteredCourses.length;">
+            <ng-container>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:mt-10">
                     <ng-container *ngFor="let project of projet; trackBy: trackByFn">
                         <!-- Course -->
@@ -72,10 +72,16 @@
                                 </div>
                                 <!-- Footer -->
                                 <div class="flex flex-col w-full mt-auto">
-                                    <div class="flex justify-between m-4" >
+                                    <div *ngIf="!(role==='technicien')" class="flex justify-between m-4" >
                                         <button type="button" class="btn btn-success" (click)="editProjet(project)" >modifier</button>
                                         <!-- <button type="button" class="btn btn-success" (click)="afficherDetails(projet._id)" >modifier</button> -->
-                                    </div>
+                                    </div> 
+                                    <!-- <div class="progress mt-3">
+                                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" [style.width.%]="project.mean_pourcentage_axes" [attr.aria-valuenow]="project.mean_pourcentage_axes " aria-valuemin="0" aria-valuemax="100">
+                                            {{ project.mean_pourcentage_axes  }}%
+                                          </div>   
+                                    </div>                                               
+                                    <p>Mean Percentage: {{ project.mean_pourcentage_axes }}</p> -->
 
                                     <div class="px-6 py-4 text-right">
                                         <button
@@ -100,3 +106,4 @@
         </div>
     </div>
 </div>
+
