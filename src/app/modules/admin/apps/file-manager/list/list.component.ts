@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {Inject, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Subject } from 'rxjs';
@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FileManagerService } from 'app/modules/admin/apps/file-manager/file-manager.service';
 import { Item, Items } from 'app/modules/admin/apps/file-manager/file-manager.types';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector       : 'file-manager-list',
@@ -20,6 +21,7 @@ export class FileManagerListComponent implements OnInit, OnDestroy
     selectedItem: Item;
     items: Items;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    parent =0
 
     /**
      * Constructor
@@ -29,7 +31,8 @@ export class FileManagerListComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _fileManagerService: FileManagerService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        public dialog: MatDialog
     )
     {
     }
@@ -43,6 +46,10 @@ export class FileManagerListComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+
+        /// recuperer parent 0 f=de l'url
+        //this.parent =  yekhou 0 mel url
+
         // Get the items
         this._fileManagerService.items$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -67,7 +74,7 @@ export class FileManagerListComponent implements OnInit, OnDestroy
         this._fuseMediaWatcherService.onMediaQueryChange$('(min-width: 1440px)')
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((state) => {
-
+              console.log(state)
                 // Calculate the drawer mode
                 this.drawerMode = state.matches ? 'side' : 'over';
 
@@ -112,4 +119,30 @@ export class FileManagerListComponent implements OnInit, OnDestroy
     {
         return item.id || index;
     }
+    addDocument(){
+
+            const dialogRef = this.dialog.open(AddDocumentDialog, {
+              data: {parent: this.parent},
+            });
+
+            dialogRef.afterClosed().subscribe(result => {
+              console.log('The dialog was closed',result);
+
+            });
+
+    }
 }
+@Component({
+    selector: 'addDoc',
+    templateUrl: 'addFile.html',
+  })
+  export class AddDocumentDialog {
+    constructor(
+      public dialogRef: MatDialogRef<AddDocumentDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any,
+    ) {}
+
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+  }

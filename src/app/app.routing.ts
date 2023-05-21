@@ -72,6 +72,7 @@ export const appRoutes: Route[] = [
             {
                 path: 'dash/home',
                 children: [
+                    { path: 'documents/:id', loadChildren: () => import('app/modules/admin/apps/file-manager/file-manager.module').then(m => m.FileManagerModule) },
                     { path: 'project', loadChildren: () => import('app/modules/admin/dashboards/project/project.module').then(m => m.ProjectModule) },
                     { path: 'academy', loadChildren: () => import('app/modules/admin/apps/academy/academy.module').then(m => m.AcademyModule) },
                     // Profile
