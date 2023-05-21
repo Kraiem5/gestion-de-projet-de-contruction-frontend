@@ -1,0 +1,48 @@
+<div class="container mt-5">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h2 class="text-2xl font-semibold"><i class="fas fa-tasks mr-2"></i>Ajouter un document</h2>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="ajouterDocument" class="px-4 py-3">  
+          <div class="form-group">
+            <label for="name"><i class="fas fa-tasks mr-2"></i>Nom de document:</label>
+            <input type="text" formControlName="name" id="name" class="form-control" [class.is-invalid]="ajouterDocument.controls['name'].invalid && ajouterDocument.controls['name'].touched">
+            <div *ngIf="ajouterDocument.controls['name'].invalid && ajouterDocument.controls['name'].touched" class="invalid-feedback">
+              Le nom de document est requis
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description"><i class="fas fa-tasks mr-2"></i>Description :</label>
+            <input type="text" formControlName="description" id="description" class="form-control" [class.is-invalid]="ajouterDocument.controls['description'].invalid && ajouterDocument.controls['description'].touched">
+            <div *ngIf="ajouterDocument.controls['description'].invalid && ajouterDocument.controls['description'].touched" class="invalid-feedback">
+              La description est requise
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="type"><i class="fas fa-tasks mr-2"></i>Type de document :</label>
+            <select formControlName="type" class="form-control" [class.is-invalid]="ajouterDocument.controls['type'].invalid && ajouterDocument.controls['type'].touched">
+              <option value="dossier">Dossier</option>
+              <option value="fichier">Fichier</option>
+            </select>
+            <div *ngIf="ajouterDocument.controls['type'].invalid && ajouterDocument.controls['type'].touched" class="invalid-feedback">
+              Le type de document est requis
+            </div>
+          </div>
+          <!-- Condition pour afficher la zone de saisie de fichier si "Fichier" est sélectionné -->
+          <div class="form-group" *ngIf="ajouterDocument.get('type').value === 'fichier'">
+            <label for="file"><i class="fas fa-tasks mr-2"></i>Sélectionner un fichier :</label>
+            <input type="file" formControlName="file" id="file" class="form-control">
+            <button class="btn btn-primary" >telecharger</button>
+            <!-- Ajoutez les validations et les messages d'erreur appropriés pour le champ de fichier si nécessaire -->
+          </div>
+          <button type="button" class="btn btn-secondary mt-3 ml-2" (click)="dialogRef.close(false)">
+            <i class="fas fa-times mr-2"></i>Annuler
+          </button>
+          <button type="button" class="btn btn-primary mt-3 ml-5" (click)="dialogRef.close(false)">
+            <i class="fas fa-times mr-2"></i>Enregistrer
+          </button>
+        </form>
+      </div>
+    </div>
+</div>  

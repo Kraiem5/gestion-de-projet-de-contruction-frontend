@@ -8,23 +8,32 @@ import { SharedModule } from 'app/shared/shared.module';
 import { fileManagerRoutes } from 'app/modules/admin/apps/file-manager/file-manager.routing';
 import { FileManagerComponent } from 'app/modules/admin/apps/file-manager/file-manager.component';
 import { FileManagerDetailsComponent } from 'app/modules/admin/apps/file-manager/details/details.component';
-import { FileManagerListComponent } from 'app/modules/admin/apps/file-manager/list/list.component';
+import { AddDocumentDialog, FileManagerListComponent } from 'app/modules/admin/apps/file-manager/list/list.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     declarations: [
         FileManagerComponent,
         FileManagerDetailsComponent,
-        FileManagerListComponent
+        FileManagerListComponent,
+        AddDocumentDialog
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(fileManagerRoutes),
         MatButtonModule,
         MatIconModule,
         MatSidenavModule,
         MatTooltipModule,
-        SharedModule
+        SharedModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatOptionModule
+
     ]
 })
-export class FileManagerModule
-{
+export class FileManagerModule {
 }
