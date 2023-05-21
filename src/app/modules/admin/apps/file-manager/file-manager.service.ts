@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Item, Items } from 'app/modules/admin/apps/file-manager/file-manager.types';
+import { environment } from 'environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -85,4 +86,22 @@ export class FileManagerService
             })
         );
     }
+    getDocument(parent): Observable<any> {
+        return this._httpClient.get(environment.backend_url + 'api/user/document/'+parent,{
+          headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }
+        })
+      }
+    saveDocument(parent,data): Observable<any> {
+        return this._httpClient.post(environment.backend_url + 'api/user/document/new/'+parent, data,{
+          headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }
+        })
+      }
+      saveFile(formdata) {
+        return this._httpClient.post(environment.backend_url + 'api/user/document/newFile', formdata, {
+          headers: {
+            "x-auth-token": `${localStorage.getItem("accessToken")}`
+
+          }
+        })
+      }
 }

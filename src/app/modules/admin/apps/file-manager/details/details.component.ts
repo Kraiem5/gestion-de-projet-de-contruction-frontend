@@ -14,7 +14,7 @@ import { Item } from 'app/modules/admin/apps/file-manager/file-manager.types';
 })
 export class FileManagerDetailsComponent implements OnInit, OnDestroy
 {
-    item: Item;
+    item: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -43,7 +43,7 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy
         // Get the item
         this._fileManagerService.item$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((item: Item) => {
+            .subscribe((item: any) => {
 
                 // Open the drawer in case it is closed
                 this._fileManagerListComponent.matDrawer.open();

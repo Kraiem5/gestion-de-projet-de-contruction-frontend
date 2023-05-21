@@ -19,10 +19,12 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
   @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
   drawerMode: 'side' | 'over';
   selectedItem: Item;
-  items: Items;
+  items: any;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   parent = 0
   ajouterDocument: FormGroup;
+    folders: any;
+    files: any;
 
   /**
    * Constructor
@@ -31,6 +33,7 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
     private _activatedRoute: ActivatedRoute,
     private _changeDetectorRef: ChangeDetectorRef,
     private _router: Router,
+    private actRouter: ActivatedRoute,
     private _fileManagerService: FileManagerService,
     private _fuseMediaWatcherService: FuseMediaWatcherService,
     public dialog: MatDialog,
@@ -48,16 +51,13 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
 
     /// recuperer parent 0 f=de l'url
     //this.parent =  yekhou 0 mel url
+    this.actRouter.params.subscribe(params => {
+        // Use the params object to access the parameters
+        this.parent = params['id'];
 
-    // Get the items
-    this._fileManagerService.items$
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((items: Items) => {
-        this.items = items;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
       });
+    // Get the items
+    this.getAll()
 
     // Get the item
     this._fileManagerService.item$
@@ -81,7 +81,16 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
       });
   }
-
+   getAll(){
+    this._fileManagerService.getDocument(this.parent)
+      .subscribe((items:any) => {
+        this.items = items.data;
+        this.folders= this.items.filter(i=> i.type=='dossier')
+        this.files= this.items.filter(i=> i.type !=='dossier')
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+      });
+   }
   /**
    * On destroy
    */
@@ -118,12 +127,14 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
   addDocument() {
 
     const dialogRef = this.dialog.open(AddDocumentDialog, {
-      data: { parent: this.parent },
+      data: { parentId: this.parent },
+      width:'400px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-
+       if(result===true)
+        this.getAll()
     });
 
   }
@@ -134,20 +145,48 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
 })
 export class AddDocumentDialog implements OnInit {
   ajouterDocument: FormGroup;
+  file: any;
   constructor(
     public dialogRef: MatDialogRef<AddDocumentDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
+    private _fileManagerService: FileManagerService,
   ) { }
   ngOnInit(): void {
     this.ajouterDocument = this.formBuilder.group({
       name: ['', Validators.required], // Champ de sélection de l'axe
       description: ['', Validators.required],
       type: ['', Validators.required],
-      file: ['', Validators.required],
+      file: [null, Validators.required],
     });
   }
   onNoClick(): void {
     this.dialogRef.close();
   }
+  selectedFile(event){
+    this.file = event.target.files[0]
+     console.log(event);
+
+     const file = new FormData()
+     file.set('myFile',this.file)
+    console.log(file)
+     // post request to express backend
+   this._fileManagerService.saveFile(file)
+     .subscribe((res:any)=>{
+       this.ajouterDocument.patchValue({file:res.data})
+
+     },err =>{
+         console.log(err);
+
+     })
+   }
+
+   saveDoc(){
+    console.log(this.ajouterDocument.value)
+    this._fileManagerService.saveDocument(this.data.parentId,this.ajouterDocument.value).subscribe(res=>{
+      console.log(res)
+      if(res.status)
+      this.dialogRef.close(true)
+    })
+   }
 }
