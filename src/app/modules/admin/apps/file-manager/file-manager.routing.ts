@@ -40,7 +40,7 @@ export const fileManagerRoutes: Route[] = [
                         resolve      : {
                             item: FileManagerItemResolver
                         },
-                        canDeactivate: [CanDeactivateFileManagerDetails]
+                        // canDeactivate: [CanDeactivateFileManagerDetails]
                     }
                 ]
             }

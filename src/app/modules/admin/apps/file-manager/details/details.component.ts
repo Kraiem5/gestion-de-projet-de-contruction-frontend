@@ -37,6 +37,7 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+
         // Open the drawer
         this._fileManagerListComponent.matDrawer.open();
 
@@ -44,12 +45,13 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy
         this._fileManagerService.item$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((item: any) => {
-
+               console.log(item)
+               // Get the item
+               this.item = item;
                 // Open the drawer in case it is closed
                 this._fileManagerListComponent.matDrawer.open();
 
-                // Get the item
-                this.item = item;
+
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

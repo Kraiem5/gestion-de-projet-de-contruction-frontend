@@ -54,7 +54,7 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
     this.actRouter.params.subscribe(params => {
         // Use the params object to access the parameters
         this.parent = params['id'];
-
+        this.drawerMode ='over'
       });
     // Get the items
     this.getAll()
@@ -85,6 +85,7 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
     this._fileManagerService.getDocument(this.parent)
       .subscribe((items:any) => {
         this.items = items.data;
+        this._fileManagerService.items$ = this.items
         this.folders= this.items.filter(i=> i.type=='dossier')
         this.files= this.items.filter(i=> i.type !=='dossier')
         // Mark for check
@@ -108,6 +109,7 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
    * On backdrop clicked
    */
   onBackdropClicked(): void {
+    this.drawerMode ='over'
     // Go back to the list
     this._router.navigate(['./'], { relativeTo: this._activatedRoute });
 
@@ -138,6 +140,10 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
     });
 
   }
+  openFolder(folderid){
+  this.parent=folderid;
+  this.getAll()
+  }
 }
 @Component({
   selector: 'addDoc',
@@ -157,7 +163,7 @@ export class AddDocumentDialog implements OnInit {
       name: ['', Validators.required], // Champ de sélection de l'axe
       description: ['', Validators.required],
       type: ['', Validators.required],
-      file: [null, Validators.required],
+      file:[]
     });
   }
   onNoClick(): void {
@@ -173,7 +179,7 @@ export class AddDocumentDialog implements OnInit {
      // post request to express backend
    this._fileManagerService.saveFile(file)
      .subscribe((res:any)=>{
-       this.ajouterDocument.patchValue({file:res.data})
+       this.ajouterDocument.get("file").setValue(res)
 
      },err =>{
          console.log(err);

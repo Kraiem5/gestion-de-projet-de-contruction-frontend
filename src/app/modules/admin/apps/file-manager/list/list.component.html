@@ -79,7 +79,7 @@
                                             <a
                                                 class="absolute z-20 top-1.5 right-1.5 w-8 h-8 min-h-8"
                                                 (click)="$event.preventDefault()"
-                                                routerLink="/dash/home/document/0/details/ {{folder._id}}"
+                                                [routerLink]="['./details/', folder._id]"
                                                 mat-icon-button>
                                                 <mat-icon
                                                     class="icon-size-5"
@@ -87,7 +87,7 @@
                                             </a>
                                             <a
                                                 class="z-10 absolute inset-0 flex flex-col p-4 cursor-pointer"
-                                                routerLink="/dash/home/document/0/folders/ {{folder._id}}">
+                                               (click)="openFolder(folder._id)">
                                                 <div class="aspect-w-9 aspect-h-6">
                                                     <div class="flex items-center justify-center">
                                                         <!-- Icon -->
@@ -130,11 +130,16 @@
                                                             [svgIcon]="'iconsmind:file'"></mat-icon>
                                                         <div
                                                             class="absolute left-0 bottom-0 px-1.5 rounded text-sm font-semibold leading-5 text-white"
-                                                            [class.bg-red-600]="file.type == 'PDF'"
-                                                            [class.bg-blue-600]="file.type == 'DOC'"
-                                                            [class.bg-green-600]="file.type == 'XLS'"
-                                                            [class.bg-gray-600]="file.type == 'TXT'"
-                                                            [class.bg-amber-600]="file.type == 'JPG'">
+                                                            [class.bg-red-600]="file.file.type == 'PDF'"
+                                                            [class.bg-blue-600]="file.file.type == 'DOC'"
+                                                            [class.bg-blue-600]="file.file.type == 'DOCX'"
+                                                            [class.bg-green-600]="file.file.type == 'XLS'"
+                                                            [class.bg-green-600]="file.file.type == 'XLSX'"
+                                                            [class.bg-gray-600]="file.file.type == 'TXT'"
+                                                            [class.bg-amber-600]="file.file.type == 'JPG'"
+                                                            [class.bg-amber-600]="file.file.type == 'PNG'"
+
+                                                            >
                                                             {{file.type.toUpperCase()}}
                                                         </div>
                                                     </div>

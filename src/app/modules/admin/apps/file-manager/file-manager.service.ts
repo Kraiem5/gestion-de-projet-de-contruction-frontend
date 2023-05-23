@@ -11,8 +11,8 @@ import { environment } from 'environments/environment';
 export class FileManagerService
 {
     // Private
-    private _item: BehaviorSubject<Item | null> = new BehaviorSubject(null);
-    private _items: BehaviorSubject<Items | null> = new BehaviorSubject(null);
+     _item: BehaviorSubject<any | null> = new BehaviorSubject(null);
+      _items: BehaviorSubject<any | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -28,17 +28,25 @@ export class FileManagerService
     /**
      * Getter for items
      */
-    get items$(): Observable<Items>
+    get items$(): Observable<any>
     {
         return this._items.asObservable();
+    }
+    set items$(value)
+    {
+         this._items.next(value);
     }
 
     /**
      * Getter for item
      */
-    get item$(): Observable<Item>
+    get item$(): Observable<any>
     {
         return this._item.asObservable();
+    }
+    set item$(value)
+    {
+         this._item.next(value);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -60,14 +68,14 @@ export class FileManagerService
     /**
      * Get item by id
      */
-    getItemById(id: string): Observable<Item>
+    getItemById(_id: string): Observable<any>
     {
         return this._items.pipe(
             take(1),
             map((items) => {
 
                 // Find within the folders and files
-                const item = [...items.folders, ...items.files].find(value => value.id === id) || null;
+                const item = [...items].find(value => value._id === _id) || null;
 
                 // Update the item
                 this._item.next(item);
@@ -79,7 +87,7 @@ export class FileManagerService
 
                 if ( !item )
                 {
-                    return throwError('Could not found the item with id of ' + id + '!');
+                    return throwError('Could not found the item with id of ' + _id + '!');
                 }
 
                 return of(item);
