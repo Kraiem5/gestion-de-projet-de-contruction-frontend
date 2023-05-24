@@ -10,7 +10,7 @@
             [mode]="drawerMode"
             [opened]="false"
             [position]="'end'"
-            [disableClose]="true"
+            [disableClose]="false"
             #matDrawer>
             <router-outlet></router-outlet>
         </mat-drawer>
@@ -25,31 +25,19 @@
                     <!-- Title -->
                     <div>
                         <div class="text-4xl font-extrabold tracking-tight leading-none">Gestionnaire de fichiers</div>
+                       <br>
                         <div class="flex items-center mt-0.5 font-medium text-secondary">
-                            <!-- <ng-container *ngIf="!items.length"> -->
-                                <!-- {{items.folders.length}} folders, {{items.files.length}} files -->
-                            <!-- </ng-container> -->
-                            <!-- Breadcrumbs -->
-                            <!-- <ng-container *ngIf="items.length">
-                                <div class="flex items-center space-x-2">
-                                    <a
-                                        class="text-primary cursor-pointer"
-                                        [routerLink]="['/apps/file-manager']">Home
-                                    </a>
-                                    <div class="">/</div>
-                                    <ng-container *ngFor="let doc of items; let last = last; trackBy: trackByFn">
-                                        <ng-container *ngIf="doc.type=='dossier'">
-                                            <a
-                                                class="text-primary cursor-pointer"
-                                                [routerLink]="['/apps/file-manager/folders/', doc._id]">{{path.name}}</a>
-                                        </ng-container>
-                                        <ng-container *ngIf="doc.type!=='dossier'">
-                                            <div>{{path.name}}</div>
-                                        </ng-container>
+                           <span *ngFor="let item of historique;let i=index">
+                             <span (click)="openFolderFromShema(item.folderid)"
+                             [ngClass]="{'bg-blue':historique.length-1 == i }"
+                             >
+                                {{item.name}}
 
-                                    </ng-container>
-                                </div>
-                            </ng-container> -->
+                             </span>
+                             <span class="text-bold text-blue">
+                                /
+                             </span>
+                           </span>
                         </div>
                     </div>
                     <!-- Actions -->
@@ -87,7 +75,7 @@
                                             </a>
                                             <a
                                                 class="z-10 absolute inset-0 flex flex-col p-4 cursor-pointer"
-                                               (click)="openFolder(folder._id)">
+                                               (click)="openFolder(folder._id,folder.name)">
                                                 <div class="aspect-w-9 aspect-h-6">
                                                     <div class="flex items-center justify-center">
                                                         <!-- Icon -->

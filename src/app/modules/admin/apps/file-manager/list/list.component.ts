@@ -25,7 +25,7 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
   ajouterDocument: FormGroup;
     folders: any;
     files: any;
-
+  historique=[{folderid:0,name:'home'}]
   /**
    * Constructor
    */
@@ -111,7 +111,7 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
   onBackdropClicked(): void {
     this.drawerMode ='over'
     // Go back to the list
-    this._router.navigate(['./'], { relativeTo: this._activatedRoute });
+   // this._router.navigate(['./'], { relativeTo: this._activatedRoute });
 
     // Mark for check
     this._changeDetectorRef.markForCheck();
@@ -140,8 +140,15 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
     });
 
   }
-  openFolder(folderid){
+  openFolder(folderid,folderName){
+    this.historique.push({folderid:folderid,name:folderName})
   this.parent=folderid;
+  this.getAll()
+  }
+  openFolderFromShema(folderid){
+     let i = this.historique.findIndex(f=> f.folderid == folderid)
+     this.historique =  this.historique.slice(0,i+1)
+    this.parent=folderid;
   this.getAll()
   }
 }
