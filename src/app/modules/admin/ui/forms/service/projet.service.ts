@@ -73,6 +73,9 @@ export class ProjetService {
     // Make a PUT request to update the project
     return this._http.get<any>(environment.backend_url + 'api/user/projects/calculate-task-percentages');
   }
+  deleteProject(id: string,): Observable<any> {
+    return this._http.delete(environment.backend_url + 'api/user/projet/delete/' + id)
+  }
 
 
 }

@@ -23,9 +23,9 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   parent = 0
   ajouterDocument: FormGroup;
-    folders: any;
-    files: any;
-  historique=[{folderid:0,name:'home'}]
+  folders: any;
+  files: any;
+  historique = [{ folderid: 0, name: 'home' }]
   /**
    * Constructor
    */
@@ -52,10 +52,10 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
     /// recuperer parent 0 f=de l'url
     //this.parent =  yekhou 0 mel url
     this.actRouter.params.subscribe(params => {
-        // Use the params object to access the parameters
-        this.parent = params['id'];
-        this.drawerMode ='over'
-      });
+      // Use the params object to access the parameters
+      this.parent = params['id'];
+      this.drawerMode = 'over'
+    });
     // Get the items
     this.getAll()
 
@@ -81,17 +81,17 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
       });
   }
-   getAll(){
+  getAll() {
     this._fileManagerService.getDocument(this.parent)
-      .subscribe((items:any) => {
+      .subscribe((items: any) => {
         this.items = items.data;
         this._fileManagerService.items$ = this.items
-        this.folders= this.items.filter(i=> i.type=='dossier')
-        this.files= this.items.filter(i=> i.type !=='dossier')
+        this.folders = this.items.filter(i => i.type == 'dossier')
+        this.files = this.items.filter(i => i.type !== 'dossier')
         // Mark for check
         this._changeDetectorRef.markForCheck();
       });
-   }
+  }
   /**
    * On destroy
    */
@@ -109,9 +109,9 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
    * On backdrop clicked
    */
   onBackdropClicked(): void {
-    this.drawerMode ='over'
+    this.drawerMode = 'over'
     // Go back to the list
-   // this._router.navigate(['./'], { relativeTo: this._activatedRoute });
+    // this._router.navigate(['./'], { relativeTo: this._activatedRoute });
 
     // Mark for check
     this._changeDetectorRef.markForCheck();
@@ -130,26 +130,26 @@ export class FileManagerListComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(AddDocumentDialog, {
       data: { parentId: this.parent },
-      width:'400px'
+      width: '400px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
-       if(result===true)
+      if (result === true)
         this.getAll()
     });
 
   }
-  openFolder(folderid,folderName){
-    this.historique.push({folderid:folderid,name:folderName})
-  this.parent=folderid;
-  this.getAll()
+  openFolder(folderid, folderName) {
+    this.historique.push({ folderid: folderid, name: folderName })
+    this.parent = folderid;
+    this.getAll()
   }
-  openFolderFromShema(folderid){
-     let i = this.historique.findIndex(f=> f.folderid == folderid)
-     this.historique =  this.historique.slice(0,i+1)
-    this.parent=folderid;
-  this.getAll()
+  openFolderFromShema(folderid) {
+    let i = this.historique.findIndex(f => f.folderid == folderid)
+    this.historique = this.historique.slice(0, i + 1)
+    this.parent = folderid;
+    this.getAll()
   }
 }
 @Component({
@@ -170,36 +170,36 @@ export class AddDocumentDialog implements OnInit {
       name: ['', Validators.required], // Champ de sélection de l'axe
       description: ['', Validators.required],
       type: ['', Validators.required],
-      file:[]
+      file: []
     });
   }
   onNoClick(): void {
     this.dialogRef.close();
   }
-  selectedFile(event){
+  selectedFile(event) {
     this.file = event.target.files[0]
-     console.log(event);
+    console.log(event);
 
-     const file = new FormData()
-     file.set('myFile',this.file)
+    const file = new FormData()
+    file.set('myFile', this.file)
     console.log(file)
-     // post request to express backend
-   this._fileManagerService.saveFile(file)
-     .subscribe((res:any)=>{
-       this.ajouterDocument.get("file").setValue(res)
+    // post request to express backend
+    this._fileManagerService.saveFile(file)
+      .subscribe((res: any) => {
+        this.ajouterDocument.get("file").setValue(res)
 
-     },err =>{
-         console.log(err);
+      }, err => {
+        console.log(err);
 
-     })
-   }
+      })
+  }
 
-   saveDoc(){
+  saveDoc() {
     console.log(this.ajouterDocument.value)
-    this._fileManagerService.saveDocument(this.data.parentId,this.ajouterDocument.value).subscribe(res=>{
+    this._fileManagerService.saveDocument(this.data.parentId, this.ajouterDocument.value).subscribe(res => {
       console.log(res)
-      if(res.status)
-      this.dialogRef.close(true)
+      if (res.status)
+        this.dialogRef.close(true)
     })
-   }
+  }
 }

@@ -37,4 +37,7 @@ export class AdminService {
         return res
       }))
   }
+  statistique(): Observable<any> {
+    return this.http.get(environment.backend_url + 'api/user/statistics')
+  }
 }

@@ -23,21 +23,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'Admin',
         subtitle: 'Administration',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'admin_panel_settings',
         children: [
 
             {
                 id: 'Admin.users',
                 title: 'Utilisateurs',
                 type: 'basic',
-                icon: 'user',
+                icon: 'person_add',
                 link: '/dash/admin/users'
             },
             {
                 id: 'Admin.roles',
                 title: 'Rôles',
                 type: 'basic',
-                icon: 'dash',
+                icon: 'assignment_ind',
                 link: '/dash/admin/roles'
             },
 
@@ -108,7 +108,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id: 'apps.file-manager',
-        title: 'File Manager',
+        title: 'Mes Documents',
         type: 'basic',
         icon: 'heroicons_outline:cloud',
         link: '/dash/home/documents/0'

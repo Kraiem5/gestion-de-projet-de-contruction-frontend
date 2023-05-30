@@ -1,10 +1,10 @@
 <div class="container m-2">
 
-  <div class="head">
-    <button mat-fab color="primary" (click)="openDialogSignUP(null,roles)">
-        <mat-icon>add</mat-icon>
-    </button>
-</div>
+    <div class="head mb-3">
+        <button mat-fab color="primary" (click)="openDialogSignUP(null,roles)">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
     <div class="card">
         <div class="card-header bg-primary text-white">
             <h2 class="text-2xl font-semibold"><i class="fas fa-user-tag mr-2"></i>Liste des utilisateurs</h2>
@@ -45,5 +45,57 @@
             </table>
         </div>
     </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full min-w-0 mt-4 ">
+        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div class="text-lg font-medium tracking-tight leading-6 truncate ">Admin</div>
+            </div>
+            <div class="flex flex-col items-center m-4">
+                <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">{{ adminCount }}</div>
+            </div>
+              <div class="progress mt-3">
+                    <div class="progress-bar progress-bar-striped" role="progressbar" [style.width.%]="adminCount / totalCount * 100" [attr.aria-valuenow]="adminCount / totalCount * 100" aria-valuemin="0" aria-valuemax="100">
+                        {{ (adminCount / totalCount * 100)}}%
+                      </div>   
+                </div>
+        </div>
+        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div class="text-lg font-medium tracking-tight leading-6 truncate ">Ingénieure</div>
+            </div>
+            <div class="flex flex-col items-center m-4">
+                <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">{{ ingenieurCount }}</div>
+            </div>
+            <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" [style.width.%]="ingenieurCount / totalCount * 100" [attr.aria-valuenow]="ingenieurCount / totalCount * 100" aria-valuemin="0" aria-valuemax="100">
+                    {{ (ingenieurCount / totalCount * 100) }}%
+                  </div>   
+            </div>
+        </div>
+        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div class="text-lg font-medium tracking-tight leading-6 truncate">Technicien</div>
+                
+            </div>
+            <div class="flex flex-col items-center m-4">
+                <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">{{ technicienCount }}</div>
+                
+            </div>
+            <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" [style.width.%]="technicienCount / totalCount * 100" [attr.aria-valuenow]="technicienCount / totalCount * 100" aria-valuemin="0" aria-valuemax="100">
+                    {{ (technicienCount / totalCount * 100) }}%
+                  </div>   
+            </div>
+        </div>
+        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div class="text-lg font-medium tracking-tight leading-6 truncate">Total</div>
+            </div>
+            <div class="flex flex-col items-center m-4">
+                <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">{{ totalCount }}</div>                                    
+            </div>
+        </div>  
+        
+    </div>
 </div>
-<!-- <iframe src="http://localhost:4000/d-solo/eU1o7Dy4k/projet?orgId=1&from=1683267950586&to=1683289550586&panelId=2" width="450" height="200" frameborder="0"></iframe> -->
+

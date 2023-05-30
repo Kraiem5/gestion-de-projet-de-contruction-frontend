@@ -74,8 +74,10 @@
                                 <div class="flex flex-col w-full mt-auto">
                                     <div *ngIf="!(role==='technicien')" class="flex justify-between m-4" >
                                         <button type="button" class="btn btn-success" (click)="editProjet(project)" >modifier</button>
+                                        <button type="button" class="btn btn-danger" (click)="supprimerProjet(project._id)" >supprimer</button>
                                         <!-- <button type="button" class="btn btn-success" (click)="afficherDetails(projet._id)" >modifier</button> -->
                                     </div> 
+                                    
                                     <!-- <div class="progress mt-3">
                                         <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" [style.width.%]="project.mean_pourcentage_axes" [attr.aria-valuenow]="project.mean_pourcentage_axes " aria-valuemin="0" aria-valuemax="100">
                                             {{ project.mean_pourcentage_axes  }}%

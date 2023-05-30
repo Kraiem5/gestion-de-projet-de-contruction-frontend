@@ -276,7 +276,7 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         let role = AuthUtils._decodeToken(localStorage.getItem('accessToken')).user.role
         let isAdmin = localStorage.getItem('isAdmin') == 'true'
         if (isAdmin) {
-            this.navigation = this.navigation.filter(n => n.id == "Admin")
+            this.navigation = this.navigation.filter(n => n.id === "Admin" || n.id === "pages")
         } else {
             this.navigation = this.navigation.filter(n => n.id != "Admin")
             if (role == 'technicien') {

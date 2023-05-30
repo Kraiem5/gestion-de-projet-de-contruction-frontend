@@ -7,13 +7,12 @@ import { FileManagerService } from 'app/modules/admin/apps/file-manager/file-man
 import { Item } from 'app/modules/admin/apps/file-manager/file-manager.types';
 
 @Component({
-    selector       : 'file-manager-details',
-    templateUrl    : './details.component.html',
-    encapsulation  : ViewEncapsulation.None,
+    selector: 'file-manager-details',
+    templateUrl: './details.component.html',
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileManagerDetailsComponent implements OnInit, OnDestroy
-{
+export class FileManagerDetailsComponent implements OnInit, OnDestroy {
     item: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -24,8 +23,7 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _fileManagerListComponent: FileManagerListComponent,
         private _fileManagerService: FileManagerService
-    )
-    {
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -35,8 +33,7 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
 
         // Open the drawer
         this._fileManagerListComponent.matDrawer.open();
@@ -45,9 +42,9 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy
         this._fileManagerService.item$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((item: any) => {
-               console.log(item)
-               // Get the item
-               this.item = item;
+                console.log(item)
+                // Get the item
+                this.item = item;
                 // Open the drawer in case it is closed
                 this._fileManagerListComponent.matDrawer.open();
 
@@ -56,13 +53,14 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+        console.log("iteeeem", this.item);
+
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -75,8 +73,7 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy
     /**
      * Close the drawer
      */
-    closeDrawer(): Promise<MatDrawerToggleResult>
-    {
+    closeDrawer(): Promise<MatDrawerToggleResult> {
         return this._fileManagerListComponent.matDrawer.close();
     }
 
@@ -86,8 +83,7 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 }

@@ -42,10 +42,6 @@
 
         <!-- Divider -->
         <div class="my-10 border-t"></div>
-
-       
-     
-
         <!-- Actions -->
         <div class="flex items-center justify-end">
             <button
@@ -57,7 +53,8 @@
                 class="ml-4"
                 mat-flat-button
                 type="button"
-                [color]="'primary'">enregistrer
+                [color]="'primary'"
+                (click)="modifierPassword()">enregistrer
             </button>
         </div>
     </form>

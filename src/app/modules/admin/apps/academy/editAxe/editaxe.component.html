@@ -1,0 +1,26 @@
+<div class="container mt-5">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h2 class="text-2xl font-semibold"><i class="fas fa-tasks mr-2"></i>Modifier tâche</h2>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="modifierAxeForm"  class="px-4 py-3">
+
+          <div class="form-group">
+            <label for="name"><i class="fas fa-tasks mr-2"></i>Nom de axe:</label>
+            <input type="text" formControlName="name" id="name" class="form-control" [class.is-invalid]="modifierAxeForm.controls['name'].invalid && modifierAxeForm.controls['name'].touched">
+            <div *ngIf="modifierAxeForm.controls['name'].invalid && modifierAxeForm.controls['name'].touched" class="invalid-feedback">
+              Le nom de axe est requis
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary mt-3 ml-2" (click)="dialogRef.close(false)"><i class="fas fa-times mr-2"></i>Annuler</button>
+          <button type="submit" class="btn btn-success mt-3" (click)="modifierAxe()" >Modifier</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+

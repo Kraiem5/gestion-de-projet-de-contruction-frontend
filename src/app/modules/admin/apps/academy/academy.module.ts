@@ -16,12 +16,13 @@ import { AcademyComponent } from 'app/modules/admin/apps/academy/academy.compone
 import { AcademyDetailsComponent } from 'app/modules/admin/apps/academy/details/details.component';
 import { AcademyListComponent } from 'app/modules/admin/apps/academy/list/list.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { EditFormsComponent } from './edit/fields.component';
+import { EditFormsComponent } from './editProjet/fields.component';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { routes } from '../../ui/material-components/material-components.module';
 import { AjouterTacheComponent } from './taches/tache.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EdittacheComponent } from './taches/edittache/edittache.component';
+import { EditaxeComponent } from './editAxe/editaxe.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { EdittacheComponent } from './taches/edittache/edittache.component';
         AcademyListComponent,
         EditFormsComponent,
         AjouterTacheComponent,
-        EdittacheComponent
+        EdittacheComponent,
+        EditaxeComponent
     ],
     imports: [
         RouterModule.forChild(academyRoutes),

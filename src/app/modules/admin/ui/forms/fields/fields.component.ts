@@ -83,7 +83,7 @@ export class FormsFieldsComponent implements OnInit {
         console.log('enregistreé avec success', res);
       },
       err => {
-        alert('Une erreur est survenue lors de l\'enregistrement du projet')
+        alert('Erreur : Veuillez remplir tous les champs obligatoires avant d\'enregistrer le projet.');
         console.log('Une erreur est survenue lors de l\'enregistrement du projet', err);
 
       }

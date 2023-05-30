@@ -79,10 +79,10 @@ export class UserComponent implements OnInit, OnDestroy {
         )
     }
     profile(): void {
-        this._router.navigate(['/pages/profile'])
+        this._router.navigate(['/dash/home/profile'])
     }
     settings(): void {
-        this._router.navigate(['/pages/settings'])
+        this._router.navigate(['/dash/home/settings'])
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods

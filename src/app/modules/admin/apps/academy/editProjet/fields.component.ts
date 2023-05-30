@@ -78,15 +78,11 @@ export class EditFormsComponent implements OnInit {
       alert('Le formulaire est invalide')
       return;
     }
-
-
-
     this.service.updateProject(this.projetForm.value).subscribe(
       res => {
         this.dialogRef.close(res);
       },
       err => {
-        console.log("errrrror")
         this.error = true;
         setTimeout(() => {
           this.error = false;

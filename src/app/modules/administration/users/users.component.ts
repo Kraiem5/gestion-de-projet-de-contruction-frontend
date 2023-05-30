@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { RoleDialog } from '../roles/roles.component';
@@ -16,15 +16,23 @@ import { AdminService } from '../admin.service';
 export class UsersComponent implements OnInit {
   roles = []
   users: any[] = []
+  totalCount: any;
+  adminCount: any;
+  ingenieurCount: any;
+  technicienCount: any;
 
   constructor(
     private service: AdminService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cd: ChangeDetectorRef,
+
   ) { }
 
   ngOnInit(): void {
     this.recupererUsers()
     this.getRole()
+    this.getStatUser()
+
   }
   getRole() {
     this.service.getRole().subscribe((data: any) => {
@@ -66,13 +74,25 @@ export class UsersComponent implements OnInit {
     });
   }
   supprimerUser(user) {
-    if (confirm("Are you sure you want to delete this User?")) {
+    if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
       this.service.deleteUSer(user._id)
         .subscribe(() => {
           this.users = this.users.filter(u => u !== user);
           this.recupererUsers();
         });
     }
+  }
+  getStatUser() {
+    this.service.statistique().subscribe(
+      res => {
+        this.totalCount = res.totalUsers
+        this.adminCount = res.adminCount
+        this.ingenieurCount = res.engineerCount
+        this.technicienCount = res.technicianCount
+        console.log("stat", this.adminCount);
+        this.cd.detectChanges()
+      }
+    )
   }
 
 }
@@ -202,7 +222,7 @@ export class SignupDialogue implements OnInit {
   }
   modifierUser(user) {
     console.log("us", user);
-    
+
     if (this.signUpForm.valid) {
       let form = this.signUpForm.value
       console.log("form", form);

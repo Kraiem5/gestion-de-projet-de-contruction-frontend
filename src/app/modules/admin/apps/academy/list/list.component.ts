@@ -8,7 +8,7 @@ import { AcademyService } from 'app/modules/admin/apps/academy/academy.service';
 import { Category, Course } from 'app/modules/admin/apps/academy/academy.types';
 import { ProjetService } from 'app/modules/admin/ui/forms/service/projet.service';
 import { result } from 'lodash';
-import { EditFormsComponent } from '../edit/fields.component';
+import { EditFormsComponent } from '../editProjet/fields.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Project } from '../project.interface';
 import { HttpClient } from '@angular/common/http';
@@ -135,6 +135,7 @@ export class AcademyListComponent implements OnInit, OnDestroy {
                 this.project = updatedProject.result;
                 console.log("pour", updatedProject);
                 this.cd.detectChanges();
+                return this.getInfoProjet()
                 // Handle success
             },
             error => {
@@ -175,6 +176,14 @@ export class AcademyListComponent implements OnInit, OnDestroy {
             .subscribe((data: Project[]) => {
                 this.projet = data;
             });
+    }
+    supprimerProjet(id) {
+        if (confirm("Voulez-vous vraiment supprimer ce projet?")) {
+            this.service.deleteProject(id).subscribe(projet => {
+                this.projet = projet
+            })
+            return this.getInfoProjet()
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------

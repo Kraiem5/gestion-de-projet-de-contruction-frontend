@@ -3,7 +3,7 @@ import { ProjetService } from '../service/projet.service';
 import { Project } from '../project.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EditFormsComponent } from '../edit/fields.component';
+import { EditFormsComponent } from '../editProjet/fields.component';
 
 interface Axe {
     _id: string;
@@ -49,7 +49,7 @@ export class AjouterTacheComponent implements OnInit {
                 console.log('Tâche ajoutée avec succès à l\'axe', response);
                 // Réinitialiser le formulaire après la soumission réussie
                 this.ajouterTacheForm.reset();
-                this.dialogRef.close({status:true})
+                this.dialogRef.close({ status: true })
             },
             error => console.error('Erreur lors de l\'ajout de la tâche à l\'axe', error)
         );

@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AjouterTacheComponent } from '../taches/tache.component';
 import { EdittacheComponent } from '../taches/edittache/edittache.component';
+import { AuthUtils } from 'app/core/auth/auth.utils';
+import { EditaxeComponent } from '../editAxe/editaxe.component';
 
 
 @Component({
@@ -38,6 +40,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
     tache: string;
     x: any;
     showProject = false
+    role: any;
 
     /**
      * Constructor
@@ -59,6 +62,8 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.role = AuthUtils._decodeToken(localStorage.getItem('accessToken')).user.role
+        console.log("role", this.role);
         this.getProjet()
     }
 
@@ -66,23 +71,12 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
         this.route.params.subscribe(params => {
             const id = params['id'];
             this.projetService.getIdProjet(id).subscribe(res => {
-                console.log("res", res)
                 if (res.status) {
                     this.projet = res.result
-                    //if(!this.currentAxe)
-                    //   this.currentAxe = this.projet.axes[0]
                     this.cd.detectChanges()
-
                 }
-                // let index = [0, 1, 2]
-                // this.projet.mean_pourcentage_axes = 0
-                // for (let i of index) {
-                //     this.projet.mean_pourcentage_axes += this.calculateMeanPercentage(res.result.axes[i])
-                // }
-                // console.log("this.projet.mean_pourcentage_axes ", this.projet.mean_pourcentage_axes / 3);
             });
         });
-
     }
     /**
      * On destroy
@@ -94,7 +88,6 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
     }
 
     calculateMeanPercentage(axe: any): number {
-        console.log("poucentageAxe", axe)
         let tache = (axe.tache && axe.tache.length) ? axe.tache : null
         let totalPercentage = 0;
         if (tache) {
@@ -107,9 +100,38 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
         } else
             return 0
     }
+    supprimerAxe(id_projet, id_axe) {
+        if (confirm("Voulez-vous vraiment supprimer ce axe?")) {
+            this.projetService.deleteAxe(id_projet, id_axe).subscribe(
+                axe => {
+                    this.axes = axe
+                })
+            return this.getProjet()
+        }
+    }
+    supprimerTache(id_projet, id_axe, id_tache) {
+        if (confirm("Voulez-vous vraiment supprimer cette tâche?")) {
+            this.projetService.deleteTache(id_projet, id_axe, id_tache).subscribe(
+                (tache) => {
+                    this.tache = tache
+                })
+            return this.getProjet()
+        }
+    }
+    buttonModifierAxe(p: any) {
+        const dialogRef = this.dialog.open(EditaxeComponent, {
+            data: { p: this.projet, id_axe: p._id },
+            disableClose: true,
 
-    // supposons que vos tâches sont stockées dans un tableau 'taches'
-
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result && result.status) {
+                this.getProjet()
+                // this.projet = result.data;
+                this.cd.detectChanges()
+            }
+        });
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -146,15 +168,12 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
         const dialogRef = this.dialog.open(EdittacheComponent, {
             data: { tache: t, projet: this.projet, axeId: this.currentAxe._id },
             disableClose: true,
-
         });
-
         dialogRef.afterClosed().subscribe(result => {
             if (result && result.status) {
                 this.getProjet()
                 // this.projet = result.data;
                 this.cd.detectChanges()
-
             }
         });
     }

@@ -17,6 +17,7 @@ export interface Project {
             mean_pourcentage_taches: string,
             tache: [
                 {
+                    _id: string,
                     name: string,
                     time: string,
                     pourcentage: string,
