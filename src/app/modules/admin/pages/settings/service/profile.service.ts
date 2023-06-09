@@ -42,7 +42,10 @@ export class ProfileService {
       ancienMotDePasse,
       nouveauMotDePasse
     };
-    return this.http.put<any>(environment.backend_url + 'api/user/modifierMotDePasse', payload);
+    return this.http.put<any>(environment.backend_url + 'api/user/modifierMotDePasse', payload,
+      {
+        headers: { "x-auth-token": `${localStorage.getItem("accessToken")}` }
+      });
   }
 
 

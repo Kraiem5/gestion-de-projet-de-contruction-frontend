@@ -55,10 +55,10 @@
             <div class="text-secondary">Created At</div>
             <div>{{item.createdAt}}</div>
         </div>
-        <div class="flex items-center justify-between py-3">
+        <!-- <div class="flex items-center justify-between py-3">
             <div class="text-secondary">Modified At</div>
             <div>{{item.updatedAt}}</div>
-        </div>
+        </div> -->
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">Size</div>
             <div *ngIf="item.file">{{item.file?.size}}</div>
@@ -80,9 +80,9 @@
             <ng-container *ngIf="item.description">
                 <div>{{item.description}}</div>
             </ng-container>
-            <!-- <ng-container *ngIf="!item.description">
+            <ng-container *ngIf="!item.description">
                 <div class="italic text-secondary">Click here to add a description</div>
-            </ng-container> -->
+            </ng-container>
         </div>
     </div>
 
@@ -95,7 +95,7 @@
             [color]="'primary'"
             target="_blank"
             >
-            Ouvrir
+            Télécharger
     </a>
 
     </div>

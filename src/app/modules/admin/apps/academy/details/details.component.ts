@@ -14,7 +14,7 @@ import { AjouterTacheComponent } from '../taches/tache.component';
 import { EdittacheComponent } from '../taches/edittache/edittache.component';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { EditaxeComponent } from '../editAxe/editaxe.component';
-
+import Swal from 'sweetalert2'
 
 @Component({
     selector: 'academy-details',
@@ -101,22 +101,38 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
             return 0
     }
     supprimerAxe(id_projet, id_axe) {
-        if (confirm("Voulez-vous vraiment supprimer ce axe?")) {
+        Swal.fire({
+            title: 'Êtes-vous sûr(e) ?',
+            text: 'Êtes-vous sûr(e) de vouloir supprimer ce axe ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Oui',
+            cancelButtonText: 'Non'
+        }).then((result) => {
             this.projetService.deleteAxe(id_projet, id_axe).subscribe(
                 axe => {
                     this.axes = axe
                 })
             return this.getProjet()
-        }
+        })
     }
     supprimerTache(id_projet, id_axe, id_tache) {
-        if (confirm("Voulez-vous vraiment supprimer cette tâche?")) {
-            this.projetService.deleteTache(id_projet, id_axe, id_tache).subscribe(
-                (tache) => {
-                    this.tache = tache
-                })
-            return this.getProjet()
-        }
+        Swal.fire({
+            title: 'Êtes-vous sûr(e) ?',
+            text: 'Êtes-vous sûr(e) de vouloir supprimer cette tâche ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Oui',
+            cancelButtonText: 'Non'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.projetService.deleteTache(id_projet, id_axe, id_tache).subscribe(
+                    (tache) => {
+                        this.tache = tache
+                    })
+                return this.getProjet()
+            }
+        })
     }
     buttonModifierAxe(p: any) {
         const dialogRef = this.dialog.open(EditaxeComponent, {

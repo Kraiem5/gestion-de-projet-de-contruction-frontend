@@ -4,6 +4,7 @@ import { valid } from 'chroma-js';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Role } from '../role.interface';
 import { AdminService } from '../admin.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-roles',
@@ -53,14 +54,22 @@ export class RolesComponent implements OnInit {
 
 
   deleteRole(role: Role): void {
-    if (confirm("Are you sure you want to delete this role?")) {
-      this.service.suprrimeRole(role._id)
-        .subscribe(() => {
-          this.roles = this.roles.filter(r => r !== role);
-        });
-    }
+    Swal.fire({
+      title: 'Êtes-vous sûr(e) ?',
+      text: 'Êtes-vous sûr(e) de vouloir supprimer cet role ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.suprrimeRole(role._id)
+          .subscribe(() => {
+            this.roles = this.roles.filter(r => r !== role);
+          });
+      }
+    });
   }
-
 }
 @Component({
   selector: 'role-dialog',
@@ -96,7 +105,6 @@ export class RoleDialog implements OnInit {
         description: this.ajoutRole.get('description').value
       };
       this.service.ajouterRole(data).subscribe((response: any) => {
-        console.log(response);
         this.dialogRef.close(true);
       });
     }

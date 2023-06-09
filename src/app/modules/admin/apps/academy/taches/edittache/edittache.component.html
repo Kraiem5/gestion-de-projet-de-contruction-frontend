@@ -27,9 +27,11 @@
               Le pourcentage de la tâche est requis
             </div>
           </div>
-          <button type="button" class="btn btn-secondary mt-3 ml-2" (click)="dialogRef.close(false)"><i class="fas fa-times mr-2"></i>Annuler</button>
-          <button type="submit" class="btn btn-primary mt-3" (click)="modifierTache()" >Modifier</button>
+          <div class="flex justify-between">
+            <button type="button" class="btn btn-secondary mt-3 ml-2" (click)="dialogRef.close(false)"><i class="fas fa-times mr-2"></i>Annuler</button>
+          <button type="submit" class="btn btn-success mt-3" (click)="modifierTache()" >Modifier</button>
 
+          </div>
         </form>
       </div>
     </div>

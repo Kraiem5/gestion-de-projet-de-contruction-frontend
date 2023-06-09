@@ -2,18 +2,16 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AcademyService } from 'app/modules/admin/apps/academy/academy.service';
-import { Category, Course } from 'app/modules/admin/apps/academy/academy.types';
 import { ProjetService } from 'app/modules/admin/ui/forms/service/projet.service';
-import { result } from 'lodash';
-import { EditFormsComponent } from '../editProjet/fields.component';
-import { MatDialog } from '@angular/material/dialog';
 import { Project } from '../project.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { EditFormsComponent } from '../editProjet/fields.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { AuthUtils } from 'app/core/auth/auth.utils';
+import Swal from 'sweetalert2'
 
 @Component({
     selector: 'academy-list',
@@ -22,30 +20,16 @@ import { AuthUtils } from 'app/core/auth/auth.utils';
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class AcademyListComponent implements OnInit, OnDestroy {
-    role: any
-    proj: any
-    projet = []
-    nomProjet: string = ''
-    searchTerm: string = ''
-    filteredProjets = []
-    isDisabled = true;
-    categories: Category[];
-    courses: Course[];
-    filteredCourses: Course[];
-    filters: {
-        categorySlug$: BehaviorSubject<string>;
-        query$: BehaviorSubject<string>;
-        hideCompleted$: BehaviorSubject<boolean>;
-    } = {
-            categorySlug$: new BehaviorSubject('all'),
-            query$: new BehaviorSubject(''),
-            hideCompleted$: new BehaviorSubject(false)
-        };
-
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
+    role: any;
+    projet: Project[] = [];
+    nomProjet: string = '';
+    searchTerm: string = '';
+    filteredProjets: Project[] = [];
+    showCompletedProjects: boolean = false;
     changebackgroundProject: any;
     project: any;
 
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
@@ -53,15 +37,12 @@ export class AcademyListComponent implements OnInit, OnDestroy {
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _academyService: AcademyService,
         private service: ProjetService,
         private cd: ChangeDetectorRef,
         private router: Router,
         public dialog: MatDialog,
         private http: HttpClient
-
-    ) {
-    }
+    ) { }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -71,72 +52,20 @@ export class AcademyListComponent implements OnInit, OnDestroy {
      * On init 
      */
     ngOnInit(): void {
-        this.role = AuthUtils._decodeToken(localStorage.getItem('accessToken')).user.role
+        this.role = AuthUtils._decodeToken(localStorage.getItem('accessToken')).user.role;
         console.log("role", this.role);
 
-        //Get the categories
-        this._academyService.categories$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((categories: Category[]) => {
-                this.categories = categories;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        //Get the courses
-        this._academyService.courses$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((courses: Course[]) => {
-                this.courses = this.filteredCourses = courses;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        //Filter the courses
-        combineLatest([this.filters.categorySlug$, this.filters.query$, this.filters.hideCompleted$])
-            .subscribe(([categorySlug, query, hideCompleted]) => {
-
-                // Reset the filtered courses
-                this.filteredCourses = this.courses;
-
-                // Filter by category
-                if (categorySlug !== 'all') {
-                    this.filteredCourses = this.filteredCourses.filter(course => course.category === categorySlug);
-                }
-
-                // Filter by search query
-                if (query !== '') {
-                    this.filteredCourses = this.filteredCourses.filter(course => course.title.toLowerCase().includes(query.toLowerCase())
-                        || course.description.toLowerCase().includes(query.toLowerCase())
-                        || course.category.toLowerCase().includes(query.toLowerCase()));
-                }
-
-                // Filter by completed
-                if (hideCompleted) {
-                    this.filteredCourses = this.filteredCourses.filter(course => course.progress.completed === 0);
-                }
-            });
-
-
-        this.getInfoProjet()
-        //this.project = /* Fetch or initialize the project */
-        //this.updateTaskPercentage(this.taskIndex, this.newPercentage)
-        this.calculateMeanPourcentageAxes()
-
+        this.getInfoProjet();
+        this.calculateMeanPourcentageAxes();
     }
 
     calculateMeanPourcentageAxes() {
-        // Call the service to update the project
         this.service.updateTaskPercentage().subscribe(
             updatedProject => {
-
                 this.project = updatedProject.result;
                 console.log("pour", updatedProject);
                 this.cd.detectChanges();
-                return this.getInfoProjet()
-                // Handle success
+                this.getInfoProjet();
             },
             error => {
                 // Handle error
@@ -149,42 +78,57 @@ export class AcademyListComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
+
     getInfoProjet() {
         this.service.getInfoProjet().subscribe(
             (res: any) => {
                 if (res.status) {
-                    this.projet = res.result
-                    //this.updateTaskPercentage(this.taskIndex, this.newPercentage)
-                    this.cd.detectChanges()
-                }
-                else
+                    this.projet = res.result;
+                    this.cd.detectChanges();
+                } else {
                     console.log('false');
+                }
             }
-        )
+        );
     }
+
     axes() {
-        this.router.navigate(['/ui/forms/layouts'])
+        this.router.navigate(['/ui/forms/layouts']);
     }
+
     details() {
-        this.router.navigate(['/apps/academy/list'])
+        this.router.navigate(['/apps/academy/list']);
     }
+
     onClick(): void {
         this.service.setIsInterfaceObservable(true);
     }
+
     searchProjet(searchTerm: string): void {
-        this.service.searchProjet(searchTerm)
-            .subscribe((data: Project[]) => {
-                this.projet = data;
-            });
+        this.service.searchProjet(searchTerm).subscribe((data: Project[]) => {
+            this.projet = data;
+        });
     }
+
     supprimerProjet(id) {
-        if (confirm("Voulez-vous vraiment supprimer ce projet?")) {
-            this.service.deleteProject(id).subscribe(projet => {
-                this.projet = projet
-            })
-            return this.getInfoProjet()
-        }
+        Swal.fire({
+            title: 'Êtes-vous sûr(e) ?',
+            text: 'Êtes-vous sûr(e) de vouloir supprimer ce projet ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Oui',
+            cancelButtonText: 'Non'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.service.deleteProject(id).subscribe(projet => {
+                    this.projet = projet;
+                });
+                return this.getInfoProjet();
+            }
+        })
     }
+
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -196,7 +140,10 @@ export class AcademyListComponent implements OnInit, OnDestroy {
      * @param query
      */
     filterByQuery(query: string): void {
-        this.filters.query$.next(query);
+        this.searchTerm = query;
+        this.filteredProjets = this.projet.filter(projet =>
+            projet.nom_projet.toLowerCase().includes(this.searchTerm.toLowerCase())
+        );
     }
 
     /**
@@ -205,16 +152,16 @@ export class AcademyListComponent implements OnInit, OnDestroy {
      * @param change
      */
     filterByCategory(change: MatSelectChange): void {
-        this.filters.categorySlug$.next(change.value);
+        // Implement your category filter logic here
     }
 
     /**
-     * Show/hide completed courses
+     * Show/hide completed projects
      *
      * @param change
      */
-    toggleCompleted(change: MatSlideToggleChange): void {
-        this.filters.hideCompleted$.next(change.checked);
+    toggleCompleted(event: MatSlideToggleChange) {
+        this.showCompletedProjects = event.checked;
     }
 
     /**
@@ -226,6 +173,7 @@ export class AcademyListComponent implements OnInit, OnDestroy {
     trackByFn(index: number, item: any): any {
         return item.id || index;
     }
+
     editProjet(p): void {
         const dialogRef = this.dialog.open(EditFormsComponent, {
             data: p,
@@ -233,16 +181,16 @@ export class AcademyListComponent implements OnInit, OnDestroy {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result && result.status) {
-                let i = this.projet.indexOf(p)
-                console.log('iii', i)
-                this.projet[i] = result.data
+                let i = this.projet.indexOf(p);
+                console.log('iii', i);
+                this.projet[i] = result.data;
                 console.log(this.projet);
-                this.changebackgroundProject = p._id
+                this.changebackgroundProject = p._id;
                 setTimeout(() => {
-                    this.changebackgroundProject = null
-                    this.cd.detectChanges()
-                }, 2000)
-                this.cd.detectChanges()
+                    this.changebackgroundProject = null;
+                    this.cd.detectChanges();
+                }, 2000);
+                this.cd.detectChanges();
             }
         });
     }

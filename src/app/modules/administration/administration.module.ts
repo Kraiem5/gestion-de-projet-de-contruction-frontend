@@ -28,7 +28,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
-  declarations: [AdministrationComponent, UsersComponent, RolesComponent, RoleDialog, SignupDialogue],
+  declarations: [AdministrationComponent, UsersComponent, RolesComponent, RoleDialog, SignupDialogue,],
   imports: [
     CommonModule,
     AdministrationRoutingModule,
@@ -49,8 +49,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     SharedModule,
     MatCardModule,
     MatCheckboxModule,
-    ScrollingModule
+    ScrollingModule,
 
-  ],entryComponents:[SignupDialogue,RoleDialog]
+
+  ], entryComponents: [SignupDialogue, RoleDialog]
 })
 export class AdministrationModule { }

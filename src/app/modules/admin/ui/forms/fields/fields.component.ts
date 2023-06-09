@@ -108,7 +108,7 @@ export class FormsFieldsComponent implements OnInit {
   saveContrat() {
     const file = new FormData()
     file.set('contrat', this.fct)
-    console.log(file)
+    console.log("file", file)
     // post request to express backend
     this.service.saveContrat(file)
       .subscribe((res: any) => {

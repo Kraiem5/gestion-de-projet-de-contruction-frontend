@@ -11,7 +11,7 @@ export class AdminService {
 
   constructor(private http: HttpClient) { }
   ajouterRole(newRole): Observable<any> {
-    return this.http.post<any>(environment.backend_url + 'api/admin/role/new', newRole)
+    return this.http.post<any>(environment.backend_url + 'api/admin/new', newRole)
   }
   getRole(): Observable<any> {
     return this.http.get(environment.backend_url + 'api/admin/role/all',)

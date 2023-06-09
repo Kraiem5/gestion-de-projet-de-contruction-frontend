@@ -6,7 +6,6 @@
         <!-- Section -->
         <div class="w-full">
             <div class="text-xl">changez votre mot de passe</div>
-            <div class="text-secondary">Vous ne pouvez changer votre mot de passe que deux fois dans les 24 heures !</div>
         </div>
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
             <!-- Current password -->
@@ -27,17 +26,14 @@
             <div class="sm:col-span-4">
                 <mat-form-field class="fuse-mat-no-subscript w-full">
                     <mat-label>Nouveau mot de passe</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:key'"
-                        matPrefix></mat-icon>
-                    <input
-                        [formControlName]="'newPassword'"
-                        type="password"
-                        matInput>
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:key'" matPrefix></mat-icon>
+                    <input [formControlName]="'newPassword'" type="password" matInput>
+                    <mat-error *ngIf="securityForm.get('newPassword').invalid && securityForm.get('newPassword').dirty">
+                        Le mot de passe doit contenir au moins 8 caractères.
+                    </mat-error>
                 </mat-form-field>
-                <div class="mt-1 text-md text-hint">Minimum 8 caractères. Doit inclure des chiffres, des lettres et des caractères spéciaux.</div>
             </div>
+            
         </div>
 
         <!-- Divider -->

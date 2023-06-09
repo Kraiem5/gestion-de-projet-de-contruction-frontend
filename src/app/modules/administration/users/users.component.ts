@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AdminService } from '../admin.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-users',
@@ -74,13 +76,23 @@ export class UsersComponent implements OnInit {
     });
   }
   supprimerUser(user) {
-    if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
-      this.service.deleteUSer(user._id)
-        .subscribe(() => {
-          this.users = this.users.filter(u => u !== user);
-          this.recupererUsers();
-        });
-    }
+    Swal.fire({
+      title: 'Êtes-vous sûr(e) ?',
+      text: 'Êtes-vous sûr(e) de vouloir supprimer cet utilisateur ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.deleteUSer(user._id)
+          .subscribe(() => {
+            this.users = this.users.filter(u => u !== user);
+            this.recupererUsers();
+            Swal.fire('Utilisateur supprimé', 'L\'utilisateur a été supprimé avec succès.', 'success');
+          });
+      }
+    });
   }
   getStatUser() {
     this.service.statistique().subscribe(

@@ -43,11 +43,11 @@ export class SettingsSecurityComponent implements OnInit {
         this.service.updatePassword(currentPassword, newPassword).subscribe(
             (response) => {
                 // Traitez la réponse de l'API en conséquence
-                console.log(response);
+                console.log("response", response);
             },
             (error) => {
                 // Traitez les erreurs de l'API en conséquence
-                console.error(error);
+                console.error("error", error);
             }
         );
         this.cd.detectChanges()
